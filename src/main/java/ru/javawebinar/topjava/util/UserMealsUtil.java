@@ -31,13 +31,13 @@ public class UserMealsUtil {
 
         for (UserMeal userMeal : mealList) {
             LocalDate timeForCurrentMeal = userMeal.getDateTime().toLocalDate();
+
             if (!caloriesSumByDate.containsKey(timeForCurrentMeal)) {
                 caloriesSumByDate.put(timeForCurrentMeal, userMeal.getCalories());
                 continue;
             }
             int currentCaloriesByDay = caloriesSumByDate.get(timeForCurrentMeal);
-            caloriesSumByDate.replace(timeForCurrentMeal, currentCaloriesByDay,
-                    currentCaloriesByDay + userMeal.getCalories());
+            caloriesSumByDate.computeIfPresent(timeForCurrentMeal, (k, v) -> v + currentCaloriesByDay);
         }
 
         for (UserMeal userMeal : mealList) {
