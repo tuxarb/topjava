@@ -9,10 +9,6 @@ import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * GKislin
- * 31.05.2015.
- */
 public class MealsUtil {
     public static void main(String[] args) {
         List<Meal> meals = Arrays.asList(
