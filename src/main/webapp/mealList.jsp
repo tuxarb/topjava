@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="ru.javawebinar.topjava.model.MealWithExceed" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Set" %>
 <jsp:useBean id="TimeUtil" class="ru.javawebinar.topjava.util.TimeUtil"/>
 <html>
 <head>
@@ -16,8 +15,8 @@
         <td>Description</td>
         <td>Calories</td>
     </tr>
-    <% Set<MealWithExceed> mealList = (Set<MealWithExceed>) request.getAttribute("mealList"); %>
-    <c:forEach items="${mealList}" var="meal">
+    <% List<MealWithExceed> meals = (List<MealWithExceed>) request.getAttribute("mealList"); %>
+    <c:forEach items="${meals}" var="meal">
         <c:if test="${meal.isExceed()}">
             <tr bgcolor="red">
                 <td>${TimeUtil.decorateTimeForDisplay(meal.getDateTime())}</td>
