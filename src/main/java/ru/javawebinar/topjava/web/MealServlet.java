@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalTime;
 import java.util.List;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -18,7 +17,8 @@ public class MealServlet extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LOG.debug("Creating and filling list of meals...");
         List<MealWithExceed> mealList = MealsUtil.getListMealsWithExceed(
-                LocalTime.MIN, LocalTime.MAX, MealsUtil.CALORIES_PER_DAY
+                MealsUtil.MEALS,
+                MealsUtil.DEFAULT_CALORIES_PER_DAY
         );
         req.setAttribute("mealList", mealList);
 
