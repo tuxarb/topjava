@@ -17,11 +17,11 @@ public class MealServlet extends HttpServlet{
      private static final Logger LOG = getLogger(MealServlet.class);
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LOG.debug("[" + LocalDateTime.now() + "] Creating and filling list of meals...");
+        LOG.debug("Creating and filling list of meals...");
         Set<MealWithExceed> mealList = MealsUtil.initAndGetMealsSet();
         req.setAttribute("mealList", mealList);
 
-        LOG.debug("[" + LocalDateTime.now() + "] Redirect to mealList");
+        LOG.debug(" Redirect to mealList");
         req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
     }
 }

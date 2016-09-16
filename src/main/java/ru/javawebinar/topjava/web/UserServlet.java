@@ -14,7 +14,7 @@ public class UserServlet extends HttpServlet {
     private static final Logger LOG = getLogger(UserServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOG.debug("[" + LocalDateTime.now() + "] Redirect to users");
+        LOG.debug(" Redirect to users");
 
 //        request.getRequestDispatcher("/userList.jsp").forward(request, response);
         response.sendRedirect("userList.jsp");
