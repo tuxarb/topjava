@@ -5,6 +5,6 @@
 </head>
 <body>
 <h2><a href="index.html">Home</a></h2>
-<h2>User list</h2>
+<h2>Список юзеров</h2>
 </body>
 </html>

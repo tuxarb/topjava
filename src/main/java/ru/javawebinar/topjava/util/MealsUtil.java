@@ -27,11 +27,11 @@ public class MealsUtil {
         mealWithExceeds.forEach(System.out::println);
     }
 
-    public static List<MealWithExceed> getListMealsWithExceed(List<Meal> meals, int caloriesPerDay) {
+    public static List<MealWithExceed> getListWithExceed(Collection<Meal> meals, int caloriesPerDay) {
         return getFilteredWithExceeded(meals, LocalTime.MIN, LocalTime.MAX, caloriesPerDay);
     }
 
-    static List<MealWithExceed> getFilteredWithExceeded(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+    static List<MealWithExceed> getFilteredWithExceeded(Collection<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
                 .collect(
                         Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories))
@@ -45,6 +45,6 @@ public class MealsUtil {
     }
 
     private static MealWithExceed createWithExceed(Meal meal, boolean exceeded) {
-        return new MealWithExceed(meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded);
+        return new MealWithExceed(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded);
     }
 }

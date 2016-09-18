@@ -16,6 +16,7 @@
 </head>
 <body>
 <h2>Список еды</h2>
+<a href="meals/action=create">Добавить еду</a><br><br>
 <table border="3" cellpadding="6" cellspacing="0">
     <tr style="font-weight: bold">
         <td>Date</td>
@@ -30,6 +31,8 @@
             </td>
             <td>${meal.description}</td>
             <td>${meal.calories}</td>
+            <td><a href="meals/action=update&id=${meal.id}">Править</a></td>
+            <td><a href="meals/action=delete&id=${meal.id}">Удалить</a></td>
         </tr>
     </c:forEach>
 </table>
