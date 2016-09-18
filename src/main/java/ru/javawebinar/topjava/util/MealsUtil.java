@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class MealsUtil {
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 
-    public final static List<Meal> MEALS = Arrays.asList(
+    public final static List<Meal> MEAL_LIST = Arrays.asList(
             new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
             new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
             new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
@@ -22,13 +22,13 @@ public class MealsUtil {
     );
 
     public static void main(String[] args) {
-        getFilteredWithExceeded(MEALS, LocalTime.of(7, 0), LocalTime.of(21, 0), DEFAULT_CALORIES_PER_DAY).stream()
+        List<MealWithExceed> mealWithExceeds = getFilteredWithExceeded(MEAL_LIST, LocalTime.of(7, 0), LocalTime.of(21, 0), DEFAULT_CALORIES_PER_DAY).stream()
                 .collect(Collectors.toList());
-
+        mealWithExceeds.forEach(System.out::println);
     }
 
-    public static List<MealWithExceed> getListMealsWithExceed(final List<Meal> MEALS, int caloriesPerDay) {
-        return getFilteredWithExceeded(MEALS, LocalTime.MIN, LocalTime.MAX, caloriesPerDay);
+    public static List<MealWithExceed> getListMealsWithExceed(List<Meal> meals, int caloriesPerDay) {
+        return getFilteredWithExceeded(meals, LocalTime.MIN, LocalTime.MAX, caloriesPerDay);
     }
 
     static List<MealWithExceed> getFilteredWithExceeded(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
@@ -41,7 +41,6 @@ public class MealsUtil {
         return meals.stream()
                 .filter(meal -> TimeUtil.isBetween(meal.getTime(), startTime, endTime))
                 .map(meal -> createWithExceed(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
-                .unordered()
                 .collect(Collectors.toList());
     }
 

@@ -1,8 +1,8 @@
-<%@ page contentType="text/html;charse<bt=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="ru.javawebinar.topjava.model.MealWithExceed" %>
 <%@ page import="java.util.List" %>
-<jsp:useBean id="TimeUtil" class="ru.javawebinar.topjava.util.TimeUtil"/>
+<jsp:useBean id="time" class="ru.javawebinar.topjava.util.TimeUtil"/>
 <html>
 <head>
     <title>Подсчет калорий</title>
@@ -19,14 +19,14 @@
     <c:forEach items="${meals}" var="meal">
         <c:if test="${meal.isExceed()}">
             <tr bgcolor="red">
-                <td>${TimeUtil.decorateTimeForDisplay(meal.getDateTime())}</td>
+                <td>${time.toString(meal.getDateTime())}</td>
                 <td>${meal.getDescription()}</td>
                 <td>${meal.getCalories()}</td>
             </tr>
         </c:if>
         <c:if test="${!meal.isExceed()}">
             <tr bgcolor="green">
-                <td>${TimeUtil.decorateTimeForDisplay(meal.getDateTime())}</td>
+                <td>${time.toString(meal.getDateTime())}</td>
                 <td>${meal.getDescription()}</td>
                 <td>${meal.getCalories()}</td>
             </tr>
