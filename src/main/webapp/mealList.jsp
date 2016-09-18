@@ -1,36 +1,36 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="ru.javawebinar.topjava.util.TimeUtil" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="ru.javawebinar.topjava.model.MealWithExceed" %>
-<%@ page import="java.util.List" %>
-<jsp:useBean id="time" class="ru.javawebinar.topjava.util.TimeUtil"/>
 <html>
 <head>
     <title>Подсчет калорий</title>
+    <style>
+        .normal {
+            color: green;
+        }
+
+        .exceeded {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <h2>Список еды</h2>
-<table border="4" style="font-size: large; font-family: Aparajita; font-weight: bold">
-    <tr>
+<table border="3" cellpadding="6" cellspacing="0">
+    <tr style="font-weight: bold">
         <td>Date</td>
         <td>Description</td>
         <td>Calories</td>
     </tr>
-    <% List<MealWithExceed> meals = (List<MealWithExceed>) request.getAttribute("mealList"); %>
-    <c:forEach items="${meals}" var="meal">
-        <c:if test="${meal.isExceed()}">
-            <tr bgcolor="red">
-                <td>${time.toString(meal.getDateTime())}</td>
-                <td>${meal.getDescription()}</td>
-                <td>${meal.getCalories()}</td>
-            </tr>
-        </c:if>
-        <c:if test="${!meal.isExceed()}">
-            <tr bgcolor="green">
-                <td>${time.toString(meal.getDateTime())}</td>
-                <td>${meal.getDescription()}</td>
-                <td>${meal.getCalories()}</td>
-            </tr>
-        </c:if>
+    <c:forEach items="${mealList}" var="meal">
+        <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.MealWithExceed"/>
+        <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
+            <td>
+                ${TimeUtil.toString(meal.dateTime)}
+            </td>
+            <td>${meal.description}</td>
+            <td>${meal.calories}</td>
+        </tr>
     </c:forEach>
 </table>
 </body>
