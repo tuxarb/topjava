@@ -4,8 +4,8 @@
     <title>Update meal</title>
 </head>
 <body>
-<h2>Добавить еду</h2>
-<jsp:useBean id="meal" beanName="ru.javawebinar.topjava.model.Meal" scope="request"/>
+<h3>${pa}Добавить еду</h3>
+<jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
 <form method="post" action="meals">
     <input name="id" type="hidden" value="${meal.id}">
     Date:

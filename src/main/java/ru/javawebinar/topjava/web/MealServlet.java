@@ -6,8 +6,6 @@ import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.repository.InMemoryMealRepository;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
-import sun.rmi.runtime.Log;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +15,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
@@ -32,14 +29,17 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+
         String id = req.getParameter("id");
         LocalDateTime ldt = LocalDateTime.parse(req.getParameter("dateTime"));
         String description = req.getParameter("description");
         int calories = Integer.valueOf(req.getParameter("calories"));
 
         Meal meal = new Meal(id.isEmpty() ? null : getId(req), ldt, description, calories);
-        LOG.info(meal.getId() == null ? "Create {}" : "Update {}", meal);
+        LOG.info(meal.isNew() ? "Create {}" : "Update {}", meal);
         repository.save(meal);
+
         resp.sendRedirect("meals");
     }
 
@@ -60,12 +60,11 @@ public class MealServlet extends HttpServlet {
             LOG.info("Delete {}", id);
             repository.delete(id);
             resp.sendRedirect("meals");
-        }
-        else if ("update".equals(action) || "create".equals(action))
-        {
-            final Meal meal = new Meal(LocalDateTime.now(), "", 0);
+        } else if ("update".equals(action) || "create".equals(action)) {
+            final Meal meal = "create".equals(action) ? new Meal(LocalDateTime.now(), "", 0) :
+                    repository.get(getId(req));
             req.setAttribute("meal", meal);
-            req.getRequestDispatcher("/mealUpdate.jsp").forward(req, resp);
+            req.getRequestDispatcher("mealUpdate.jsp").forward(req, resp);
         }
     }
 
