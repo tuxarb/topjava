@@ -1,10 +1,12 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.repository.InMemoryMealRepository;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,8 +31,21 @@ public class MealServlet extends HttpServlet {
     }
 
     @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id = req.getParameter("id");
+        LocalDateTime ldt = LocalDateTime.parse(req.getParameter("dateTime"));
+        String description = req.getParameter("description");
+        int calories = Integer.valueOf(req.getParameter("calories"));
+
+        Meal meal = new Meal(id.isEmpty() ? null : getId(req), ldt, description, calories);
+        LOG.info(meal.getId() == null ? "Create {}" : "Update {}", meal);
+        repository.save(meal);
+        resp.sendRedirect("meals");
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
+        final String action = req.getParameter("action");
 
         if (action == null) {
             LOG.debug("Creating and filling list of meals...");
@@ -47,8 +63,8 @@ public class MealServlet extends HttpServlet {
         }
         else if ("update".equals(action) || "create".equals(action))
         {
-            int id = getId(req);
-            LOG.info("Update {}", id);
+            final Meal meal = new Meal(LocalDateTime.now(), "", 0);
+            req.setAttribute("meal", meal);
             req.getRequestDispatcher("/mealUpdate.jsp").forward(req, resp);
         }
     }
