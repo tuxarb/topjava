@@ -61,7 +61,7 @@ public class MealServlet extends HttpServlet {
             repository.delete(id);
             resp.sendRedirect("meals");
         } else if ("update".equals(action) || "create".equals(action)) {
-            final Meal meal = "create".equals(action) ? new Meal(LocalDateTime.now(), "", 0) :
+            final Meal meal = "create".equals(action) ? new Meal(LocalDateTime.now().withSecond(0).withNano(0), "", 0) :
                     repository.get(getId(req));
             req.setAttribute("meal", meal);
             req.getRequestDispatcher("mealUpdate.jsp").forward(req, resp);
