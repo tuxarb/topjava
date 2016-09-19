@@ -39,11 +39,17 @@ public class MealServlet extends HttpServlet {
             );
             req.setAttribute("mealList", mealList);
             req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
-        } else if (action.equals("delete")) {
+        } else if ("delete".equals(action)) {
             int id = getId(req);
-            LOG.info("Delete {}" + id);
+            LOG.info("Delete {}", id);
             repository.delete(id);
             resp.sendRedirect("meals");
+        }
+        else if ("update".equals(action) || "create".equals(action))
+        {
+            int id = getId(req);
+            LOG.info("Update {}", id);
+            req.getRequestDispatcher("/mealUpdate.jsp").forward(req, resp);
         }
     }
 
