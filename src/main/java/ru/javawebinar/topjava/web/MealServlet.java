@@ -54,14 +54,14 @@ public class MealServlet extends HttpServlet {
                     MealsUtil.DEFAULT_CALORIES_PER_DAY
             );
             req.setAttribute("mealList", mealList);
-            req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
+            req.getRequestDispatcher("mealList.jsp").forward(req, resp);
         } else if ("delete".equals(action)) {
             int id = getId(req);
             LOG.info("Delete {}", id);
             repository.delete(id);
             resp.sendRedirect("meals");
         } else if ("update".equals(action) || "create".equals(action)) {
-            final Meal meal = "create".equals(action) ? new Meal(LocalDateTime.now().withSecond(0).withNano(0), "", 0) :
+            final Meal meal = "create".equals(action) ? new Meal(LocalDateTime.now(), "", 0) :
                     repository.get(getId(req));
             req.setAttribute("meal", meal);
             req.getRequestDispatcher("mealUpdate.jsp").forward(req, resp);

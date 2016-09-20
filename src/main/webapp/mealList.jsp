@@ -17,6 +17,7 @@
 <body>
 <h2>Список еды</h2>
 <a href="meals?action=create">Добавить еду</a><br><br>
+<hr>
 <table border="3" cellpadding="6" cellspacing="0">
     <tr style="font-weight: bold">
         <td>Date</td>
