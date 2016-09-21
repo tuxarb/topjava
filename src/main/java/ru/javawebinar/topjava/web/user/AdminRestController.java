@@ -4,7 +4,7 @@ import ru.javawebinar.topjava.model.User;
 
 import java.util.List;
 
-public class AdmimRestController extends AbstractUserController {
+public class AdminRestController extends AbstractUserController {
         public List<User> getAll() {
             return super.getAll();
         }
