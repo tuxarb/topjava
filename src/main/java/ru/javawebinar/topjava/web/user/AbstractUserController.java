@@ -3,7 +3,6 @@ package ru.javawebinar.topjava.web.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
-import ru.javawebinar.topjava.web.MealServlet;
 import java.util.List;
 import static org.slf4j.LoggerFactory.getLogger;
 
