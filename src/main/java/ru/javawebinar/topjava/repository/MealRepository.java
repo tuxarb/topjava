@@ -8,7 +8,7 @@ public interface MealRepository {
 
     Meal save(Meal meal);
 
-    void delete(int id);
+    boolean delete(int id);
 
     Collection<Meal> getAll();
 }

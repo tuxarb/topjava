@@ -2,7 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.MealWithExceed;
+import ru.javawebinar.topjava.model.to.MealWithExceed;
 import ru.javawebinar.topjava.repository.mock.InMemoryMealRepository;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -61,7 +61,7 @@ public class MealServlet extends HttpServlet {
             repository.delete(id);
             resp.sendRedirect("meals");
         } else if ("update".equals(action) || "create".equals(action)) {
-            final Meal meal = "create".equals(action) ? new Meal(LocalDateTime.now(), "", 0) :
+            final Meal meal = "create".equals(action) ? new Meal(1, LocalDateTime.now(), "", 0) :
                     repository.get(getId(req));
             req.setAttribute("meal", meal);
             req.getRequestDispatcher("mealUpdate.jsp").forward(req, resp);
