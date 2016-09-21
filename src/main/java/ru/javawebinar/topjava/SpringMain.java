@@ -3,15 +3,18 @@ package ru.javawebinar.topjava;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.javawebinar.topjava.repository.mock.MockUserRepository;
+import ru.javawebinar.topjava.model.Role;
+import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.web.user.AdminRestController;
 
 import java.util.Arrays;
 
 public class SpringMain {
     public static void main(String[] args) {
-        ConfigurableApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring/spring-app");
-        System.out.println(Arrays.toString(applicationContext.getBeanDefinitionNames()));
-        //MockUserRepository mockUserRepository = (MockUserRepository) applicationContext.getBean("mockUserRepository");
-        applicationContext.close();
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app")) {
+            System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
+            AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
+            adminUserController.create(new User(1, "userName", "email", "password", Role.ROLE_ADMIN));
+        }
     }
 }
