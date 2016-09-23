@@ -1,8 +1,9 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.to.MealWithExceed;
+import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.repository.mock.InMemoryMealRepository;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -38,7 +39,7 @@ public class MealServlet extends HttpServlet {
 
         Meal meal = new Meal(id.isEmpty() ? null : getId(req), ldt, description, calories);
         LOG.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-        repository.save(meal);
+        repository.save(meal, AuthorizedUser.id());
 
         resp.sendRedirect("meals");
     }
@@ -50,7 +51,7 @@ public class MealServlet extends HttpServlet {
         if (action == null) {
             LOG.debug("Creating and filling list of meals...");
             List<MealWithExceed> mealList = MealsUtil.getListWithExceed(
-                    repository.getAll(),
+                    repository.getAll(AuthorizedUser.id()),
                     MealsUtil.DEFAULT_CALORIES_PER_DAY
             );
             req.setAttribute("mealList", mealList);
@@ -58,11 +59,13 @@ public class MealServlet extends HttpServlet {
         } else if ("delete".equals(action)) {
             int id = getId(req);
             LOG.info("Delete {}", id);
-            repository.delete(id);
+            repository.delete(id, AuthorizedUser.id());
             resp.sendRedirect("meals");
         } else if ("update".equals(action) || "create".equals(action)) {
-            final Meal meal = "create".equals(action) ? new Meal(1, LocalDateTime.now(), "", 0) :
-                    repository.get(getId(req));
+            final Meal meal = "create".equals(action) ? new Meal(
+                    LocalDateTime.now().withNano(0).withSecond(0),
+                    "",
+                    0): repository.get(getId(req), AuthorizedUser.id());
             req.setAttribute("meal", meal);
             req.getRequestDispatcher("mealUpdate.jsp").forward(req, resp);
         }

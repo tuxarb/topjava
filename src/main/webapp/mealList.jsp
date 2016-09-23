@@ -25,7 +25,7 @@
         <td>Calories</td>
     </tr>
     <c:forEach items="${mealList}" var="meal">
-        <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.to.MealWithExceed"/>
+        <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>
         <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
             <td>
                 ${TimeUtil.toString(meal.dateTime)}
