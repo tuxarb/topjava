@@ -4,18 +4,32 @@
 <html>
 <head>
     <title>Подсчет калорий</title>
-    <style>
-        .normal {
-            color: green;
-        }
-
-        .exceeded {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <h2>Список еды</h2>
+<a href="meals?action=filter">Отфильтровать</a>
+<hr>
+<form action="meals" method="post">
+    <dl>
+        <dt>From Date:</dt>
+        <dd><input type="date" name="startDate" value="${startDate}"></dd>
+    </dl>
+    <dl>
+        <dt>To Date:</dt>
+        <dd><input type="date" name="endDate" value="${endDate}"></dd>
+    </dl>
+    <dl>
+        <dt>From Time:</dt>
+        <dd><input type="time" name="startTime" value="${startTime}"></dd>
+    </dl>
+    <dl>
+        <dt>To Time:</dt>
+        <dd><input type="time" name="endTime" value="${endTime}"></dd>
+    </dl>
+    <button type="submit">Отфильтровать</button>
+</form>
+
 <a href="meals?action=create">Добавить еду</a><br><br>
 <hr>
 <table border="3" cellpadding="6" cellspacing="0">

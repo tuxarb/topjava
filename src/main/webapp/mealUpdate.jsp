@@ -2,24 +2,7 @@
 <html>
 <head>
     <title>Meal</title>
-    <style>
-        dl {
-            background: #FAFAFF;
-            margin: 10px 0;
-            padding: 0;
-        }
-
-        dt {
-            display: inline-block;
-            width: 190px;
-        }
-
-        dd {
-            display: inline-block;
-            margin-left: 8px;
-            vertical-align: middle;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <h3>${param.action == "create" ? 'Создать еду' : 'Добавить еду'}</h3>

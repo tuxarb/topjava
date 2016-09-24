@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.TimeUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 import javax.servlet.ServletConfig;
@@ -15,10 +16,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
-
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
@@ -46,21 +48,34 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        String action = req.getParameter("action");
 
-        String id = req.getParameter("id");
-        LocalDateTime ldt = LocalDateTime.parse(req.getParameter("dateTime"));
-        String description = req.getParameter("description");
-        int calories = Integer.valueOf(req.getParameter("calories"));
+        if (action == null) {
+            String id = req.getParameter("id");
+            LocalDateTime ldt = LocalDateTime.parse(req.getParameter("dateTime"));
+            String description = req.getParameter("description");
+            int calories = Integer.valueOf(req.getParameter("calories"));
 
-        final Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id), ldt, description, calories);
-        if (id.isEmpty()) {
-            LOG.info("Create {}", meal);
-            mealController.create(meal);
-        } else {
-            LOG.info("Update {}", meal);
-            mealController.update(meal, Integer.valueOf(id));
+            final Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id), ldt, description, calories);
+            if (id.isEmpty()) {
+                LOG.info("Create {}", meal);
+                mealController.create(meal);
+            } else {
+                LOG.info("Update {}", meal);
+                mealController.update(meal, Integer.valueOf(id));
+                resp.sendRedirect("meals");
+            }
         }
-        resp.sendRedirect("meals");
+        else
+            if ("filter".equals(action))
+            {
+                LocalDate startDate = TimeUtil.parseLocalDate(req.getParameter("startDate"));
+                LocalDate endDate = TimeUtil.parseLocalDate(req.getParameter("endDate"));
+                LocalTime startTime = TimeUtil.parseLocalTime(req.getParameter("startTime"));
+                LocalTime endTime = TimeUtil.parseLocalTime(req.getParameter("endTime"));
+                req.setAttribute("mealList", mealController.getBetween(startTime, endTime, startDate, endDate));
+                req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
+            }
     }
 
     @Override
