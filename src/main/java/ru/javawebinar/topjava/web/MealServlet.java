@@ -1,12 +1,14 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
-import ru.javawebinar.topjava.AuthorizedUser;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.Role;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.MealWithExceed;
-import ru.javawebinar.topjava.repository.mock.InMemoryMealRepository;
-import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.web.meal.MealRestController;
+import ru.javawebinar.topjava.web.user.AdminRestController;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,16 +18,29 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
     private static final Logger LOG = getLogger(MealServlet.class);
-    private MealRepository repository;
+    private ConfigurableApplicationContext context;
+    private MealRestController mealController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        repository = new InMemoryMealRepository();
+        context = new ClassPathXmlApplicationContext("spring/spring-app");
+        mealController = context.getBean(MealRestController.class);
+
+        AdminRestController adminUserController = context.getBean(AdminRestController.class);
+        adminUserController.create(new User(1, "userName", "email", "password", Role.ROLE_ADMIN));
+    }
+
+    @Override
+    public void destroy() {
+        if (context != null)
+            context.close();
+        super.destroy();
     }
 
     @Override
@@ -37,10 +52,14 @@ public class MealServlet extends HttpServlet {
         String description = req.getParameter("description");
         int calories = Integer.valueOf(req.getParameter("calories"));
 
-        Meal meal = new Meal(id.isEmpty() ? null : getId(req), ldt, description, calories);
-        LOG.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-        repository.save(meal, AuthorizedUser.id());
-
+        final Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id), ldt, description, calories);
+        if (id.isEmpty()) {
+            LOG.info("Create {}", meal);
+            mealController.create(meal);
+        } else {
+            LOG.info("Update {}", meal);
+            mealController.update(meal, Integer.valueOf(id));
+        }
         resp.sendRedirect("meals");
     }
 
@@ -50,22 +69,19 @@ public class MealServlet extends HttpServlet {
 
         if (action == null) {
             LOG.debug("Creating and filling list of meals...");
-            List<MealWithExceed> mealList = MealsUtil.getListWithExceed(
-                    repository.getAll(AuthorizedUser.id()),
-                    MealsUtil.DEFAULT_CALORIES_PER_DAY
-            );
+            List<MealWithExceed> mealList = mealController.getAll();
             req.setAttribute("mealList", mealList);
             req.getRequestDispatcher("mealList.jsp").forward(req, resp);
         } else if ("delete".equals(action)) {
             int id = getId(req);
             LOG.info("Delete {}", id);
-            repository.delete(id, AuthorizedUser.id());
+            mealController.delete(id);
             resp.sendRedirect("meals");
         } else if ("update".equals(action) || "create".equals(action)) {
             final Meal meal = "create".equals(action) ? new Meal(
                     LocalDateTime.now().withNano(0).withSecond(0),
                     "",
-                    0): repository.get(getId(req), AuthorizedUser.id());
+                    0) : mealController.get(getId(req));
             req.setAttribute("meal", meal);
             req.getRequestDispatcher("mealUpdate.jsp").forward(req, resp);
         }
