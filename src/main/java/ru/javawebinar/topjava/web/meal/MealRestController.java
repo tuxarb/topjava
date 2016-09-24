@@ -8,9 +8,11 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.TimeUtil;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Controller
@@ -18,10 +20,6 @@ public class MealRestController {
     private static final Logger LOG = getLogger(MealRestController.class);
     @Autowired
     private MealService mealService;
-
-    public List<MealWithExceed> getBetween(LocalDate of, LocalTime of1, LocalDate of2, LocalTime of3) {
-        return null;
-    }
 
     public void delete(int id)
     {
@@ -58,5 +56,19 @@ public class MealRestController {
         int userId = AuthorizedUser.id();
         LOG.info("Update meal={} for user={}", meal, userId);
         mealService.save(meal, userId);
+    }
+
+    public List<MealWithExceed> getBetween(LocalTime startTime, LocalTime endTime, LocalDate startDate, LocalDate endDate) {
+        int userId = AuthorizedUser.id();
+        LOG.info("Get meals between date {} - {} and time{} - {} for user with id={}", startDate, endDate,
+                startTime, endTime, userId);
+        return MealsUtil.getFilteredWithExceeded(
+                mealService.getBetween(startDate == null ? TimeUtil.MIN_DATE : startDate,
+                        endDate == null ? TimeUtil.MAX_DATE : endDate,
+                        userId),
+                startTime == null ? LocalTime.MIN : startTime,
+                endTime == null ? LocalTime.MAX : endTime,
+                AuthorizedUser.getCaloriesPerDay()
+        );
     }
 }
