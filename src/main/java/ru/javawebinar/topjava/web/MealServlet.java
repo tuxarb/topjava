@@ -79,9 +79,7 @@ public class MealServlet extends HttpServlet {
             resp.sendRedirect("meals");
         } else if ("update".equals(action) || "create".equals(action)) {
             final Meal meal = "create".equals(action) ? new Meal(
-                    LocalDateTime.now().withNano(0).withSecond(0),
-                    "",
-                    0) : mealController.get(getId(req));
+                    LocalDateTime.now().withNano(0).withSecond(0), "", 0) : mealController.get(getId(req));
             req.setAttribute("meal", meal);
             req.getRequestDispatcher("mealUpdate.jsp").forward(req, resp);
         }
