@@ -4,11 +4,10 @@
 <html>
 <head>
     <title>Подсчет калорий</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <h2>Список еды</h2>
-<a href="meals?action=filter">Отфильтровать</a>
 <hr>
 <form action="meals?action=filter" method="post">
     <dl>

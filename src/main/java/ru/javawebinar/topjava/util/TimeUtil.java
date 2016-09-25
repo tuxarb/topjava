@@ -8,8 +8,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class TimeUtil {
-    public static final LocalDate MIN_DATE = LocalDate.of(0, 0 , 0);
-    public static final LocalDate MAX_DATE = LocalDate.of(2500, 0 , 0);
+    public static final LocalDate MIN_DATE = LocalDate.of(1, 1 , 1);
+    public static final LocalDate MAX_DATE = LocalDate.of(2500, 1 , 1);
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm");
 
     public static <T extends Comparable<? super T>> boolean isBetween(T currentTime, T startTime, T endTime) {

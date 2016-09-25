@@ -63,8 +63,8 @@ public class MealServlet extends HttpServlet {
             } else {
                 LOG.info("Update {}", meal);
                 mealController.update(meal, Integer.valueOf(id));
-                resp.sendRedirect("meals");
             }
+            resp.sendRedirect("meals");
         }
         else
             if ("filter".equals(action))

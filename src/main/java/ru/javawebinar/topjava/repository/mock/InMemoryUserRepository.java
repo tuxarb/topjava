@@ -3,7 +3,6 @@ package ru.javawebinar.topjava.repository.mock;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
-import ru.javawebinar.topjava.util.UsersUtil;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,10 +15,6 @@ public class InMemoryUserRepository implements UserRepository {
 
     public static final int USER_ID = 1;
     public static final int ADMIN_ID = 2;
-
-    {
-        UsersUtil.USERS_LIST.forEach(this::save);
-    }
 
     @Override
     public boolean delete(int id) {
