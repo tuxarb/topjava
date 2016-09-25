@@ -53,6 +53,7 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public Collection<Meal> getAll(int userId) {
         Map<Integer, Meal> mealRepository = repository.get(userId);
+        System.out.println(mealRepository);
         return mealRepository == null ? Collections.emptyList() : mealRepository.values().stream()
                 .sorted(MEAL_ORDER)
                 .collect(Collectors.toList());

@@ -10,7 +10,7 @@
 <h2>Список еды</h2>
 <a href="meals?action=filter">Отфильтровать</a>
 <hr>
-<form action="meals" method="post">
+<form action="meals?action=filter" method="post">
     <dl>
         <dt>From Date:</dt>
         <dd><input type="date" name="startDate" value="${startDate}"></dd>
