@@ -11,11 +11,11 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepository.ADMIN_ID;
-import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepository.USER_ID;
+import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl.ADMIN_ID;
+import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl.USER_ID;
 
 @Repository
-public class InMemoryMealRepository implements MealRepository {
+public class InMemoryMealRepositoryImpl implements MealRepository {
     private static final Comparator<Meal> MEAL_ORDER = Comparator.comparing(Meal::getDateTime).reversed();
     private Map<Integer, Map<Integer, Meal>> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
