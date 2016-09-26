@@ -13,6 +13,7 @@
     <table border="2" cellspacing="0">
         <tr>
             <td>
+                <dl>
                 <dt>Дата от:</dt>
                 <dd><input type="date" name="startDate" value="${startDate}"></dd>
                 </dl>
@@ -26,6 +27,7 @@
         </tr>
         <tr>
             <td>
+                <dl>
                 <dt>Время от:</dt>
                 <dd><input type="time" name="startTime" value="${startTime}"></dd>
                 </dl>
