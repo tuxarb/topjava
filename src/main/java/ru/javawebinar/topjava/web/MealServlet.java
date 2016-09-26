@@ -33,9 +33,6 @@ public class MealServlet extends HttpServlet {
         super.init(config);
         context = new ClassPathXmlApplicationContext("spring/spring-app");
         mealController = context.getBean(MealRestController.class);
-
-        AdminRestController adminUserController = context.getBean(AdminRestController.class);
-        adminUserController.create(new User(1, "userName", "email", "password", Role.ROLE_ADMIN));
     }
 
     @Override
@@ -58,10 +55,10 @@ public class MealServlet extends HttpServlet {
 
             final Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id), ldt, description, calories);
             if (id.isEmpty()) {
-                LOG.info("Create {}", meal);
+                LOG.info("Create meal={}", meal);
                 mealController.create(meal);
             } else {
-                LOG.info("Update {}", meal);
+                LOG.info("Update meal={}", meal);
                 mealController.update(meal, Integer.valueOf(id));
             }
             resp.sendRedirect("meals");
@@ -89,7 +86,7 @@ public class MealServlet extends HttpServlet {
             req.getRequestDispatcher("mealList.jsp").forward(req, resp);
         } else if ("delete".equals(action)) {
             int id = getId(req);
-            LOG.info("Delete {}", id);
+            LOG.info("Delete meal with id={}", id);
             mealController.delete(id);
             resp.sendRedirect("meals");
         } else if ("update".equals(action) || "create".equals(action)) {

@@ -37,9 +37,10 @@ public class InMemoryMealRepository implements MealRepository {
         Objects.requireNonNull(meal);
         if (meal.isNew())
             meal.setId(counter.incrementAndGet());
-        else if (get(meal.getId(), userId) == null)
+        else if (get(meal.getId(), userId) == null) {
             return null;
-
+        }
+        // if not exists, just create new, otherwise add to the existing
         Map<Integer, Meal> mealRepository = repository.computeIfAbsent(userId, ConcurrentHashMap::new);
         return mealRepository.put(meal.getId(), meal);
     }
@@ -53,7 +54,6 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public Collection<Meal> getAll(int userId) {
         Map<Integer, Meal> mealRepository = repository.get(userId);
-        System.out.println(mealRepository);
         return mealRepository == null ? Collections.emptyList() : mealRepository.values().stream()
                 .sorted(MEAL_ORDER)
                 .collect(Collectors.toList());

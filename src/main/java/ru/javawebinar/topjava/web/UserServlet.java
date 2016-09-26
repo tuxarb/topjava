@@ -15,12 +15,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class UserServlet extends HttpServlet {
     private static final Logger LOG = getLogger(UserServlet.class);
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LOG.debug(" Redirect to users");
-
-        request.getRequestDispatcher("/userList.jsp").forward(request, response);
-    }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int userId = Integer.valueOf(req.getParameter("userId"));

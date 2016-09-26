@@ -60,7 +60,7 @@ public class MealRestController {
 
     public List<MealWithExceed> getBetween(LocalTime startTime, LocalTime endTime, LocalDate startDate, LocalDate endDate) {
         int userId = AuthorizedUser.getId();
-        LOG.info("Get meals between date {} - {} and time{} - {} for user with id={}", startDate, endDate,
+        LOG.info("Get meals between date {} - {} and time {} - {} for user with id={}", startDate, endDate,
                 startTime, endTime, userId);
         return MealsUtil.getFilteredWithExceeded(
                 mealService.getBetween(startDate == null ? TimeUtil.MIN_DATE : startDate,
