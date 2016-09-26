@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.mock;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -17,6 +18,7 @@ import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImplT
 import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImplTest.USER_ID;
 
 @Repository
+@Primary
 public class InMemoryMealRepositoryImplTest implements MealRepository {
     private static final Comparator<Meal> MEAL_ORDER = Comparator.comparing(Meal::getDateTime).reversed();
     private Map<Integer, Map<Integer, Meal>> repository = new ConcurrentHashMap<>();
