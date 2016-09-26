@@ -4,12 +4,9 @@ import org.slf4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.Role;
-import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.TimeUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
-import ru.javawebinar.topjava.web.user.AdminRestController;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -62,17 +59,14 @@ public class MealServlet extends HttpServlet {
                 mealController.update(meal, Integer.valueOf(id));
             }
             resp.sendRedirect("meals");
+        } else if ("filter".equals(action)) {
+            LocalDate startDate = TimeUtil.parseLocalDate(req.getParameter("startDate"));
+            LocalDate endDate = TimeUtil.parseLocalDate(req.getParameter("endDate"));
+            LocalTime startTime = TimeUtil.parseLocalTime(req.getParameter("startTime"));
+            LocalTime endTime = TimeUtil.parseLocalTime(req.getParameter("endTime"));
+            req.setAttribute("mealList", mealController.getBetween(startTime, endTime, startDate, endDate));
+            req.getRequestDispatcher("mealList.jsp").forward(req, resp);
         }
-        else
-            if ("filter".equals(action))
-            {
-                LocalDate startDate = TimeUtil.parseLocalDate(req.getParameter("startDate"));
-                LocalDate endDate = TimeUtil.parseLocalDate(req.getParameter("endDate"));
-                LocalTime startTime = TimeUtil.parseLocalTime(req.getParameter("startTime"));
-                LocalTime endTime = TimeUtil.parseLocalTime(req.getParameter("endTime"));
-                req.setAttribute("mealList", mealController.getBetween(startTime, endTime, startDate, endDate));
-                req.getRequestDispatcher("/mealList.jsp").forward(req, resp);
-            }
     }
 
     @Override

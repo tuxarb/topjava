@@ -10,24 +10,39 @@
 <h2>Список еды</h2>
 <hr>
 <form action="meals?action=filter" method="post">
-    <dl>
-        <dt>From Date:</dt>
-        <dd><input type="date" name="startDate" value="${startDate}"></dd>
-    </dl>
-    <dl>
-        <dt>To Date:</dt>
-        <dd><input type="date" name="endDate" value="${endDate}"></dd>
-    </dl>
-    <dl>
-        <dt>From Time:</dt>
-        <dd><input type="time" name="startTime" value="${startTime}"></dd>
-    </dl>
-    <dl>
-        <dt>To Time:</dt>
-        <dd><input type="time" name="endTime" value="${endTime}"></dd>
-    </dl>
-    <button type="submit">Отфильтровать</button>
+    <table border="2" cellspacing="0">
+        <tr>
+            <td>
+                <dt>Дата от:</dt>
+                <dd><input type="date" name="startDate" value="${startDate}"></dd>
+                </dl>
+            </td>
+            <td>
+                <dl>
+                    <dt>Дата до:</dt>
+                    <dd><input type="date" name="endDate" value="${endDate}"></dd>
+                </dl>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <dt>Время от:</dt>
+                <dd><input type="time" name="startTime" value="${startTime}"></dd>
+                </dl>
+            </td>
+            <td>
+                <dl>
+                    <dt>Время до:</dt>
+                    <dd><input type="time" name="endTime" value="${endTime}"></dd>
+                </dl>
+            </td>
+        </tr>
+    </table>
+    <pre>
+    <button type="submit" style="margin-left: 255px">Отфильтровать</button>
+        </pre>
 </form>
+
 
 <a href="meals?action=create">Добавить еду</a><br><br>
 <hr>
@@ -41,7 +56,7 @@
         <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>
         <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
             <td>
-                ${TimeUtil.toString(meal.dateTime)}
+                    ${TimeUtil.toString(meal.dateTime)}
             </td>
             <td>${meal.description}</td>
             <td>${meal.calories}</td>
