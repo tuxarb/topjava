@@ -18,7 +18,7 @@ import static ru.javawebinar.topjava.UserTestData.*;
 
 @ContextConfiguration({
         "classpath:spring/spring-app",
-        "classpath:spring/spring-db.xml"
+        "classpath:spring/spring-db"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserServiceTest {
