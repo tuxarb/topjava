@@ -7,6 +7,10 @@
     <!-- parsing file -->
     <context:property-placeholder location="classpath:db/postgresql.properties" system-properties-mode="OVERRIDE"/>
 
+    <bean class="ru.javawebinar.topjava.util.DbPopulator">
+        <constructor-arg name="scriptLocation" value="classpath:db/populateDB"/>
+    </bean>
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url" value="${database.url}"/>
