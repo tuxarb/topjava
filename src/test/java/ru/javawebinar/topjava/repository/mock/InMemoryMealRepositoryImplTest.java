@@ -1,24 +1,20 @@
 package ru.javawebinar.topjava.repository.mock;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.TimeUtil;
-
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-
 import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImplTest.ADMIN_ID;
 import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImplTest.USER_ID;
 
 @Repository
-@Primary
 public class InMemoryMealRepositoryImplTest implements MealRepository {
     private static final Comparator<Meal> MEAL_ORDER = Comparator.comparing(Meal::getDateTime).reversed();
     private Map<Integer, Map<Integer, Meal>> repository = new ConcurrentHashMap<>();
