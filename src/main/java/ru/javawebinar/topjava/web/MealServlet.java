@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -85,7 +86,7 @@ public class MealServlet extends HttpServlet {
             resp.sendRedirect("meals");
         } else if ("update".equals(action) || "create".equals(action)) {
             final Meal meal = "create".equals(action) ? new Meal(
-                    LocalDateTime.now().withNano(0).withSecond(0), "", 0) : mealController.get(getId(req));
+                    LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 0) : mealController.get(getId(req));
             req.setAttribute("meal", meal);
             req.getRequestDispatcher("mealUpdate.jsp").forward(req, resp);
         }
