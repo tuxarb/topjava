@@ -65,7 +65,7 @@ public class MealServlet extends HttpServlet {
             LocalTime startTime = TimeUtil.parseLocalTime(req.getParameter("startTime"));
             LocalTime endTime = TimeUtil.parseLocalTime(req.getParameter("endTime"));
             req.setAttribute("mealList", mealController.getBetween(startTime, endTime, startDate, endDate));
-            req.getRequestDispatcher("mealList.jsp").forward(req, resp);
+            req.getRequestDispatcher("meals.jsp").forward(req, resp);
         }
     }
 
@@ -77,7 +77,7 @@ public class MealServlet extends HttpServlet {
             LOG.debug("Creating and filling list of meals...");
             List<MealWithExceed> mealList = mealController.getAll();
             req.setAttribute("mealList", mealList);
-            req.getRequestDispatcher("mealList.jsp").forward(req, resp);
+            req.getRequestDispatcher("meals.jsp").forward(req, resp);
         } else if ("delete".equals(action)) {
             int id = getId(req);
             LOG.info("Delete meal with id={}", id);
