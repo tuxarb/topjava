@@ -7,7 +7,7 @@ import java.util.List;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public abstract class AbstractUserController {
-    protected static org.slf4j.Logger LOG = getLogger(AbstractUserController.class);
+    protected static final org.slf4j.Logger LOG = getLogger(AbstractUserController.class);
 
     @Autowired
     private UserService service;

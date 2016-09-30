@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
@@ -16,6 +17,7 @@ public class MealServiceImpl implements MealService{
 
     @Override
     public Meal save(Meal meal, int userId) {
+        Assert.notNull(meal, "meal must not be null");
         return repository.save(meal, userId);
     }
 
@@ -36,11 +38,14 @@ public class MealServiceImpl implements MealService{
 
     @Override
     public void update(Meal meal, int userId) {
+        Assert.notNull(meal, "meal must not be null");
         ExceptionUtil.checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
     public Collection<Meal> getBetweenDates(LocalDateTime startDate, LocalDateTime endDate, int userId)
     {
+        Assert.notNull(startDate, "start_date must not be null");
+        Assert.notNull(endDate, "end_date must not be null");
         return repository.getBetween(startDate, endDate, userId);
     }
 }

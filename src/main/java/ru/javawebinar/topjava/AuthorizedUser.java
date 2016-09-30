@@ -5,6 +5,9 @@ import ru.javawebinar.topjava.util.MealsUtil;
 public class AuthorizedUser {
     public static int id = 1;
 
+    private AuthorizedUser()
+    {}
+
     public static int getId() {
         return id;
     }

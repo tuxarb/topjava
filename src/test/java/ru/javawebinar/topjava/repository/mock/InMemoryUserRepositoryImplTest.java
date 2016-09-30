@@ -38,7 +38,6 @@ public class InMemoryUserRepositoryImplTest implements UserRepository {
 
     @Override
     public User save(User user) {
-        Objects.requireNonNull(user);
         if (user.isNew())
             user.setId(counter.incrementAndGet());
         return repository.put(user.getId(), user);
@@ -60,7 +59,6 @@ public class InMemoryUserRepositoryImplTest implements UserRepository {
 
     @Override
     public User getByEmail(String email) {
-        Objects.requireNonNull(email);
         return repository.values()
                 .stream()
                 .filter(user -> user.getEmail().equals(email))

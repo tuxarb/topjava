@@ -29,7 +29,6 @@ public class InMemoryMealRepositoryImplTest implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        Objects.requireNonNull(meal);
         if (meal.isNew())
             meal.setId(counter.incrementAndGet());
         else if (get(meal.getId(), userId) == null) {
@@ -56,8 +55,6 @@ public class InMemoryMealRepositoryImplTest implements MealRepository {
 
     @Override
     public Collection<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        Objects.requireNonNull(startDate);
-        Objects.requireNonNull(endDate);
         return getAll(userId).stream()
                 .filter(meal -> TimeUtil.isBetween(meal.getDateTime(), startDate, endDate))
                 .collect(Collectors.toList());
