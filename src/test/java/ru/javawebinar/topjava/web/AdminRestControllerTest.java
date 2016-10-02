@@ -19,7 +19,7 @@ public class AdminRestControllerTest {
 
     @BeforeClass
     public static void beforeClass() {
-        context = new ClassPathXmlApplicationContext("spring/spring-app");
+        context = new ClassPathXmlApplicationContext("spring/spring-app", "spring/spring-mock");
         System.out.println("\n" + Arrays.toString(context.getBeanDefinitionNames()) + "\n");
         controller = context.getBean(AdminRestController.class);
     }

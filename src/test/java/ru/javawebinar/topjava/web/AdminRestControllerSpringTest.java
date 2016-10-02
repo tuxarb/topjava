@@ -13,11 +13,16 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 import ru.javawebinar.topjava.web.user.AdminRestController;
+
 import java.util.Collection;
+
 import static ru.javawebinar.topjava.UserTestData.ADMIN;
 import static ru.javawebinar.topjava.UserTestData.USER;
 
-@ContextConfiguration("classpath:spring/spring-app")
+@ContextConfiguration({
+        "classpath:spring/spring-app",
+        "classpath:spring/spring-mock"
+})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class AdminRestControllerSpringTest {
     @Autowired
