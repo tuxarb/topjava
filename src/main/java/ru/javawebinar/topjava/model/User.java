@@ -1,21 +1,43 @@
 package ru.javawebinar.topjava.model;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import ru.javawebinar.topjava.util.MealsUtil;
+
+import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(name = "email", columnNames = "users_unique_email_idx")})
 public class User extends NamedEntity {
+
+    @NotEmpty
+    @Email
+    @Column(name = "email", nullable = false, unique = true)
     protected String email;
 
+    @Column(name = "password", nullable = false)
+    @NotEmpty
+    @Length(min = 4)
     protected String password;
 
+    @Column(name = "enabled")
     protected boolean enabled = true;
 
+    @Column(name = "registered", columnDefinition = "TIMESTAMP DEFAULT now()")
     protected Date registered = new Date();
 
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.LAZY)
     protected Set<Role> roles;
 
+    @Column(name = "calories_per_day", columnDefinition = "DEFAULT 2000", nullable = false)
     protected int caloriesPerDay = MealsUtil.DEFAULT_CALORIES_PER_DAY;
 
     public User() {

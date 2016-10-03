@@ -1,6 +1,13 @@
 package ru.javawebinar.topjava.model;
 
+import javax.persistence.*;
+
+@MappedSuperclass
+@Access(value = AccessType.FIELD)
 public class BaseEntity {
+
+    @Id
+    @Column(name = "id", nullable = false)
     protected Integer id;
 
     public Integer getId() {
