@@ -2,34 +2,52 @@ package ru.javawebinar.topjava.repository.jpa;
 
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class JpaUserRepositoryImpl implements UserRepository{
+@Transactional(readOnly = true)
+public class JpaUserRepositoryImpl implements UserRepository {
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
+    @Transactional
     public User save(User user) {
-        return null;
+        if (user.isNew()) {
+            entityManager.persist(user);
+        } else {
+            entityManager.merge(user);
+        }
+        return user;
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
-        return false;
+        return entityManager.createQuery("DELETE FROM User user WHERE user.id=:id")
+                .setParameter("id", id).executeUpdate() != 0;
     }
 
     @Override
     public User get(int id) {
-        return null;
+        return entityManager.find(User.class, id);
     }
 
     @Override
     public User getByEmail(String email) {
-        return null;
+        return entityManager.createQuery("SELECT user FROM User user WHERE user.email=:email", User.class)
+                .setParameter("email", email)
+                .getSingleResult();
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        return entityManager.createQuery("SELECT user FROM User user  ORDER BY user.name, user.email", User.class)
+                .getResultList();
     }
 }

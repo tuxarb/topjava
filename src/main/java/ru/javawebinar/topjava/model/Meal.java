@@ -1,22 +1,32 @@
 package ru.javawebinar.topjava.model;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+@Entity
+@Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"date_time", "user_id"}, name = "meals_unique_user_date_idx")})
 public class Meal extends BaseEntity{
-    private LocalDateTime dateTime;
+    @NotNull
+    @Column(name = "date_time", columnDefinition = "TIMESTAMP DEFAULT now()", unique = true)
+    protected LocalDateTime dateTime;
 
-    private String description;
+    @NotEmpty
+    @Column(name ="description", nullable = false)
+    protected String description;
 
-    private int calories;
+    @Column(name = "calories", nullable = false)
+    protected int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    protected User user;
 
-    public Meal()
+    protected Meal()
     {}
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
@@ -64,6 +74,10 @@ public class Meal extends BaseEntity{
 
     public void setCalories(int calories) {
         this.calories = calories;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package ru.javawebinar.topjava.service;
 
-
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,6 +26,9 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB")
 public class MealServiceTest {
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
     @Autowired
     private MealService service;
 
@@ -38,9 +41,11 @@ public class MealServiceTest {
                 service.getAll(1));
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testDeleteNotFound() throws Exception {
+        exception.expect(NotFoundException.class);
         service.delete(MEAL1.getId(), 3);
+
     }
 
     @Test
@@ -56,12 +61,12 @@ public class MealServiceTest {
         MATCHER.assertEquals(ADMIN_MEAL1, actual);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testGetNotFound() throws Exception {
+        exception.expect(NotFoundException.class);
         service.get(MEAL1.getId(), ADMIN_ID);
     }
 
-    @Ignore
     @Test
     public void testUpdate() throws Exception {
         Meal updated = new Meal(MEAL1.getId(), LocalDateTime.now(), "sfsf", 150);
@@ -69,8 +74,9 @@ public class MealServiceTest {
         MATCHER.assertEquals(updated, service.get(MEAL1.getId(), USER_ID));
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testNotFoundUpdate() throws Exception {
+        exception.expect(NotFoundException.class);
         Meal item = service.get(MEAL1.getId(), USER_ID);
         service.update(item, ADMIN_ID);
     }
