@@ -80,6 +80,10 @@ public class Meal extends BaseEntity{
         this.user = user;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public String toString() {
         return "Meal{" +

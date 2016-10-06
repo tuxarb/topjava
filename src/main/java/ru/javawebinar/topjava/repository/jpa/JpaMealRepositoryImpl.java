@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -40,15 +39,9 @@ public class JpaMealRepositoryImpl implements MealRepository {
             entityManager.persist(meal);
             return meal;
         } else {
-            meal = entityManager.merge(meal);
-           /* entityManager.createQuery("UPDATE Meal meal SET meal.id=:id, meal.dateTime=:dateTime, meal.calories=:calories, " +
-                    "meal.description=:description, meal.user.id=:userId")
-                    .setParameter("id", meal.getId())
-                    .setParameter("dateTime", meal.getDateTime())
-                    .setParameter("calories", meal.getCalories())
-                    .setParameter("description", meal.getDescription())
-                    .setParameter("userId", userId);*/
-            return DataAccessUtils.singleResult(Collections.singletonList(meal));
+            if (get(meal.getId(), userId) == null)
+                return null;
+            return entityManager.merge(meal);
         }
     }
 
