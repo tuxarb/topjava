@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @Table(name = "meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"date_time", "user_id"}, name = "meals_unique_user_date_idx")})
 public class Meal extends BaseEntity{
     @NotNull
-    @Column(name = "date_time", columnDefinition = "TIMESTAMP DEFAULT now()", unique = true)
+    @Column(name = "date_time", columnDefinition = "TIMESTAMP DEFAULT now()", nullable = false)
     protected LocalDateTime dateTime;
 
     @NotEmpty
@@ -23,7 +23,7 @@ public class Meal extends BaseEntity{
     protected int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     protected User user;
 
     protected Meal()
