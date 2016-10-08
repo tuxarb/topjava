@@ -26,6 +26,8 @@
 
         <hibernate.version>5.2.2.Final</hibernate.version>
         <hibernate-validator.version>5.2.4.Final</hibernate-validator.version>
+
+        <tomcat.version>8.0.33</tomcat.version>
     </properties>
 
     <build>
@@ -78,18 +80,6 @@
             <version>1.2</version>
         </dependency>
 
-        <!-- Database -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.3.4</version>
-        </dependency>
-
         <!--Spring-->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -135,6 +125,35 @@
     </dependencies>
 
     <profiles>
+        <profile>
+            <id>postgresql</id>
+            <dependencies>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-jdbc</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+            </dependencies>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+        <profile>
+            <id>hsqldb</id>
+            <dependencies>
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>2.3.4</version>
+            </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 
     <dependencyManagement>
