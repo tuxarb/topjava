@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,14 @@ import static ru.javawebinar.topjava.UserTestData.*;
 @Sql(scripts = "classpath:db/populateDB")
 @ActiveProfiles(Profiles.ACTIVE_DB)
 public class UserServiceTest {
-
     @Autowired
     protected UserService service;
+
+    @Before
+    public void setUp() throws Exception
+    {
+        service.evictCache();
+    }
 
     @Test
     public void testSave() throws Exception {
