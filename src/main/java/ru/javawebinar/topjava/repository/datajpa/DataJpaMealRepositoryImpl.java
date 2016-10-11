@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -9,9 +10,12 @@ import java.util.Collection;
 
 @Repository
 public class DataJpaMealRepositoryImpl implements MealRepository{
+    @Autowired
+    private CrudMealRepository crudMealRepository;
+
     @Override
     public Meal get(int id, int userId) {
-        return null;
+        return crudMealRepository.findOne(id, userId);
     }
 
     @Override
@@ -21,12 +25,12 @@ public class DataJpaMealRepositoryImpl implements MealRepository{
 
     @Override
     public boolean delete(int id, int userId) {
-        return false;
+        return crudMealRepository.delete(id, userId) != 0;
     }
 
     @Override
     public Collection<Meal> getAll(int userId) {
-        return null;
+        return crudMealRepository.findAll(userId);
     }
 
     @Override
