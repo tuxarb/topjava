@@ -16,7 +16,6 @@ public class MealTestData {
     public static final Meal MEAL5 = new Meal(7, LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 1000);
     public static final Meal MEAL6 = new Meal(8, LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510);
     public static final Meal ADMIN_MEAL1 = new Meal(9, LocalDateTime.of(2015, Month.JUNE, 1, 14, 0), "Админ ланч", 510);
-    public static final Meal ADMIN_MEAL2 = new Meal(10, LocalDateTime.of(2015, Month.JUNE, 1, 21, 0), "Админ ужин", 1500);
 
     public static final List<Meal> MEALS = Arrays.asList(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1);
 
