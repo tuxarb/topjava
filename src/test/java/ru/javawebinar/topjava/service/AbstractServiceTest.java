@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.javawebinar.topjava.util.Profiles;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -16,7 +17,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
         "classpath:spring/spring-db"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
-@Sql(scripts = "classpath:db/populateDB")
+@Sql(scripts = "classpath:db/populateDB", config = @SqlConfig(encoding = "UTF-8"))
 @ActiveProfiles(value = {Profiles.ACTIVE_DB, Profiles.ACTIVE_REPOSITORY})
 public abstract class AbstractServiceTest {
     @Rule
