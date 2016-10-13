@@ -24,16 +24,16 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
     private static final Logger LOG = getLogger(MealServlet.class);
-    private ConfigurableApplicationContext context;
+    private ClassPathXmlApplicationContext context;
     private MealRestController mealController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-
-        System.setProperty("spring.profiles.active", Profiles.ACTIVE_DB);
-        System.setProperty("spring.profiles.active", Profiles.ACTIVE_REPOSITORY);
-        context = new ClassPathXmlApplicationContext("spring/spring-app", "spring/spring-db");
+        context = new ClassPathXmlApplicationContext();
+        context.getEnvironment().setActiveProfiles(Profiles.ACTIVE_REPOSITORY, Profiles.ACTIVE_DB);
+        context.setConfigLocations("spring/spring-app", "spring/spring-db");
+        context.refresh();
         mealController = this.context.getBean(MealRestController.class);
     }
 

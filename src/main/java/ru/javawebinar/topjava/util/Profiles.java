@@ -2,7 +2,7 @@ package ru.javawebinar.topjava.util;
 
 
 public class Profiles {
-    private static final String
+    public static final String
         POSTRESQL = "postgres",
         HSQLDB = "hsqldb",
 

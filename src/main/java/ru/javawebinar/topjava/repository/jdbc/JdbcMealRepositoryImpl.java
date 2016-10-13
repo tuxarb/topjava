@@ -12,15 +12,15 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.Profiles;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-@Repository
-@Profile("jdbc")
-public class JdbcMealRepositoryImpl implements MealRepository {
+public abstract class JdbcMealRepositoryImpl<T> implements MealRepository {
     private static final BeanPropertyRowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
     @Autowired
@@ -29,13 +29,33 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     @Autowired
     private NamedParameterJdbcTemplate namedJdbcTemplate;
 
-    private SimpleJdbcInsert jdbcInsert;
+    private SimpleJdbcInsert insertMeal;
 
     @Autowired
-    public JdbcMealRepositoryImpl(DataSource dataSource) {
-        this.jdbcInsert = new SimpleJdbcInsert(dataSource)
-                .withTableName("MEALS")
+    private void setDataSource(DataSource dataSource) {
+        this.insertMeal = new SimpleJdbcInsert(dataSource)
+                .withTableName("meals")
                 .usingGeneratedKeyColumns("id");
+    }
+
+    protected abstract T toDatabaseDateTime(LocalDateTime ldt);
+
+    @Repository
+    @Profile(Profiles.POSTRESQL)
+    public static class Java8JdbcMealRepositoryImpl extends JdbcMealRepositoryImpl<LocalDateTime> {
+        @Override
+         public LocalDateTime toDatabaseDateTime(LocalDateTime ldt) {
+            return ldt;
+        }
+    }
+
+    @Repository
+    @Profile(Profiles.HSQLDB)
+    public static class TimestampJdbcMealRepositoryImpl extends JdbcMealRepositoryImpl<Timestamp> {
+        @Override
+        public Timestamp toDatabaseDateTime(LocalDateTime ldt) {
+            return Timestamp.valueOf(ldt);
+        }
     }
 
     @Override
@@ -49,12 +69,12 @@ public class JdbcMealRepositoryImpl implements MealRepository {
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", meal.getId())
                 .addValue("userId", userId)
-                .addValue("dateTime", meal.getDateTime())
+                .addValue("dateTime", toDatabaseDateTime(meal.getDateTime()))
                 .addValue("description", meal.getDescription())
                 .addValue("calories", meal.getCalories());
 
         if (meal.isNew()) {
-            Number mealId = jdbcInsert.executeAndReturnKey(map);
+            Number mealId = insertMeal.executeAndReturnKey(map);
             meal.setId(mealId.intValue());
         } else if (namedJdbcTemplate.update("UPDATE meals SET date_time=:dateTime, " +
                 "description=:description, calories=:calories WHERE id=:id AND user_id=:userId", map) == 0)
@@ -76,7 +96,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
     @Override
     public Collection<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return jdbcTemplate.query("SELECT * FROM meals WHERE user_id = ? AND date_time BETWEEN ? AND ? ORDER BY date_time DESC",
-                ROW_MAPPER, userId, startDate, endDate);
+                ROW_MAPPER, userId, toDatabaseDateTime(startDate), toDatabaseDateTime(endDate));
     }
 }
 
