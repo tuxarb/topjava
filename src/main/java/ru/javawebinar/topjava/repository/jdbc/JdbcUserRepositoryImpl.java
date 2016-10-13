@@ -12,12 +12,14 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.Profiles;
+
 import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
+@Profile("jdbc")
 public class JdbcUserRepositoryImpl implements UserRepository {
-
     private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
 
     @Autowired

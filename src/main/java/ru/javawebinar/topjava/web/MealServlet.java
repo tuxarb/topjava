@@ -5,6 +5,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.Profiles;
 import ru.javawebinar.topjava.util.TimeUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import javax.servlet.ServletConfig;
@@ -29,8 +30,11 @@ public class MealServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+
+        System.setProperty("spring.profiles.active", Profiles.ACTIVE_DB);
+        System.setProperty("spring.profiles.active", Profiles.ACTIVE_REPOSITORY);
         context = new ClassPathXmlApplicationContext("spring/spring-app", "spring/spring-db");
-        mealController = context.getBean(MealRestController.class);
+        mealController = this.context.getBean(MealRestController.class);
     }
 
     @Override
