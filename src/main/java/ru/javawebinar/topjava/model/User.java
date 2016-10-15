@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.util.MealsUtil;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,6 +38,9 @@ public class User extends NamedEntity {
 
     @Column(name = "calories_per_day", columnDefinition = "DEFAULT 2000", nullable = false)
     protected int caloriesPerDay = MealsUtil.DEFAULT_CALORIES_PER_DAY;
+
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "user")
+    protected List<Meal> meals;
 
     protected User() {
     }

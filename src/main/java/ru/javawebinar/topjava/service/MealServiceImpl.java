@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -47,5 +48,10 @@ public class MealServiceImpl implements MealService{
         Assert.notNull(startDate, "start_date must not be null");
         Assert.notNull(endDate, "end_date must not be null");
         return repository.getBetween(startDate, endDate, userId);
+    }
+
+    @Override
+    public Meal getWithUser(int id, int userId) {
+        return ExceptionUtil.checkNotFoundWithId(repository.getWithUser(id, userId), id);
     }
 }
