@@ -1,20 +1,12 @@
 package ru.javawebinar.topjava.service;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.util.Profiles;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
+import ru.javawebinar.topjava.repository.datajpa.JpaUtil;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,10 +17,14 @@ public class UserServiceTest extends AbstractServiceTest{
     @Autowired
     private UserService service;
 
+    @Autowired
+    private JpaUtil jpaUtil;
+
     @Before
     public void setUp() throws Exception
     {
         service.evictCache();
+        jpaUtil.clear2ndLevelHibernateCache();
     }
 
     public void testSave() throws Exception {
