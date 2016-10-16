@@ -1,11 +1,10 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
-import ru.javawebinar.topjava.util.Profiles;
 import ru.javawebinar.topjava.util.TimeUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import javax.servlet.ServletConfig;
@@ -24,24 +23,13 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
     private static final Logger LOG = getLogger(MealServlet.class);
-    private ClassPathXmlApplicationContext context;
     private MealRestController mealController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        context = new ClassPathXmlApplicationContext();
-        context.getEnvironment().setActiveProfiles(Profiles.ACTIVE_REPOSITORY, Profiles.ACTIVE_DB);
-        context.setConfigLocations("spring/spring-app", "spring/spring-db");
-        context.refresh();
-        mealController = this.context.getBean(MealRestController.class);
-    }
-
-    @Override
-    public void destroy() {
-        if (context != null)
-            context.close();
-        super.destroy();
+        WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+        mealController = context.getBean(MealRestController.class);
     }
 
     @Override
