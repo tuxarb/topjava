@@ -28,7 +28,7 @@ public class MealServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+        WebApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
         mealController = context.getBean(MealRestController.class);
     }
 
