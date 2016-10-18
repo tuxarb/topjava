@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Подсчет калорий</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
 <h2>Список еды</h2>

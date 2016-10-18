@@ -6,7 +6,7 @@
 <title><fmt:message key="user.title"/></title>
 <body>
 <h1><fmt:message key="user.title"/></h1>
-<a href="index.jsp">Go Home</a>
+<a href="${pageContext.request.contextPath}/">Go Home</a>
 <br><br>
 <table border="3" cellpadding="6" cellspacing="0">
     <tr style="font-weight: bold">

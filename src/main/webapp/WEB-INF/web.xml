@@ -23,6 +23,19 @@
     </listener>
 
     <servlet>
+        <servlet-name>spring-mvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/spring-mvc</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>spring-mvc</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    
+    <!--<servlet>
         <servlet-name>userServlet</servlet-name>
         <servlet-class>ru.javawebinar.topjava.web.UserServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
@@ -40,6 +53,6 @@
     <servlet-mapping>
         <servlet-name>mealServlet</servlet-name>
         <url-pattern>/meals</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
 </web-app>
