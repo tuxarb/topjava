@@ -7,23 +7,27 @@ import org.springframework.dao.DataAccessException;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.datajpa.JpaUtil;
+import ru.javawebinar.topjava.util.Profiles;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+
 import static ru.javawebinar.topjava.UserTestData.*;
 
 
-public class UserServiceTest extends AbstractServiceTest{
+public class UserServiceTest extends AbstractServiceTest {
     @Autowired
     private UserService service;
 
-    @Autowired
+    @Autowired(required = false)
     private JpaUtil jpaUtil;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         service.evictCache();
+        if (Profiles.ACTIVE_REPOSITORY.equals(Profiles.JDBC))
+            return;
         jpaUtil.clear2ndLevelHibernateCache();
     }
 
