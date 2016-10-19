@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<title><fmt:message key="user.title"/></title>
+<jsp:include page="fragments/headTag.jsp"/>
 <body>
 <h1><fmt:message key="user.title"/></h1>
 <a href="${pageContext.request.contextPath}/">Go Home</a>
