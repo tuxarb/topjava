@@ -49,8 +49,8 @@ public class UserServiceTest extends AbstractServiceTest {
     }
 
     public void testGet() throws Exception {
-        User user = service.get(USER_ID);
-        MATCHER.assertEquals(USER, user);
+        User user = service.get(ADMIN_ID);
+        MATCHER.assertEquals(ADMIN, user);
     }
 
     public void testGetNotFound() throws Exception {
@@ -64,17 +64,17 @@ public class UserServiceTest extends AbstractServiceTest {
     }
 
     public void testUpdate() throws Exception {
-        User updated = new User(USER);
+        User updated = new User(ADMIN);
         updated.setName("UpdatedName");
         updated.setCaloriesPerDay(330);
         service.update(updated);
-        MATCHER.assertEquals(updated, service.get(USER_ID));
+        MATCHER.assertEquals(updated, service.get(ADMIN_ID));
     }
 
     @Test
     public void testDuplicateMailSave() throws Exception {
         exception.expect(DataAccessException.class);
-        service.save(new User(null, "Duplicate", "user@yandex.ru", "newPass", Role.ROLE_USER));
+        service.save(new User(null, "Duplicate", "admin@gmail.com", "newPass", Role.ROLE_ADMIN));
     }
 
     @Test
