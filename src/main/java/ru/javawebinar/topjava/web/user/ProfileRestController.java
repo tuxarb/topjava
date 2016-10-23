@@ -7,7 +7,7 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.User;
 
 @RestController
-@RequestMapping(value = ProfileRestController.URL)
+@RequestMapping(ProfileRestController.URL)
 public class ProfileRestController extends AbstractUserController {
     static final String URL = "/rest/profile";
 
