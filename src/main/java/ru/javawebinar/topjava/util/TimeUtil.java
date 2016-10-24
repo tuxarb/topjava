@@ -34,4 +34,9 @@ public class TimeUtil {
         return StringUtils.isEmpty(s) ? null : LocalDate.parse(s);
     }
 
+    public static LocalDateTime parseLocalDateTime(String s)
+    {
+        return StringUtils.isEmpty(s) ? LocalDateTime.now() : LocalDateTime.parse(s, DATE_TIME_FORMATTER);
+    }
+
 }
