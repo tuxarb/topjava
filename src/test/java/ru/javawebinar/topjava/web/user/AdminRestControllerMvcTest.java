@@ -9,7 +9,7 @@ import ru.javawebinar.topjava.web.AbstractControllerTest;
 
 
 public class AdminRestControllerMvcTest extends AbstractControllerTest{
-    static final String URL = AdminRestController.URL;
+    private static final String URL = AdminRestController.URL;
 
     @Test
     public void testGet() throws Exception
@@ -17,6 +17,6 @@ public class AdminRestControllerMvcTest extends AbstractControllerTest{
         mockMvc.perform(MockMvcRequestBuilders.get(URL))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE));
     }
 }
