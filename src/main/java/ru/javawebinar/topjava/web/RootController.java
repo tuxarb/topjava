@@ -3,8 +3,10 @@ package ru.javawebinar.topjava.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
@@ -13,6 +15,7 @@ import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -105,5 +108,11 @@ public class RootController {
     private int getId(HttpServletRequest req) {
         String paramId = Objects.requireNonNull(req.getParameter("id"));
         return Integer.parseInt(paramId);
+    }
+
+    @GetMapping("/ru_text")
+    public @ResponseBody String testUTF()
+    {
+        return "Русские буквы";
     }
 }

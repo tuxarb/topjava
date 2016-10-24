@@ -9,8 +9,14 @@
 
     <mvc:annotation-driven>
         <mvc:message-converters>
+            <!--convert json-LocalDateTime-->
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+
+        <!--return russian text as ResponseBody-->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg name="defaultCharset" value="UTF-8"/>
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
