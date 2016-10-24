@@ -1,16 +1,14 @@
 package ru.javawebinar.topjava.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import javax.persistence.*;
 
 @MappedSuperclass
 @Access(value = AccessType.FIELD)
-@JsonAutoDetect(
+/*@JsonAutoDetect(
         fieldVisibility = JsonAutoDetect.Visibility.ANY,
         getterVisibility = JsonAutoDetect.Visibility.NONE,
         isGetterVisibility = JsonAutoDetect.Visibility.NONE,
-        setterVisibility = JsonAutoDetect.Visibility.NONE)
+        setterVisibility = JsonAutoDetect.Visibility.NONE)*/
 public class BaseEntity {
     @Id
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq",  allocationSize = 1)
