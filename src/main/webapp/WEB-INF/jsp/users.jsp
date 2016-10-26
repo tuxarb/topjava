@@ -5,7 +5,7 @@
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <h1><fmt:message key="user.title"/></h1>
-<a href="${pageContext.request.contextPath}/">Go Home</a>
+<a href="${pageContext.request.contextPath}/"><fmt:message key="app.home"/></a>
 <br><br>
 <table border="3" cellpadding="6" cellspacing="0">
     <tr style="font-weight: bold">

@@ -1,8 +1,7 @@
-package ru.javawebinar.topjava.web.user;
+package ru.javawebinar.topjava.web;
 
 
 import org.junit.Test;
-import ru.javawebinar.topjava.web.AbstractControllerTest;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,4 +24,27 @@ public class RootControllerTest extends AbstractControllerTest{
                         )
                 )));
     }
+
+    @Test
+    public void testMealsGet() throws Exception
+    {
+        mockMvc.perform(get("/meals"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("meals"))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/meals.jsp"))
+                .andExpect(model().attribute("mealList", hasSize(6)))
+                .andExpect(model().attribute("mealList", hasItem(
+                        hasProperty("id", is(5)))));
+    }
+
+    @Test
+    public void testCss() throws Exception
+    {
+         mockMvc.perform(get("/css/style.css"))
+                 .andDo(print())
+                 .andExpect(status().isOk())
+                 .andExpect(content().contentTypeCompatibleWith("text/css"));
+    }
+
 }

@@ -1,37 +1,39 @@
-package ru.javawebinar.topjava.web;
+package ru.javawebinar.topjava.web.beforeMvc;
 
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.*;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 import ru.javawebinar.topjava.web.user.AdminRestController;
-
+import java.util.Arrays;
 import java.util.Collection;
-
 import static ru.javawebinar.topjava.UserTestData.ADMIN;
 import static ru.javawebinar.topjava.UserTestData.USER;
 
-@ContextConfiguration({
-        "classpath:spring/spring-app",
-        "classpath:spring/spring-mock"
-})
-@RunWith(SpringJUnit4ClassRunner.class)
-public class AdminRestControllerSpringTest {
-    @Autowired
-    private AdminRestController controller;
-    @Autowired
-    private UserRepository repository;
+public class AdminRestControllerTest {
+    private static ConfigurableApplicationContext context;
+    private static AdminRestController controller;
+
+    @BeforeClass
+    public static void beforeClass() {
+        context = new ClassPathXmlApplicationContext("spring/spring-app", "spring/spring-mock");
+        System.out.println("\n" + Arrays.toString(context.getBeanDefinitionNames()) + "\n");
+        controller = context.getBean(AdminRestController.class);
+    }
+
+    @AfterClass
+    public static void afterClass()
+    {
+        context.close();
+    }
 
     @Before
     public void setUp() throws Exception {
+        // Re-initialize
+        UserRepository repository = context.getBean(UserRepository.class);
         repository.getAll().forEach(u -> repository.delete(u.getId()));
         repository.save(USER);
         repository.save(ADMIN);

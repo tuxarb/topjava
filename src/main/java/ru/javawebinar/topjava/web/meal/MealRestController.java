@@ -1,74 +1,54 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import ru.javawebinar.topjava.AuthorizedUser;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealWithExceed;
-import ru.javawebinar.topjava.util.MealsUtil;
-import ru.javawebinar.topjava.util.TimeUtil;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.slf4j.LoggerFactory.getLogger;
+@RestController()
+@RequestMapping(MealRestController.URL)
+public class MealRestController extends AbstractMealRestController {
+    static final String URL = "/rest/meals";
 
-@Controller
-public class MealRestController {
-    private static final Logger LOG = getLogger(MealRestController.class);
-    @Autowired
-    private MealService mealService;
-
-    public void delete(int id)
-    {
-        int userId = AuthorizedUser.getId();
-        LOG.info("Delete meal with id={} for user={}", id, userId);
-        mealService.delete(id, userId);
+    @DeleteMapping(value = "/{id}")
+    public void delete(@PathVariable("id") int id) {
+        super.delete(id);
     }
 
-    public Meal get(int id)
-    {
-        int userId = AuthorizedUser.getId();
-        LOG.info("Get meal with id={} for user={}", id, userId);
-        return mealService.get(id, userId);
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Meal get(@PathVariable("id") int id) {
+        return super.get(id);
     }
 
-    public List<MealWithExceed> getAll()
-    {
-        int userId = AuthorizedUser.getId();
-        LOG.info("Get all meal for user with id={}", userId);
-        return MealsUtil.getListWithExceed(mealService.getAll(userId), AuthorizedUser.getCaloriesPerDay());
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MealWithExceed> getAll() {
+        return super.getAll();
     }
 
-    public Meal create(Meal meal)
-    {
-        meal.setId(null);
-        int userId = AuthorizedUser.getId();
-        LOG.info("Create meal={} for user={}", meal, userId);
-        return mealService.save(meal, userId);
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Meal> createMeal(@RequestBody Meal meal) {
+        Meal created = super.create(meal);
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
-    public void update(Meal meal, int id)
-    {
-        meal.setId(id);
-        int userId = AuthorizedUser.getId();
-        LOG.info("Update meal={} for user={}", meal, userId);
-        mealService.save(meal, userId);
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@RequestBody Meal meal, @PathVariable("id") int id) {
+        super.update(meal, id);
     }
 
-    public List<MealWithExceed> getBetween(LocalTime startTime, LocalTime endTime, LocalDate startDate, LocalDate endDate) {
-        int userId = AuthorizedUser.getId();
-        LOG.info("Get meals between date {} - {} and time {} - {} for user with id={}", startDate, endDate,
-                startTime, endTime, userId);
-        return MealsUtil.getFilteredWithExceeded(
-                mealService.getBetween(startDate == null ? TimeUtil.MIN_DATE : startDate,
-                        endDate == null ? TimeUtil.MAX_DATE : endDate,
-                        userId),
-                startTime == null ? LocalTime.MIN : startTime,
-                endTime == null ? LocalTime.MAX : endTime,
-                AuthorizedUser.getCaloriesPerDay()
-        );
+    @GetMapping(value = "/filter")
+    public List<MealWithExceed> getBetween(
+            @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
+            @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime endTime,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate endDate) {
+        return super.getBetween(startTime, endTime, startDate, endDate);
     }
 }

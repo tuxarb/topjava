@@ -11,11 +11,9 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.TimeUtil;
-import ru.javawebinar.topjava.web.meal.MealRestController;
+import ru.javawebinar.topjava.web.meal.AbstractMealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,7 +28,7 @@ public class RootController {
     private AdminRestController userController;
 
     @Autowired
-    private MealRestController mealController;
+    private AbstractMealRestController mealController;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {
@@ -51,9 +49,9 @@ public class RootController {
     }
 
     @RequestMapping(value = "/meals", method = RequestMethod.GET)
-    public String getMeals(HttpServletRequest req) {
+    public String getMeals(Model model) {
         List<MealWithExceed> mealList = mealController.getAll();
-        req.setAttribute("mealList", mealList);
+        model.addAttribute("mealList", mealList);
         return "meals";
     }
 
