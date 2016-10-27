@@ -7,6 +7,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
+import static ru.javawebinar.topjava.MealTestData.*;
 
 public class MealRestControllerTest extends AbstractControllerTest{
     private static final String URL = MealRestController.URL;

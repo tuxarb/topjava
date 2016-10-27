@@ -15,7 +15,7 @@ import java.util.List;
 @RestController()
 @RequestMapping(MealRestController.URL)
 public class MealRestController extends AbstractMealRestController {
-    static final String URL = "/rest/meals";
+    static final String URL = "/rest/profile/meals";
 
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
@@ -43,7 +43,7 @@ public class MealRestController extends AbstractMealRestController {
         super.update(meal, id);
     }
 
-    @GetMapping(value = "/filter")
+    @GetMapping(value = "/between", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MealWithExceed> getBetween(
             @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
             @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime endTime,
