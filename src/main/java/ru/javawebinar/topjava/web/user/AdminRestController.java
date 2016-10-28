@@ -32,7 +32,7 @@ public class AdminRestController extends AbstractUserController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @DeleteMapping(value = "/{id")
+    @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
     }
