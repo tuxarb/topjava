@@ -33,7 +33,8 @@
 
     <context:component-scan base-package="ru.javawebinar.topjava.web"/>
 
-    <mvc:resources mapping="/**" location="/"/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>
