@@ -5,3 +5,5 @@ target
 log
 *.patch
 /Patches/
+config/ddl/
+stuff/bootstrap-templates/
