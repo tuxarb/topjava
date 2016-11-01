@@ -60,8 +60,8 @@
             </td>
             <td>${meal.description}</td>
             <td>${meal.calories}</td>
-            <td><a href="meals?action=update&id=${meal.id}"><fmt:message key="meal.update"/> </a></td>
-            <td><a href="meals?action=delete&id=${meal.id}"><fmt:message key="meal.delete"/> </a></td>
+            <td><a href="meals?action=update&id=${meal.id}"><fmt:message key="update"/> </a></td>
+            <td><a href="meals?action=delete&id=${meal.id}"><fmt:message key="delete"/> </a></td>
         </tr>
     </c:forEach>
 </table>

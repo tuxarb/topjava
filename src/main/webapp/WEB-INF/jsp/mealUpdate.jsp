@@ -8,7 +8,7 @@
 <h3><fmt:message key="meal.create"/></h3>
 </c:if>
 <c:if test="${param.action == 'update'}">
-    <h3><fmt:message key="meal.update"/></h3>
+    <h3><fmt:message key="update"/></h3>
 </c:if>
 <hr>
 <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
