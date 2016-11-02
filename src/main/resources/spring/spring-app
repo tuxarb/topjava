@@ -13,5 +13,6 @@
     <context:component-scan base-package="ru.javawebinar.topjava.service"/>
 
     <import resource="spring-tools.xml"/>
+    <import resource="spring-security"/>
 
 </beans>
