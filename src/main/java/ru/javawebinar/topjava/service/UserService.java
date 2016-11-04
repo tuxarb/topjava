@@ -20,4 +20,6 @@ public interface UserService {
     void evictCache();
 
     User getWithMeals(int id);
+
+    void check(int id, boolean enabled);
 }

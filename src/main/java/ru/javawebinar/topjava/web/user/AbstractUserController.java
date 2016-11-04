@@ -43,4 +43,9 @@ public abstract class AbstractUserController {
         LOG.info("getByEmail " + email);
         return service.getByEmail(email);
     }
+
+    public void check(int id, boolean enabled) {
+        LOG.info("check with id = {} and enabled = {}", id, enabled);
+        service.check(id, enabled);
+    }
 }

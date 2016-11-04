@@ -1,13 +1,4 @@
-function makeEditable() {
-    $('.delete').click(function () {
-        deleteRow($(this).attr("id"));
-    });
-
-    $('#detailsForm').submit(function () {
-        save();
-        return false;
-    });
-
+function controlAjaxErrors() {
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(event, jqXHR, options, jsExc);
     });
@@ -23,20 +14,18 @@ function deleteRow(id) {
         url: ajaxUrl + id,
         type: 'DELETE',
         success: function () {
-            updateTable();
+            fillTable();
             successNoty('deleted');
         }
     });
 }
 
-function updateTable() {
-    $.get(ajaxUrl, function (data) {
-        datatable.fnClearTable();
-        $.each(data, function (key, item) {
-            datatable.fnAddData(item);
-        });
-        datatable.fnDraw();
+function updateTableByData(data) {
+    datatable.clear();
+    $.each(data, function (key, item) {
+        datatable.row.add(item).draw();
     });
+    datatable.draw();
 }
 
 function save() {
@@ -47,10 +36,14 @@ function save() {
         data: form.serialize(),
         success: function () {
             $('#editRow').modal('hide');
-            updateTable();
+            fillTable();
             successNoty('saved');
         }
     });
+}
+
+function fillTable() {
+    $.get(ajaxUrl, updateTableByData);
 }
 
 function failNoty(event, jqXHR, options, jsExc) {

@@ -12,7 +12,7 @@
         <br><br>
         <a class="btn btn-info" onclick="add()"><fmt:message key="user.add"/></a>
         <br><br>
-        <table class="table table-striped" id="datatable">
+        <table class="table table-striped" id="usersTable">
             <thead>
             <tr style="font-weight: bold">
                 <td>Name</td>
@@ -30,10 +30,15 @@
                     <td>${user.name}</td>
                     <td><a href="mailto:${user.email}">${user.email}</a></td>
                     <td>${user.roles}</td>
-                    <td>${user.enabled}</td>
+                    <td>
+                        <input type="checkbox"
+                               <c:if test="${user.enabled}">checked</c:if>
+                               onclick="check($(this), ${user.id})">
+                    </td>
                     <td><fmt:formatDate value="${user.registered}" pattern="yyyy-MM-dd hh:mm"/></td>
-                    <td><a class="btn btn-primary edit" id="${user.id}"><fmt:message key="update"/></a></td>
-                    <td><a class="btn btn-danger delete" id="${user.id}"><fmt:message key="delete"/></a></td>
+                    <td><a class="btn btn-primary edit"><fmt:message key="update"/></a></td>
+                    <td><a class="btn btn-danger delete" onclick="deleteRow('${user.id}')"><fmt:message
+                            key="delete"/></a></td>
                 </tr>
             </c:forEach>
         </table>
@@ -77,7 +82,7 @@
 
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-3">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-primary" onclick="save()">Save</button>
                         </div>
                     </div>
                 </form>
@@ -95,8 +100,23 @@
     var ajaxUrl = 'ajax/admin/users/';
     var datatable;
 
+    controlAjaxErrors();
+
+    function check(checkbox, id) {
+        var enabled = checkbox.is(":checked");
+        checkbox.parent().parent().css('text-decoration', enabled ? 'none' : 'line-through');
+        $.post({
+            url: ajaxUrl + id,
+            data: {"enabled": enabled},
+            success: function () {
+                var str = ' was changed on ';
+                successNoty(enabled ? str + 'ENABLED' : str + 'DISABLED');
+            }
+        })
+    }
+
     $(function () {
-        datatable = $('#datatable').dataTable({
+        datatable = $('#usersTable').DataTable({
             "bPaginate": false,
             "aoColumns": [
                 {
@@ -130,8 +150,6 @@
                 ]
             ]
         });
-        makeEditable();
     });
-
 </script>
 </html>

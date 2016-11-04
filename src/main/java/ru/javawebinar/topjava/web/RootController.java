@@ -12,6 +12,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.TimeUtil;
 import ru.javawebinar.topjava.web.meal.AbstractMealRestController;
+import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class RootController {
     private AdminRestController userController;
 
     @Autowired
-    private AbstractMealRestController mealController;
+    private MealRestController mealController;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {
