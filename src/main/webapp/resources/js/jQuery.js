@@ -24,8 +24,9 @@ function updateTableByData(data) {
     datatable.clear().rows.add(data).draw();
 }
 
+var form = $('#detailsForm');
+
 function save() {
-    var form = $('#detailsForm');
     $.ajax({
         type: "POST",
         url: ajaxUrl,
@@ -36,6 +37,16 @@ function save() {
             successNoty('saved');
         }
     });
+}
+
+function updateRow(id)
+{
+    $.get(ajaxUrl + id, function (data) {
+        $.each(data, function (key, value) {
+            form.find("input[name='" + key + "']").val(value);
+        });
+    });
+    $('#editRow').modal();
 }
 
 function fillTable() {

@@ -36,7 +36,7 @@
                                onclick="check($(this), ${user.id})">
                     </td>
                     <td><fmt:formatDate value="${user.registered}" pattern="yyyy-MM-dd hh:mm"/></td>
-                    <td><a class="btn btn-primary edit"><fmt:message key="update"/></a></td>
+                    <td><a class="btn btn-primary edit" onclick="updateRow('${user.id}')"><fmt:message key="update"/></a></td>
                     <td><a class="btn btn-danger delete" onclick="deleteRow('${user.id}')"><fmt:message
                             key="delete"/></a></td>
                 </tr>

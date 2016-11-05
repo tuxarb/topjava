@@ -3,6 +3,8 @@ package ru.javawebinar.topjava.web.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
+import ru.javawebinar.topjava.to.UserTo;
+
 import java.util.List;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -37,6 +39,12 @@ public abstract class AbstractUserController {
         user.setId(id);
         LOG.info("update " + user);
         service.update(user);
+    }
+
+    public void update(UserTo updatedUser)
+    {
+        LOG.info("update " + updatedUser);
+        service.update(updatedUser);
     }
 
     public User getByMail(String email) {

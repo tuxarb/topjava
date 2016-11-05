@@ -22,13 +22,18 @@ public class AdminAjaxController extends AbstractUserController {
         super.delete(id);
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User get(@PathVariable("id") int id)
+    {
+        return super.get(id);
+    }
+
     @PostMapping
     public void createOrUpdate(UserTo newUser) {
-        User user = UsersUtil.createNewUserFromForm(newUser);
-        if (user.isNew()) {
-            super.create(user);
+        if (newUser.isNew()) {
+            super.create(UsersUtil.createNewUserFromForm(newUser));
         } else {
-            super.update(user, user.getId());
+            super.update(newUser);
         }
     }
 
