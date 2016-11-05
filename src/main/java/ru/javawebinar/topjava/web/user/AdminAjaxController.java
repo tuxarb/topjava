@@ -1,13 +1,17 @@
 package ru.javawebinar.topjava.web.user;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UsersUtil;
+import ru.javawebinar.topjava.util.Utils;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static ru.javawebinar.topjava.web.user.AdminAjaxController.URL;
@@ -23,17 +27,26 @@ public class AdminAjaxController extends AbstractUserController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable("id") int id)
-    {
+    public User get(@PathVariable("id") int id) {
         return super.get(id);
     }
 
     @PostMapping
-    public void createOrUpdate(UserTo newUser) {
-        if (newUser.isNew()) {
-            super.create(UsersUtil.createNewUserFromForm(newUser));
+    public ResponseEntity<String> createOrUpdate(@Valid UserTo newUser, BindingResult result) {
+        if (result.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            result.getFieldErrors().forEach(fieldError -> sb.append(Utils.getStringWithFirstCharAtUpperCase(fieldError.getField()))
+                    .append(" ")
+                    .append(fieldError.getDefaultMessage())
+                    .append("<br>"));
+            return new ResponseEntity<>(sb.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
         } else {
-            super.update(newUser);
+            if (newUser.isNew()) {
+                super.create(UsersUtil.createNewUserFromForm(newUser));
+            } else {
+                super.update(newUser);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
@@ -44,8 +57,7 @@ public class AdminAjaxController extends AbstractUserController {
 
 
     @PostMapping(value = "/{id}")
-    public void check(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled)
-    {
+    public void check(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled) {
         super.check(id, enabled);
     }
 

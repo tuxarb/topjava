@@ -11,7 +11,6 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.TimeUtil;
-import ru.javawebinar.topjava.web.meal.AbstractMealRestController;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
 import javax.servlet.http.HttpServletRequest;

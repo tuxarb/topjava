@@ -56,9 +56,10 @@ function fillTable() {
 function failNoty(event, jqXHR, options, jsExc) {
     closeNoty();
     failedNote = noty({
-        text: 'Failed: ' + jqXHR.statusText,
+        text: 'Failed: ' + jqXHR.statusText + '<br>' + $.parseJSON(jqXHR.responseText),
         type: 'error',
-        layout: 'bottomRight'
+        layout: 'bottomRight',
+        timeout: 3500
     });
 }
 
