@@ -31,7 +31,7 @@ public class BaseEntity {
     }
 
     public boolean isNew() {
-        return this.id == null;
+        return getId() == null;
     }
 
     @Override
@@ -47,6 +47,6 @@ public class BaseEntity {
 
     @Override
     public int hashCode() {
-        return id != null ? id : 0;
+        return getId()!= null ? getId() : 0;
     }
 }

@@ -157,25 +157,25 @@
 
     $(function () {
         datatable = $('#mealsTable').DataTable({
-            "bPaginate": false,
-            "bInfo": true,
-            "aoColumns": [
+            "paging": false,
+            "info": true,
+            "columns": [
                 {
-                    "mData": "dateTime"
+                    "data": "dateTime"
                 },
                 {
-                    "mData": "description"
+                    "data": "description"
                 },
                 {
-                    "mData": "calories"
+                    "data": "calories"
                 },
                 {
-                    "sDefaultContent": ""
+                    "defaultContent": "<fmt:message key="update"/>"
                 },
                 {
-                    "sDefaultContent": ""
+                    "defaultContent": "<fmt:message key="delete"/>"
                 }],
-            "aaSorting": [
+            "order": [
                 [
                     0,
                     "desc"

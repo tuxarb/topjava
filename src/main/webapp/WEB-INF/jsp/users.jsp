@@ -15,11 +15,11 @@
         <table class="table table-striped" id="usersTable">
             <thead>
             <tr style="font-weight: bold">
-                <td>Name</td>
-                <td>Email</td>
-                <td>Roles</td>
-                <td>Active</td>
-                <td>Registered</td>
+                <td><fmt:message key="user.name"/></td>
+                <td><fmt:message key="user.email"/></td>
+                <td><fmt:message key="user.roles"/></td>
+                <td><fmt:message key="user.active"/></td>
+                <td><fmt:message key="user.registered"/></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -49,7 +49,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&otimes;</button>
                 <h2 class="modal-title"><fmt:message key="update"/></h2>
             </div>
             <div class="modal-body">
@@ -57,32 +57,32 @@
                     <input type="text" hidden="hidden" id="id" name="id">
 
                     <div class="form-group">
-                        <label for="name" class="control-label col-xs-3">Name</label>
+                        <label for="name" class="control-label col-xs-3"><fmt:message key="user.name"/></label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="<fmt:message key="user.name"/>">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="control-label col-xs-3">Email</label>
+                        <label for="email" class="control-label col-xs-3"><fmt:message key="user.email"/></label>
                         <div class="col-xs-9">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="<fmt:message key="user.email"/>">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="control-label col-xs-3">Password</label>
+                        <label for="password" class="control-label col-xs-3"><fmt:message key="user.password"/></label>
 
                         <div class="col-xs-9">
                             <input type="password" class="form-control" id="password" name="password"
-                                   placeholder="Password">
+                                   placeholder="<fmt:message key="user.password"/>">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-3">
-                            <button type="button" class="btn btn-primary" onclick="save()">Save</button>
+                            <button type="button" class="btn btn-primary" onclick="save()"><fmt:message key="save"/></button>
                         </div>
                     </div>
                 </form>
@@ -109,41 +109,38 @@
             url: ajaxUrl + id,
             data: {"enabled": enabled},
             success: function () {
-                var str = ' was changed on ';
-                successNoty(enabled ? str + 'ENABLED' : str + 'DISABLED');
+                successNoty(enabled ? '<fmt:message key="user.enabled"/>' : '<fmt:message key="user.disabled"/>');
             }
         })
     }
 
     $(function () {
         datatable = $('#usersTable').DataTable({
-            "bPaginate": false,
-            "aoColumns": [
+            "paging": false,
+            "columns": [
                 {
-                    "mData": "name"
+                    "data": "name"
                 },
                 {
-                    "mData": "email"
+                    "data": "email"
                 },
                 {
-                    "mData": "roles"
+                    "data": "roles"
                 },
                 {
-                    "mData": "enabled"
+                    "data": "enabled"
                 },
                 {
-                    "mData": "registered"
+                    "data": "registered"
                 },
                 {
-                    "sDefaultContent": "Edit",
-                    "bSortable": false
+                    "defaultContent": "<fmt:message key="update"/>"
                 },
                 {
-                    "sDefaultContent": "Delete",
-                    "bSortable": false
+                    "defaultContent": "<fmt:message key="delete"/>"
                 }
             ],
-            "aaSorting": [
+            "order": [
                 [
                     0,
                     "asc"

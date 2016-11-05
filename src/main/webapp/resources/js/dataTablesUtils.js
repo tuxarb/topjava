@@ -21,11 +21,7 @@ function deleteRow(id) {
 }
 
 function updateTableByData(data) {
-    datatable.clear();
-    $.each(data, function (key, item) {
-        datatable.row.add(item).draw();
-    });
-    datatable.draw();
+    datatable.clear().rows.add(data).draw();
 }
 
 function save() {

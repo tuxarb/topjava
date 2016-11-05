@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,5 +82,13 @@ public class UserServiceTest extends AbstractServiceTest {
     public void testGetByEmail() throws Exception {
         User user = service.getByEmail("user@yandex.ru");
         MATCHER.assertEquals(USER, user);
+    }
+
+    @Test
+    public void testSetEnabledEquals() {
+        service.check(USER_ID, false);
+        Assert.assertFalse(service.get(USER_ID).isEnabled());
+        service.check(USER_ID, true);
+        Assert.assertTrue(service.get(USER_ID).isEnabled());
     }
 }
