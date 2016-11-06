@@ -81,3 +81,17 @@ function successNoty(text) {
         timeout: 2000
     });
 }
+
+function editBtn(data, type, row)
+{
+    if (type == 'display') {
+        return '<a class="btn btn-primary edit" onclick="updateRow(' + row.id + ')">Edit</a>';
+    }
+}
+
+function deleteBtn(data, type, row)
+{
+    if (type == 'display') {
+        return '<a class="btn btn-danger delete" onclick="deleteRow(' + row.id + ')">Delete</a>';
+    }
+}

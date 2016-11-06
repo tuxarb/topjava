@@ -36,8 +36,7 @@ public class RootController {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public String getUsers(Model model) {
-        model.addAttribute("users", userController.getAll());
+    public String getUsers() {
         return "users";
     }
 

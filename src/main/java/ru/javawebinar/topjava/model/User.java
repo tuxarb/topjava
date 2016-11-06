@@ -42,7 +42,7 @@ public class User extends NamedEntity {
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JsonIgnore
+    //@JsonIgnore
     protected Set<Role> roles;
 
     @Column(name = "calories_per_day", columnDefinition = "DEFAULT 2000", nullable = false)

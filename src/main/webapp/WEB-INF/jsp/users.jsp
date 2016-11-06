@@ -24,7 +24,7 @@
                 <td></td>
             </tr>
             </thead>
-            <c:forEach items="${users}" var="user">
+           <%-- <c:forEach items="${users}" var="user">
                 <jsp:useBean id="user" scope="page" type="ru.javawebinar.topjava.model.User"/>
                 <tr>
                     <td>${user.name}</td>
@@ -40,7 +40,7 @@
                     <td><a class="btn btn-danger delete" onclick="deleteRow('${user.id}')"><fmt:message
                             key="delete"/></a></td>
                 </tr>
-            </c:forEach>
+            </c:forEach>--%>
         </table>
     </div>
 </div>
@@ -96,57 +96,5 @@
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 <script type="text/javascript" src="resources/js/jQuery.js"></script>
-<script type="text/javascript">
-    var ajaxUrl = 'ajax/admin/users/';
-    var datatable;
-
-    controlAjaxErrors();
-
-    function check(checkbox, id) {
-        var enabled = checkbox.is(":checked");
-        checkbox.parent().parent().css('text-decoration', enabled ? 'none' : 'line-through');
-        $.post({
-            url: ajaxUrl + id,
-            data: {"enabled": enabled},
-            success: function () {
-                successNoty(enabled ? '<fmt:message key="user.enabled"/>' : '<fmt:message key="user.disabled"/>');
-            }
-        })
-    }
-
-    $(function () {
-        datatable = $('#usersTable').DataTable({
-            "paging": false,
-            "columns": [
-                {
-                    "data": "name"
-                },
-                {
-                    "data": "email"
-                },
-                {
-                    "data": "roles"
-                },
-                {
-                    "data": "enabled"
-                },
-                {
-                    "data": "registered"
-                },
-                {
-                    "defaultContent": "<fmt:message key="update"/>"
-                },
-                {
-                    "defaultContent": "<fmt:message key="delete"/>"
-                }
-            ],
-            "order": [
-                [
-                    0,
-                    "asc"
-                ]
-            ]
-        });
-    });
-</script>
+<script src="resources/js/usersDatatable.js"></script>
 </html>
