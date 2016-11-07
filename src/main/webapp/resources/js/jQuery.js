@@ -4,8 +4,9 @@ function controlAjaxErrors() {
     });
 }
 
-function add() {
+function add(text) {
     $('#id').val(null);
+    $('#modal-title').html(text);
     $('#editRow').modal();
 }
 
@@ -15,7 +16,7 @@ function deleteRow(id) {
         type: 'DELETE',
         success: function () {
             fillTable();
-            successNoty('deleted');
+            successNoty(messages['deleted']);
         }
     });
 }
@@ -34,7 +35,7 @@ function save() {
         success: function () {
             $('#editRow').modal('hide');
             fillTable();
-            successNoty('saved');
+            successNoty(messages['saved']);
         }
     });
 }
@@ -56,7 +57,7 @@ function fillTable() {
 function failNoty(event, jqXHR, options, jsExc) {
     closeNoty();
     failedNote = noty({
-        text: 'Failed: ' + jqXHR.statusText + '<br>' + $.parseJSON(jqXHR.responseText),
+        text: messages['Failed'] + ': ' + jqXHR.statusText + '<br>' + $.parseJSON(jqXHR.responseText),
         type: 'error',
         layout: 'bottomRight',
         timeout: 3500
@@ -75,7 +76,7 @@ function closeNoty() {
 function successNoty(text) {
     closeNoty();
     noty({
-        text: 'Successfully ' + text + '!',
+        text: messages['success'] + ' ' + text + '!',
         type: 'success',
         layout: 'bottomRight',
         timeout: 2000
@@ -85,13 +86,13 @@ function successNoty(text) {
 function editBtn(data, type, row)
 {
     if (type == 'display') {
-        return '<a class="btn btn-primary edit" onclick="updateRow(' + row.id + ')">Edit</a>';
+        return '<a class="btn btn-primary edit" onclick="updateRow(' + row.id + ')">' + messages['update'] + '</a>';
     }
 }
 
 function deleteBtn(data, type, row)
 {
     if (type == 'display') {
-        return '<a class="btn btn-danger delete" onclick="deleteRow(' + row.id + ')">Delete</a>';
+        return '<a class="btn btn-danger delete" onclick="deleteRow(' + row.id + ')">' + messages['delete'] + '</a>';
     }
 }

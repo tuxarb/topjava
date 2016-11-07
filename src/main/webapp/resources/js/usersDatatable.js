@@ -10,7 +10,7 @@ function check(checkbox, id) {
         url: ajaxUrl + id,
         data: {"enabled": enabled},
         success: function () {
-            successNoty(enabled ? 'enabled' : 'disabled');
+            successNoty(enabled ? messages['user.enabled'] : messages['user.disabled']);
         }
     })
 }

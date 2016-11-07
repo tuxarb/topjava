@@ -16,6 +16,12 @@
         <csrf disabled="true"/>
     </http>
 
+    <http>
+        <intercept-url pattern="/**"/>
+        <form-login/>
+        <logout/>
+    </http>
+
     <authentication-manager>
         <authentication-provider>
             <user-service>
