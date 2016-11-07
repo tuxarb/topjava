@@ -15,7 +15,7 @@
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <div class="navbar-header navbar-brand" style="font-size: 160%"><fmt:message key="app.title"/></div>
+        <div class="navbar-header navbar-brand" style="font-size: 160%; color: deepskyblue"><fmt:message key="app.title"/></div>
         <div class="navbar-collapse collapse">
             <form class="navbar-form navbar-right" action="spring_security_check" method="post">
                 <label style="font-weight: 900; font-size: 145%; color: #a94442"><fmt:message
