@@ -13,6 +13,10 @@ public class UsersUtil {
        return new User(null, userTo.getName(), userTo.getEmail().toLowerCase(), userTo.getPassword(), Role.ROLE_USER);
     }
 
+    public static UserTo asTo(User user) {
+        return new UserTo(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getCaloriesPerDay());
+    }
+
     public static User updateUserFromForm(User user, UserTo userTo)
     {
         user.setName(userTo.getName());

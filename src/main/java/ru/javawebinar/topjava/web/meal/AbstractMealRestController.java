@@ -21,21 +21,21 @@ public class AbstractMealRestController {
 
     public void delete(int id)
     {
-        int userId = AuthorizedUser.getId();
+        int userId = AuthorizedUser.id();
         LOG.info("Delete meal with id={} for user={}", id, userId);
         mealService.delete(id, userId);
     }
 
     public Meal get(int id)
     {
-        int userId = AuthorizedUser.getId();
+        int userId = AuthorizedUser.id();
         LOG.info("Get meal with id={} for user={}", id, userId);
         return mealService.get(id, userId);
     }
 
     public List<MealWithExceed> getAll()
     {
-        int userId = AuthorizedUser.getId();
+        int userId = AuthorizedUser.id();
         LOG.info("Get all meal for user with id={}", userId);
         return MealsUtil.getListWithExceed(mealService.getAll(userId), AuthorizedUser.getCaloriesPerDay());
     }
@@ -43,7 +43,7 @@ public class AbstractMealRestController {
     public Meal create(Meal meal)
     {
         meal.setId(null);
-        int userId = AuthorizedUser.getId();
+        int userId = AuthorizedUser.id();
         LOG.info("Create meal={} for user={}", meal, userId);
         return mealService.save(meal, userId);
     }
@@ -51,13 +51,13 @@ public class AbstractMealRestController {
     public void update(Meal meal, int id)
     {
         meal.setId(id);
-        int userId = AuthorizedUser.getId();
+        int userId = AuthorizedUser.id();
         LOG.info("Update meal={} for user={}", meal, userId);
         mealService.save(meal, userId);
     }
 
     public List<MealWithExceed> getBetween(LocalTime startTime, LocalTime endTime, LocalDate startDate, LocalDate endDate) {
-        int userId = AuthorizedUser.getId();
+        int userId = AuthorizedUser.id();
         LOG.info("Get meals between date {} - {} and time {} - {} for user with id={}", startDate, endDate,
                 startTime, endTime, userId);
         return MealsUtil.getFilteredWithExceeded(
