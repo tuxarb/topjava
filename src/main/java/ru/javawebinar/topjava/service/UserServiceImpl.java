@@ -17,7 +17,7 @@ import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.util.List;
 
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private UserRepository repository;
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
         User u = repository.getByEmail(email);
         if (u == null) {
-            throw new UsernameNotFoundException("User " + email + " is not found");
+            throw new UsernameNotFoundException("User with " + email + " is not found");
         }
         return new AuthorizedUser(u);
     }
