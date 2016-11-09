@@ -2,32 +2,31 @@ package ru.javawebinar.topjava.web;
 
 
 import org.junit.Test;
+import ru.javawebinar.topjava.TestUtil;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static ru.javawebinar.topjava.TestUtil.authorize;
+import static ru.javawebinar.topjava.UserTestData.ADMIN;
 import static ru.javawebinar.topjava.UserTestData.USER;
 
 public class RootControllerTest extends AbstractControllerTest{
     @Test
     public void testUsers() throws Exception {
-        mockMvc.perform(get("/users"))
+        mockMvc.perform(get("/users")
+                .with(TestUtil.authorize(USER)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("users"))
-                .andExpect(forwardedUrl("/WEB-INF/jsp/users.jsp"))
-                .andExpect(model().attribute("users", hasSize(2)))
-                .andExpect(model().attribute("users", hasItem(
-                        allOf(
-                                hasProperty("id", is(1)),
-                                hasProperty("name", is(USER.getName()))
-                        )
-                )));
+                .andExpect(forwardedUrl("/WEB-INF/jsp/users.jsp"));
     }
 
     @Test
     public void testMealsGet() throws Exception
     {
+        authorize(USER);
         mockMvc.perform(get("/meals"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -39,9 +38,17 @@ public class RootControllerTest extends AbstractControllerTest{
     }
 
     @Test
+    public void testUnAuth() throws Exception {
+        mockMvc.perform(get("/users"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/login"));
+    }
+
+    @Test
     public void testCss() throws Exception
     {
-         mockMvc.perform(get("/css/style.css"))
+         mockMvc.perform(get("/resources/css/style.css"))
                  .andDo(print())
                  .andExpect(status().isOk())
                  .andExpect(content().contentTypeCompatibleWith("text/css"));

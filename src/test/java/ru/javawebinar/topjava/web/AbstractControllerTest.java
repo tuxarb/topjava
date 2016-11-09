@@ -19,6 +19,8 @@ import ru.javawebinar.topjava.util.Profiles;
 
 import javax.annotation.PostConstruct;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+
 @ContextConfiguration({
         "classpath:spring/spring-mvc",
         "classpath:spring/spring-app",
@@ -31,7 +33,7 @@ import javax.annotation.PostConstruct;
 public abstract class AbstractControllerTest {
     private static CharacterEncodingFilter filter = new CharacterEncodingFilter();
 
-    static{
+    static {
         filter.setEncoding("UTF-8");
         filter.setForceEncoding(true);
     }
@@ -48,17 +50,16 @@ public abstract class AbstractControllerTest {
     private WebApplicationContext webContext;
 
     @PostConstruct
-    public void postConstruct()
-    {
+    public void postConstruct() {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webContext)
                 //.addFilter(filter)
+                .apply(springSecurity())
                 .build();
     }
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         userService.evictCache();
     }
 
