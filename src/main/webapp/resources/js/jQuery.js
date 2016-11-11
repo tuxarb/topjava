@@ -101,7 +101,8 @@ $(function () {
     $('.datepicker').datetimepicker({
         timepicker: false,
         format: 'Y-m-d',
-        lang: 'ru'
+        lang: 'ru',
+        showOn:'button'
     });
 
     $('.timepicker').datetimepicker({

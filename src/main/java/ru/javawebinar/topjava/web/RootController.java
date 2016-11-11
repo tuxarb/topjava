@@ -1,27 +1,13 @@
 package ru.javawebinar.topjava.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.to.MealWithExceed;
-import ru.javawebinar.topjava.util.TimeUtil;
-import ru.javawebinar.topjava.web.meal.MealRestController;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class RootController {
-    @Autowired
-    private MealRestController mealController;
+    /*@Autowired
+    private MealRestController mealController;*/
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {
@@ -44,13 +30,11 @@ public class RootController {
 
 
     @RequestMapping(value = "/meals", method = RequestMethod.GET)
-    public String getMeals(Model model) {
-        List<MealWithExceed> mealList = mealController.getAll();
-        model.addAttribute("mealList", mealList);
+    public String getMeals() {
         return "meals";
     }
 
-    @RequestMapping(value = "/meals", params = {"action=filter"}, method = RequestMethod.POST)
+    /*@RequestMapping(value = "/meals", params = {"action=filter"}, method = RequestMethod.POST)
     public String filterMeals(Model model, HttpServletRequest req) {
         LocalDate startDate = TimeUtil.parseLocalDate(req.getParameter("startDate"));
         LocalDate endDate = TimeUtil.parseLocalDate(req.getParameter("endDate"));
@@ -86,12 +70,10 @@ public class RootController {
     private int getId(HttpServletRequest req) {
         String paramId = Objects.requireNonNull(req.getParameter("id"));
         return Integer.parseInt(paramId);
-    }
+    }*/
 
     @GetMapping("/ru_text")
-    public
-    @ResponseBody
-    String testUTF() {
+    public @ResponseBody String testUTF() {
         return "Русские буквы";
     }
 }
