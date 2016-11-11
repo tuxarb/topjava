@@ -6,6 +6,7 @@ function controlAjaxErrors() {
 
 function add(text) {
     $('#id').val(null);
+    $('#detailsForm')[0].reset();
     $('#modal-title').html(text);
     $('#editRow').modal();
 }
@@ -40,10 +41,11 @@ function save() {
     });
 }
 
-function updateRow(id)
-{
+function updateRow(id) {
     $.get(ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
+            if (key == 'dateTime')
+                value = value.toString().replace('T', ' ').substr(0, 16);
             form.find("input[name='" + key + "']").val(value);
         });
     });
@@ -57,7 +59,7 @@ function fillTable() {
 function failNoty(event, jqXHR, options, jsExc) {
     closeNoty();
     failedNote = noty({
-        text: messages['Failed'] + ': ' + jqXHR.statusText + '<br>' + $.parseJSON(jqXHR.responseText),
+        text: messages['failed'] + ': ' + jqXHR.statusText + '<br>' + $.parseJSON(jqXHR.responseText),
         type: 'error',
         layout: 'bottomRight',
         timeout: 3500
@@ -83,16 +85,33 @@ function successNoty(text) {
     });
 }
 
-function editBtn(data, type, row)
-{
+function editBtn(data, type, row) {
     if (type == 'display') {
         return '<a class="btn btn-primary edit" onclick="updateRow(' + row.id + ')">' + messages['update'] + '</a>';
     }
 }
 
-function deleteBtn(data, type, row)
-{
+function deleteBtn(data, type, row) {
     if (type == 'display') {
         return '<a class="btn btn-danger delete" onclick="deleteRow(' + row.id + ')">' + messages['delete'] + '</a>';
     }
 }
+
+$(function () {
+    $('.datepicker').datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d',
+        lang: 'ru'
+    });
+
+    $('.timepicker').datetimepicker({
+        datepicker: false,
+        format: 'H:i',
+        lang: 'ru'
+    });
+
+    $('.datetimepicker').datetimepicker({
+        format: 'Y-m-d H:i',
+        lang: 'ru'
+    });
+});

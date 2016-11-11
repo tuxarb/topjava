@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
-<link rel="stylesheet" href="webjars/datatables/1.10.12/css/jquery.dataTables.min.css">
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <div class="jumbotron">
@@ -20,7 +19,10 @@
                                 <label for="startDate"><h4><fmt:message key="date.from"/></h4></label>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" type="date" id="startDate" name="startDate">
+                                <div class="input-group">
+                                    <input class="form-control datepicker" type="text" id="startDate"
+                                           name="startDate">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -28,7 +30,7 @@
                                 <label for="endDate"><h4><fmt:message key="date.to"/></h4></label>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" type="date" id="endDate" name="endDate">
+                                <input class="form-control datepicker" type="text" id="endDate" name="endDate">
                             </div>
                         </div>
                     </div>
@@ -38,7 +40,7 @@
                                 <label for="startTime"><h4><fmt:message key="time.from"/></h4></label>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" type="time" id="startTime" name="startTime">
+                                <input class="form-control timepicker" type="text" id="startTime" name="startTime">
                             </div>
                         </div>
                         <div class="form-group">
@@ -46,7 +48,7 @@
                                 <label for="endTime"><h4><fmt:message key="time.to"/></h4></label>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" type="time" id="endTime" name="endTime">
+                                <input class="form-control timepicker" type="text" id="endTime" name="endTime">
                             </div>
                         </div>
                     </div>
@@ -61,7 +63,7 @@
         </div>
 
         <br><br>
-        <a class="btn btn-info" onclick=add()><fmt:message key="meal.add"/></a><br><br>
+        <a class="btn btn-info" onclick=add('<fmt:message key="meal.add"/>')><fmt:message key="meal.add"/></a><br><br>
 
         <table class="table table-bordered" id="mealsTable">
             <thead style="font-weight: bold">
@@ -71,6 +73,7 @@
             <td></td>
             <td></td>
             </thead>
+            <%--
             <c:forEach items="${mealList}" var="meal">
                 <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>
                 <tr class="${meal.exceed ? 'danger' : 'normal'}">
@@ -79,21 +82,22 @@
                     </td>
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
-                    <td><a class="btn btn-primary edit"><fmt:message key="update"/> </a></td>
-                    <td><a class="btn btn-danger delete" onclick="deleteRow('${meal.id}')"><fmt:message
-                            key="delete"/></a></td>
+                    <td><a class="btn btn-primary edit" onclick="updateRow('${meal.id}')"><fmt:message key="update"/></a></td>
+                    <td><a class="btn btn-danger delete" onclick="deleteRow('${meal.id}')"><fmt:message key="delete"/></a></td>
                 </tr>
             </c:forEach>
+               --%>
         </table>
     </div>
 </div>
+</body>
 
 <div class="modal fade" id="editRow">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="background-color: burlywood; color: black">
             <div class="modal-header">
-                <button class="close" data-dismiss="modal" aria-hidden="true">&otimes;</button>
-                <h2 class="modal-title"><fmt:message key="meal.add"/></h2>
+                <button class="close" data-dismiss="modal" aria-hidden="true" style="color: red">&otimes;</button>
+                <h2 id="modal-title" class="modal-title"><fmt:message key="update"/></h2>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" method="post" id="detailsForm">
@@ -103,7 +107,7 @@
                         <label for="dateTime" class="control-label col-xs-3"><fmt:message key="meal.date"/></label>
 
                         <div class="col-xs-9">
-                            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime">
+                            <input type="text" class="form-control datetimepicker" id="dateTime" name="dateTime">
                         </div>
                     </div>
 
@@ -127,7 +131,8 @@
 
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-3">
-                            <button type="button" class="btn btn-primary" onclick="save()">Save</button>
+                            <button type="button" class="btn btn-primary" onclick="save()"><fmt:message
+                                    key="save"/></button>
                         </div>
                     </div>
                 </form>
@@ -135,54 +140,13 @@
         </div>
     </div>
 </div>
-</body>
 
 <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript" src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>
-<script type="text/javascript" src="resources/js/jQuery.js"></script>
-<script type="text/javascript">
-    var ajaxUrl = 'ajax/profile/meals/';
+<script src="webjars/datetimepicker/2.4.7/build/jquery.datetimepicker.full.min.js"></script>
+<script src="resources/js/jQuery.js"></script>
+<script src="resources/js/mealsDatatable.js"></script>
 
-    function updateTableByFilter() {
-        $.post({
-            url: ajaxUrl + 'filter',
-            data: $('#filterForm').serialize(),
-            success: [updateTableByData, successNoty("filtered")]
-        })
-    }
-
-    var datatable;
-
-    $(function () {
-        datatable = $('#mealsTable').DataTable({
-            "paging": false,
-            "info": true,
-            "columns": [
-                {
-                    "data": "dateTime"
-                },
-                {
-                    "data": "description"
-                },
-                {
-                    "data": "calories"
-                },
-                {
-                    "defaultContent": "<fmt:message key="update"/>"
-                },
-                {
-                    "defaultContent": "<fmt:message key="delete"/>"
-                }],
-            "order": [
-                [
-                    0,
-                    "desc"
-                ]
-            ]
-        });
-        controlAjaxErrors();
-    });
-</script>
 </html>

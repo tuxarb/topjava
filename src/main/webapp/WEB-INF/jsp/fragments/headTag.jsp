@@ -8,5 +8,14 @@
     <link rel="stylesheet" href="resources/css/style.css">
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css">
     <link rel="shortcut icon" href="resources/images/icon-meal.png">
+    <link rel="stylesheet" href="webjars/datatables/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="webjars/datetimepicker/2.4.7/jquery.datetimepicker.css"/>
+
+    <script>
+        var messages = [];
+        <c:forEach var="key" items='<%=new String[]{"success", "failed", "deleted", "saved", "user.enabled", "user.disabled", "update", "delete", "meal.filtered"}%>'>
+        messages['${key}'] = "<fmt:message key="${key}"/>";
+        </c:forEach>
+    </script>
 </head>
 

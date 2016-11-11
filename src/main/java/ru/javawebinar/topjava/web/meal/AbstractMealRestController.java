@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
+import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.TimeUtil;
@@ -54,6 +55,13 @@ public class AbstractMealRestController {
         int userId = AuthorizedUser.id();
         LOG.info("Update meal={} for user={}", meal, userId);
         mealService.save(meal, userId);
+    }
+
+    public void update(MealTo editedMeal)
+    {
+        int userId = AuthorizedUser.id();
+        LOG.info("Update meal={} for user={}", editedMeal, userId);
+        mealService.update(editedMeal, userId);
     }
 
     public List<MealWithExceed> getBetween(LocalTime startTime, LocalTime endTime, LocalDate startDate, LocalDate endDate) {
