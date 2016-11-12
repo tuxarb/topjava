@@ -1,6 +1,5 @@
 var ajaxUrl = 'ajax/profile/meals/';
 
-
 controlAjaxErrors();
 
 function updateTableByFilter() {

@@ -5,11 +5,11 @@ controlAjaxErrors();
 
 function check(checkbox, id) {
     var enabled = checkbox.is(":checked");
-    checkbox.parent().parent().css('text-decoration', enabled ? 'none' : 'line-through');
     $.post({
         url: ajaxUrl + id,
         data: {"enabled": enabled},
         success: function () {
+            checkbox.parent().parent().css('text-decoration', enabled ? 'none' : 'line-through');
             successNoty(enabled ? messages['user.enabled'] : messages['user.disabled']);
         }
     })

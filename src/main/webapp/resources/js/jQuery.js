@@ -97,12 +97,12 @@ function deleteBtn(data, type, row) {
     }
 }
 
-$(function () {
+function dateTimePicker() {
     $('.datepicker').datetimepicker({
         timepicker: false,
         format: 'Y-m-d',
         lang: 'ru',
-        showOn:'button'
+        showOn: 'button'
     });
 
     $('.timepicker').datetimepicker({
@@ -115,4 +115,4 @@ $(function () {
         format: 'Y-m-d H:i',
         lang: 'ru'
     });
-});
+}

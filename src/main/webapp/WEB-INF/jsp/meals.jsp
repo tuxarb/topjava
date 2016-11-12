@@ -2,6 +2,8 @@
 <%@ page import="ru.javawebinar.topjava.util.TimeUtil" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
@@ -149,5 +151,10 @@
 <script src="webjars/datetimepicker/2.4.7/build/jquery.datetimepicker.full.min.js"></script>
 <script src="resources/js/jQuery.js"></script>
 <script src="resources/js/mealsDatatable.js"></script>
+
+
+<script>
+    dateTimePicker();
+</script>
 
 </html>
