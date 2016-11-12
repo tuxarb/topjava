@@ -10,9 +10,8 @@
         <a href="meals" class="navbar-brand"><fmt:message key="app.title"/></a>
         <div class="collapse navbar-collapse">
             <form class="navbar-form navbar-right">
-                <%-- <a class="btn btn-info" href="${base}"><fmt:message key="app.home"/></a>--%>
-
                 <sec:authorize access="isAuthenticated()">
+                    <a class="btn btn-info" href="${base}/profile"><fmt:message key="app.profile"/></a>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                         <a class="btn btn-info" role="button" href="users"><fmt:message key="user.title"/></a>
                     </sec:authorize>
