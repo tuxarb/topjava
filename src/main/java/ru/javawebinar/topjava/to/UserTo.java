@@ -39,6 +39,7 @@ public class UserTo implements Serializable{
         this.caloriesPerDay = caloriesPerDay;
     }
 
+
     public Integer getId() {
         return id;
     }
@@ -77,6 +78,10 @@ public class UserTo implements Serializable{
 
     public int getCaloriesPerDay() {
         return caloriesPerDay;
+    }
+
+    public void setCaloriesPerDay(Integer caloriesPerDay) {
+        this.caloriesPerDay = caloriesPerDay;
     }
 
     @Override

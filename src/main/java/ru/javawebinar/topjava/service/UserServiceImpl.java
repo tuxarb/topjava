@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     public void update(UserTo userTo) {
         User updatedUser = get(userTo.getId());
-        repository.save(UsersUtil.updateUserFromForm(updatedUser, userTo));
+        repository.save(UsersUtil.getUserFromUserTo(updatedUser, userTo));
     }
 
     @Override

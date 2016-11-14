@@ -1,48 +1,25 @@
-<!DOCTYPE html>
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="topjava" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
-<html>
-<jsp:include page="fragments/headTag.jsp"/>
+<%@ attribute name="name" required="true" description="Name of corresponding property in bean object" %>
+<%@ attribute name="label" required="true" description="Field label" %>
+<%@ attribute name="inputType" required="false" description="Input type" %>
 
-<body>
-<jsp:include page="fragments/bodyHeader.jsp"/>
 
-<div class="jumbotron">
-    <div class="container">
-        <div class="shadow">
-            <h2>${userTo.name} <fmt:message key="app.profile"/></h2>
+<spring:bind path="${name}">
 
-            <div class="view-box">
-                <form:form modelAttribute="userTo" class="form-horizontal" method="post" action="profile"
-                           charset="utf-8" accept-charset="UTF-8">
+    <c:set var="cssGroup" value="form-group ${status.error ? 'error' : '' }"/>
+    <div class="${cssGroup}" style='font-size: large'>
+        <label class="control-label col-xs-2">${label}</label>
 
-                    <fmt:message key="users.name" var="userName"/>
-                    <topjava:inputField label='${userName}' name="name"/>
-
-                    <fmt:message key="users.email" var="userEmail"/>
-                    <topjava:inputField label='${userEmail}' name="email"/>
-
-                    <fmt:message key="users.password" var="userPassword"/>
-                    <topjava:inputField label='${userPassword}' name="password" inputType="password"/>
-
-                    <fmt:message key="users.caloriesPerDay" var="caloriesPerDay"/>
-                    <topjava:inputField label='${caloriesPerDay}' name="caloriesPerDay" inputType="number"/>
-
-                    <div class="form-group">
-                        <div class="col-xs-offset-2 col-xs-10">
-                            <button type="submit" class="btn btn-primary"><fmt:message key="common.update"/></button>
-                        </div>
-                    </div>
-                </form:form>
-            </div>
+        <div class="col-xs-8">
+            <c:choose>
+                <c:when test="${inputType == 'password'}"><form:input path="${name}"/></c:when>
+                <c:when test="${inputType == 'number'}"><form:input path="${name}" type="number"/></c:when>
+                <c:otherwise><form:input path="${name}"/></c:otherwise>
+            </c:choose>
+            &nbsp;<span class="help-inline" style="color: #000000; font-size: x-large">${status.errorMessage}</span>
         </div>
     </div>
-</div>
-
-</body>
-</html>
+</spring:bind>

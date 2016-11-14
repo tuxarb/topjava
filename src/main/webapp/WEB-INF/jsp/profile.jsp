@@ -1,25 +1,43 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="topjava" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
-<%@ attribute name="name" required="true" description="Name of corresponding property in bean object" %>
-<%@ attribute name="label" required="true" description="Field label" %>
-<%@ attribute name="inputType" required="false" description="Input type" %>
+<html>
+<jsp:include page="fragments/headTag.jsp"/>
 
+<body>
+<jsp:include page="fragments/bodyHeader.jsp"/>
 
-<spring:bind path="${name}">
-    <c:set var="cssGroup" value="form-group ${status.error ? 'error' : '' }"/>
-    <div class="${cssGroup}">
-        <label class="control-label col-xs-2">${label}</label>
+<div class="jumbotron">
+    <div class="container">
+        <h2 style="margin-left: 175px"><fmt:message key="app.profile"/></h2>
+        <br><br>
+        <form:form modelAttribute="userTo" class="form-horizontal" method="post" action="profile"
+                   charset="utf-8" accept-charset="UTF-8">
 
-        <div class="col-xs-8">
-            <c:choose>
-                <c:when test="${inputType == 'password'}"><form:password path="${name}"/></c:when>
-                <c:when test="${inputType == 'number'}"><form:input path="${name}" type="number"/></c:when>
-                <c:otherwise><form:input path="${name}"/></c:otherwise>
-            </c:choose>
-            &nbsp;<span class="help-inline">${status.errorMessage}</span>
-        </div>
+            <fmt:message key="user.name" var="userName"/>
+            <topjava:inputField label='${userName}' name="name"/>
+
+            <fmt:message key="user.email" var="userEmail"/>
+            <topjava:inputField label='${userEmail}' name="email"/>
+
+            <fmt:message key="user.password" var="userPassword"/>
+            <topjava:inputField label='${userPassword}' name="password" inputType="password"/>
+
+            <fmt:message key="user.caloriesPerDay" var="caloriesPerDay"/>
+            <topjava:inputField label='${caloriesPerDay}' name="caloriesPerDay" inputType="number"/>
+
+            <div class="form-group">
+                <div class="col-xs-offset-2 col-xs-10">
+                    <button type="submit" class="btn btn-primary"><fmt:message key="update"/></button>
+                </div>
+            </div>
+        </form:form>
     </div>
-</spring:bind>
+</div>
+
+</body>
+</html>

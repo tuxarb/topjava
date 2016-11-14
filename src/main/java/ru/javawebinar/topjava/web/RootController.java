@@ -3,10 +3,17 @@ package ru.javawebinar.topjava.web;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
+import ru.javawebinar.topjava.AuthorizedUser;
+import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.web.user.AbstractUserController;
+
+import javax.validation.Valid;
 
 @Controller
-public class RootController {
+public class RootController extends AbstractUserController{
     /*@Autowired
     private MealRestController mealController;*/
 
@@ -34,6 +41,27 @@ public class RootController {
     @RequestMapping(value = "/meals", method = RequestMethod.GET)
     public String getMeals() {
         return "meals";
+    }
+
+    @GetMapping("/profile")
+    public String profile()
+    {
+        return "profile";
+    }
+
+    @PostMapping("/profile")
+    public String updateProfile(@Valid UserTo userTo, BindingResult bindingResult, SessionStatus status)
+    {
+        if (bindingResult.hasErrors()) {
+            return "profile";
+        }
+
+        userTo.setId(AuthorizedUser.id());
+        super.update(userTo);
+        AuthorizedUser.get().update(userTo);
+        status.setComplete();
+
+        return "redirect:meals";
     }
 
     /*@RequestMapping(value = "/meals", params = {"action=filter"}, method = RequestMethod.POST)
