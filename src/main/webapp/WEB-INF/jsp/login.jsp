@@ -15,7 +15,8 @@
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <div class="navbar-header navbar-brand" style="font-size: 160%; color: deepskyblue"><fmt:message key="app.title"/></div>
+        <div class="navbar-header navbar-brand" style="font-size: 160%; color: deepskyblue"><fmt:message
+                key="app.title"/></div>
         <div class="navbar-collapse collapse">
             <form class="navbar-form navbar-right" action="spring_security_check" method="post">
                 <label style="font-weight: 900; font-size: 145%; color: #a94442"><fmt:message
@@ -37,7 +38,9 @@
                         <button class="btn btn-success" type="submit"><fmt:message key="app.login"/></button>
                     </div>
                 </div>
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/register" style="margin-left: -15px"><fmt:message key="app.register"/></a>
             </form>
+
         </div>
     </div>
 </div>
@@ -49,11 +52,11 @@
                     ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
             </div>
         </c:if>
-        <%--<c:if test="${not empty message}">
+        <c:if test="${not empty message}">
             <div class="message">
                 <fmt:message key="${message}"/>
             </div>
-        </c:if>--%>
+        </c:if>
     </div>
 </div>
 </body>

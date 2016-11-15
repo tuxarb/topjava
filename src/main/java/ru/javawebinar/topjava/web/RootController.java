@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.util.UsersUtil;
 import ru.javawebinar.topjava.web.user.AbstractUserController;
 
 import javax.validation.Valid;
 
 @Controller
-public class RootController extends AbstractUserController{
+public class RootController extends AbstractUserController {
     /*@Autowired
     private MealRestController mealController;*/
 
@@ -44,14 +45,12 @@ public class RootController extends AbstractUserController{
     }
 
     @GetMapping("/profile")
-    public String profile()
-    {
+    public String profile() {
         return "profile";
     }
 
     @PostMapping("/profile")
-    public String updateProfile(@Valid UserTo userTo, BindingResult bindingResult, SessionStatus status)
-    {
+    public String updateProfile(@Valid UserTo userTo, BindingResult bindingResult, SessionStatus status) {
         if (bindingResult.hasErrors()) {
             return "profile";
         }
@@ -62,6 +61,25 @@ public class RootController extends AbstractUserController{
         status.setComplete();
 
         return "redirect:meals";
+    }
+
+    @GetMapping("/register")
+    public String register(ModelMap map) {
+        map.put("userTo", new UserTo());
+        map.put("register", true);
+        return "profile";
+    }
+
+    @PostMapping("/register")
+    public String doRegister(@Valid UserTo userTo, BindingResult result, SessionStatus sessionStatus, ModelMap map) {
+        if (result.hasErrors()) {
+            map.put("register", true);
+            return "profile";
+        }
+
+        super.create(UsersUtil.createNewUserFromForm(userTo));
+        sessionStatus.setComplete();
+        return "redirect:login?message=app.registered";
     }
 
     /*@RequestMapping(value = "/meals", params = {"action=filter"}, method = RequestMethod.POST)
@@ -103,7 +121,9 @@ public class RootController extends AbstractUserController{
     }*/
 
     @GetMapping("/ru_text")
-    public @ResponseBody String testUTF() {
+    public
+    @ResponseBody
+    String testUTF() {
         return "Русские буквы";
     }
 }

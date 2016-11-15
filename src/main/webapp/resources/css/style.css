@@ -3,18 +3,19 @@
 }
 
 .error, .message {
+    text-align: center;
     padding: 10px;
     font-size: 20px;
 }
 
 .error {
-    text-align: center;
     color: #666666;
     background-color: #ff4431;
 }
 
 .message {
-    color: #2f9635;
+    font-weight: bold;
+    color: #000000;
     background-color: #c6fbc2;
     border: 1px solid #9feba6;
 }

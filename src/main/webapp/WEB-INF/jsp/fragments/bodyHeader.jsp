@@ -15,7 +15,7 @@
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                         <a class="btn btn-info" role="button" href="users"><fmt:message key="user.title"/></a>
                     </sec:authorize>
-                    <a class="btn btn-danger" role="button" href="${base}/logout"><fmt:message key="app.logout"/></a>
+                    <a class="btn btn-danger" href="${base}/logout"><fmt:message key="app.logout"/></a>
                 </sec:authorize>
             </form>
         </div>

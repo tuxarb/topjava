@@ -13,10 +13,21 @@
 
 <div class="jumbotron">
     <div class="container">
-        <h2 style="margin-left: 175px"><fmt:message key="app.profile"/></h2>
+        <h2 style="margin-left: 185px">
+            <c:choose>
+                <c:when test="${register}">
+                    <fmt:message key="app.register"/>
+                    <fmt:message key="app.toRegister" var="save"/>
+                </c:when>
+                <c:otherwise>
+                    <fmt:message key="app.profile"/>
+                    <fmt:message key="save" var="save"/>
+                </c:otherwise>
+            </c:choose>
+        </h2>
         <br><br>
-        <form:form modelAttribute="userTo" class="form-horizontal" method="post" action="profile"
-                   charset="utf-8" accept-charset="UTF-8">
+        <form:form modelAttribute="userTo" class="form-horizontal" method="post"
+                   action="${register ? 'register' : 'profile'}" charset="utf-8" accept-charset="UTF-8">
 
             <fmt:message key="user.name" var="userName"/>
             <topjava:inputField label='${userName}' name="name"/>
@@ -32,7 +43,7 @@
 
             <div class="form-group">
                 <div class="col-xs-offset-2 col-xs-10">
-                    <button type="submit" class="btn btn-primary"><fmt:message key="update"/></button>
+                    <button type="submit" class="btn btn-primary">${save}</button>
                 </div>
             </div>
         </form:form>
