@@ -58,8 +58,9 @@ function fillTable() {
 
 function failNoty(event, jqXHR, options, jsExc) {
     closeNoty();
+    var exceptionMessage = $.parseJSON(jqXHR.responseText);
     failedNote = noty({
-        text: messages['failed'] + ': ' + jqXHR.statusText + '<br>' + $.parseJSON(jqXHR.responseText),
+        text: messages['failed'] + ': ' + jqXHR.statusText + '<br>' + exceptionMessage.cause + '<br>' + exceptionMessage.detail ,
         type: 'error',
         layout: 'bottomRight',
         timeout: 3500
