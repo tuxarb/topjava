@@ -1,5 +1,6 @@
 var ajaxUrl = 'ajax/profile/meals/';
 
+csrf_token_check();
 controlAjaxErrors();
 
 function updateTableByFilter() {

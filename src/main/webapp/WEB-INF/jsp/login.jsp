@@ -1,5 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
@@ -18,7 +19,7 @@
         <div class="navbar-header navbar-brand" style="font-size: 160%; color: deepskyblue"><fmt:message
                 key="app.title"/></div>
         <div class="navbar-collapse collapse">
-            <form class="navbar-form navbar-right" action="spring_security_check" method="post">
+            <form:form class="navbar-form navbar-right" action="spring_security_check" method="post">
                 <label style="font-weight: 900; font-size: 145%; color: #a94442"><fmt:message
                         key="app.authorization"/></label>
                 <div class="form-group">
@@ -39,7 +40,7 @@
                     </div>
                 </div>
                     <a class="btn btn-primary" href="${pageContext.request.contextPath}/register" style="margin-left: -15px"><fmt:message key="app.register"/></a>
-            </form>
+            </form:form>
 
         </div>
     </div>

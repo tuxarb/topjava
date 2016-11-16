@@ -1,6 +1,7 @@
 var ajaxUrl = 'ajax/admin/users/';
 var datatable;
 
+csrf_token_check();
 controlAjaxErrors();
 
 function check(checkbox, id) {
