@@ -3,10 +3,10 @@ DELETE FROM users;
 ALTER SEQUENCE global_seq RESTART WITH 1;
 
 INSERT INTO users (name, email, password, calories_per_day)
-VALUES ('User', 'user@yandex.ru', 'password', 2500);
+VALUES ('User', 'user@yandex.ru', '$2a$10$Ka5AzcEluHZ5MFo6G/5z7egf//8Gpvh7Ro2rQSSS1CfPMDAdgmWoS', 2500);
 
 INSERT INTO users (name, email, password, calories_per_day)
-VALUES ('Admin', 'admin@gmail.com', 'admin', 3000);
+VALUES ('Admin', 'admin@gmail.com', '$2a$10$znQRgtVYYDUkm3WmrYq5zuCauRAvs1BCuglwK579S4GBOKQo5Ah3S', 3000);
 
 INSERT INTO user_roles (role, user_id) VALUES
   ('ROLE_USER', 1),

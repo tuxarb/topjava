@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @CacheEvict(value = "users", allEntries = true)
     public User save(User user) {
         Assert.notNull(user, "user must not be null");
-        return repository.save(user);
+        return repository.save(UsersUtil.prepareToSave(user));
     }
 
     @Override
@@ -57,15 +57,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @CacheEvict(value = "users", allEntries = true)
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
-        repository.save(user);
+        repository.save(UsersUtil.prepareToSave(user));
     }
 
     @Override
     @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public void update(UserTo userTo) {
-        User updatedUser = get(userTo.getId());
-        repository.save(UsersUtil.getUserFromUserTo(updatedUser, userTo));
+        User updatedUser = UsersUtil.getUserFromUserTo(get(userTo.getId()), userTo);
+        repository.save(UsersUtil.prepareToSave(updatedUser));
     }
 
     @Override
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
-        User u = repository.getByEmail(email);
+        User u = repository.getByEmail(email.toLowerCase());
         if (u == null) {
             throw new UsernameNotFoundException("User with " + email + " is not found");
         }

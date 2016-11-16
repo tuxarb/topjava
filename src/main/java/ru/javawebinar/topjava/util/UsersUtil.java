@@ -25,4 +25,10 @@ public class UsersUtil {
         user.setCaloriesPerDay(userTo.getCaloriesPerDay());
         return user;
     }
+
+    public static User prepareToSave(User user) {
+        user.setPassword(PasswordUtil.encode(user.getPassword()));
+        user.setEmail(user.getEmail().toLowerCase());
+        return user;
+    }
 }
