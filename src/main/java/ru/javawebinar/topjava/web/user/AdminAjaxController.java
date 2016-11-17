@@ -1,15 +1,11 @@
 package ru.javawebinar.topjava.web.user;
 
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UsersUtil;
-import ru.javawebinar.topjava.util.Utils;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -32,23 +28,20 @@ public class AdminAjaxController extends AbstractUserController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createOrUpdate(@Valid UserTo newUser, BindingResult result) {
-        if (result.hasErrors()) {
+    public void createOrUpdate(@Valid UserTo newUser) {
+        /*if (result.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             result.getFieldErrors().forEach(fieldError -> sb.append(Utils.getStringWithFirstCharAtUpperCase(fieldError.getField()))
                     .append(" ")
                     .append(fieldError.getDefaultMessage())
                     .append("<br>"));
-            return new ResponseEntity<>(sb.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
         } else {
-            if (newUser.isNew()) {
+            */if (newUser.isNew()) {
                 super.create(UsersUtil.createNewUserFromForm(newUser));
             } else {
                 super.update(newUser);
             }
-            return new ResponseEntity<>(HttpStatus.OK);
         }
-    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
