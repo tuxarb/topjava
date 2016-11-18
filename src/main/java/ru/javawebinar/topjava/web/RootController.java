@@ -61,7 +61,7 @@ public class RootController extends AbstractUserController {
 
                 return "redirect:meals";
             } catch (DataIntegrityViolationException e) {
-                bindingResult.reject("email", "user.duplicateMail");
+                bindingResult.rejectValue("email", "user.duplicatedMail");
             }
         }
 

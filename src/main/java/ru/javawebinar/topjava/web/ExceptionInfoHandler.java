@@ -20,7 +20,7 @@ import java.util.Arrays;
 @ControllerAdvice(annotations = RestController.class)
 public class ExceptionInfoHandler {
     private static final Logger LOG = LoggerFactory.getLogger(ExceptionInfoHandler.class);
-    @ResponseStatus(HttpStatus.NOT_FOUND) // 404
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY) // 422
     @ExceptionHandler(NotFoundException.class)
     @ResponseBody
     @Order(Ordered.HIGHEST_PRECEDENCE)
