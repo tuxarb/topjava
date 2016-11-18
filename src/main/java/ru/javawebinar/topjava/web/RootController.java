@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.web;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -51,16 +52,20 @@ public class RootController extends AbstractUserController {
 
     @PostMapping("/profile")
     public String updateProfile(@Valid UserTo userTo, BindingResult bindingResult, SessionStatus status) {
-        if (bindingResult.hasErrors()) {
-            return "profile";
+        if (!bindingResult.hasErrors()) {
+            try {
+                userTo.setId(AuthorizedUser.id());
+                super.update(userTo);
+                AuthorizedUser.get().update(userTo);
+                status.setComplete();
+
+                return "redirect:meals";
+            } catch (DataIntegrityViolationException e) {
+                bindingResult.reject("email", "user.duplicateMail");
+            }
         }
 
-        userTo.setId(AuthorizedUser.id());
-        super.update(userTo);
-        AuthorizedUser.get().update(userTo);
-        status.setComplete();
-
-        return "redirect:meals";
+        return "profile";
     }
 
     @GetMapping("/register")
@@ -72,14 +77,17 @@ public class RootController extends AbstractUserController {
 
     @PostMapping("/register")
     public String doRegister(@Valid UserTo userTo, BindingResult result, SessionStatus sessionStatus, ModelMap map) {
-        if (result.hasErrors()) {
-            map.put("register", true);
-            return "profile";
+        if (!result.hasErrors()) {
+            try {
+                super.create(UsersUtil.createNewUserFromForm(userTo));
+                sessionStatus.setComplete();
+                return "redirect:login?message=app.registered";
+            } catch (DataIntegrityViolationException e) {
+                result.rejectValue("email", "user.duplicatedMail");
+            }
         }
-
-        super.create(UsersUtil.createNewUserFromForm(userTo));
-        sessionStatus.setComplete();
-        return "redirect:login?message=app.registered";
+        map.put("register", true);
+        return "profile";
     }
 
     /*@RequestMapping(value = "/meals", params = {"action=filter"}, method = RequestMethod.POST)
