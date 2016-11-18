@@ -42,22 +42,11 @@ public class MealAjaxController extends AbstractMealRestController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createOrUpdate(@Valid MealTo newMeal, BindingResult result) {
-        if (result.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            result.getFieldErrors().forEach(fe -> sb.append(Utils.getStringWithFirstCharAtUpperCase(fe.getField()))
-                    .append(" ")
-                    .append(Utils.caloriesForMealIsAStringException(fe.getDefaultMessage()))
-                    .append("<br>"));
-            return new ResponseEntity<>(sb.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-
+    public void createOrUpdate(@Valid MealTo newMeal) {
         if (newMeal.isNew()) {
             super.create(MealsUtil.createNewMealFromForm(newMeal));
         } else
             super.update(newMeal);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)

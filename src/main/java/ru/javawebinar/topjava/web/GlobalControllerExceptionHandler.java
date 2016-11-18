@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalControllerExceptionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     @Order(Ordered.LOWEST_PRECEDENCE)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception ex) throws Exception {
         LOG.error("Exception at request " + req.getRequestURL(), ex);
@@ -28,5 +28,5 @@ public class GlobalControllerExceptionHandler {
             mav.addObject("userTo", authorizedUser.getUserTo());
         }
         return mav;
-    }
+    }*/
 }

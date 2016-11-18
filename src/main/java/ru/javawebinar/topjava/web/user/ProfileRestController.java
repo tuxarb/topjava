@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
-import ru.javawebinar.topjava.util.UsersUtil;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(ProfileRestController.URL)
@@ -24,7 +25,7 @@ public class ProfileRestController extends AbstractUserController {
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody UserTo userTo) {
+    public void update(@Valid @RequestBody UserTo userTo) {
         userTo.setId(AuthorizedUser.id());
         super.update(userTo);
     }

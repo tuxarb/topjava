@@ -29,19 +29,12 @@ public class AdminAjaxController extends AbstractUserController {
 
     @PostMapping
     public void createOrUpdate(@Valid UserTo newUser) {
-        /*if (result.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            result.getFieldErrors().forEach(fieldError -> sb.append(Utils.getStringWithFirstCharAtUpperCase(fieldError.getField()))
-                    .append(" ")
-                    .append(fieldError.getDefaultMessage())
-                    .append("<br>"));
+        if (newUser.isNew()) {
+            super.create(UsersUtil.createNewUserFromForm(newUser));
         } else {
-            */if (newUser.isNew()) {
-                super.create(UsersUtil.createNewUserFromForm(newUser));
-            } else {
-                super.update(newUser);
-            }
+            super.update(newUser);
         }
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {

@@ -16,7 +16,7 @@
 
     <script>
         var messages = [];
-        <c:forEach var="key" items='<%=new String[]{"success", "failed", "deleted", "saved", "user.enabled", "user.disabled", "update", "delete", "meal.filtered"}%>'>
+        <c:forEach var="key" items='<%=new String[]{"success", "failed", "deleted", "saved", "user.enabled", "user.disabled", "update", "delete", "meal.filtered", "user.duplicatedMail"}%>'>
         messages['${key}'] = "<fmt:message key="${key}"/>";
         </c:forEach>
     </script>

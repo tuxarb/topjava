@@ -4,11 +4,10 @@ function controlAjaxErrors() {
     });
 }
 
-function csrf_token_check()
-{
+function csrf_token_check() {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function(e, xhr, options) {
+    $(document).ajaxSend(function (e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
 }
@@ -68,8 +67,9 @@ function fillTable() {
 function failNoty(event, jqXHR, options, jsExc) {
     closeNoty();
     var exceptionMessage = $.parseJSON(jqXHR.responseText);
+    checkOnDuplicateEmail(exceptionMessage);
     failedNote = noty({
-        text: messages['failed'] + ': ' + jqXHR.statusText + '<br>' + exceptionMessage.cause + '<br>' + exceptionMessage.detail ,
+        text: messages['failed'] + ':<br>' + exceptionMessage.cause + '<br>' + exceptionMessage.details.join('<br>'),
         type: 'error',
         layout: 'bottomRight',
         timeout: 3500
@@ -125,4 +125,10 @@ function dateTimePicker() {
         format: 'Y-m-d H:i',
         lang: 'ru'
     });
+}
+
+function checkOnDuplicateEmail(exceptionMessage) {
+    if (exceptionMessage.cause.toString().includes("DataIntegrityViolationException")) {
+        exceptionMessage.details = [messages['user.duplicatedMail']];
+    }
 }

@@ -7,6 +7,6 @@ public class Utils {
     }
 
     public static String caloriesForMealIsAStringException(String str) {
-        return str.contains("convert") ? "must be a number" : str;
+        return str.contains("NumberFormatException") ? "must be a number" : str;
     }
 }

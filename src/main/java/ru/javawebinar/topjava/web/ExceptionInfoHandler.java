@@ -8,16 +8,19 @@ import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import static ru.javawebinar.topjava.util.Utils.*;
 import ru.javawebinar.topjava.util.exception.ErrorInfo;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 @ControllerAdvice(annotations = RestController.class)
 public class ExceptionInfoHandler {
     private static final Logger LOG = LoggerFactory.getLogger(ExceptionInfoHandler.class);
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NOT_FOUND) // 404
     @ExceptionHandler(NotFoundException.class)
     @ResponseBody
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -33,17 +36,16 @@ public class ExceptionInfoHandler {
         return logAndGetErrorInfo(req, e, true);
     }
 
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST) //400
     @ExceptionHandler(BindException.class)
     @ResponseBody
     @Order(Ordered.HIGHEST_PRECEDENCE + 2)
-    public ErrorInfo badRequest(HttpServletRequest req, Exception e)
+    public ErrorInfo bindValidationException(HttpServletRequest req, BindingResult bindingResult)
     {
-      return logAndGetErrorInfo(req, e, true);
+      return logAndGetValidationErrorInfo(req, bindingResult);
     }
 
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) //500
     @ExceptionHandler(Exception.class)
     @ResponseBody
     @Order(Ordered.LOWEST_PRECEDENCE)
@@ -51,7 +53,16 @@ public class ExceptionInfoHandler {
         return logAndGetErrorInfo(req, e, true);
     }
 
-    public ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException) {
+    private ErrorInfo logAndGetValidationErrorInfo(HttpServletRequest req, BindingResult result) {
+        String[] details = result.getFieldErrors().stream()
+                .map(fe -> getStringWithFirstCharAtUpperCase(fe.getField()) + " " + caloriesForMealIsAStringException(fe.getDefaultMessage()))
+                .toArray(String[]::new);
+
+        LOG.warn("Validation exception at request " + req.getRequestURL() + ": " + Arrays.toString(details));
+        return new ErrorInfo(req.getRequestURL(), "ValidationException", details);
+    }
+
+    private ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException) {
         if (logException) {
             LOG.error("Exception at request " + req.getRequestURL(), e);
         } else {
