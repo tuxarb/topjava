@@ -8,9 +8,7 @@
 
 
 <spring:bind path="${name}">
-
-    <c:set var="cssGroup" value="form-group ${status.error ? 'error' : '' }"/>
-    <div class="${cssGroup}" style='font-size: large'>
+    <div class="form-group ${status.error ? 'error' : '' }" style='font-size: large'>
         <label class="control-label col-xs-2">${label}</label>
 
         <div class="col-xs-8">

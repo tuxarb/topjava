@@ -45,7 +45,7 @@ public class User extends NamedEntity {
     //@JsonIgnore
     protected Set<Role> roles;
 
-    @Column(name = "calories_per_day", columnDefinition = "DEFAULT 2000", nullable = false)
+    @Column(name = "calories_per_day", columnDefinition = "INT DEFAULT 2000", nullable = false)
     protected int caloriesPerDay = UsersUtil.DEFAULT_CALORIES_PER_DAY;
 
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "user")
