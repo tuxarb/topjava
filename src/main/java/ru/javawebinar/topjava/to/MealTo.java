@@ -22,7 +22,7 @@ public class MealTo implements Serializable {
     private String description;
 
     @NotNull(message = " must not be null")
-    @Range(min = 0, max = 2000, message = " must be between 0 and 2000")
+    @Range(min = 0, max = 2000, message = " must be between 0 and 3000")
     private int calories;
 
     public MealTo() {

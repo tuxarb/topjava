@@ -1,47 +1,48 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 
-<style>
-    body {
-        background: #333;
-    }
-</style>
-
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <div class="navbar-header navbar-brand" style="font-size: 160%; color: deepskyblue"><fmt:message
-                key="app.title"/></div>
+        <div class="navbar-header navbar-brand" style="font-size: 160%; color: deepskyblue"><spring:message
+                code="app.title"/></div>
         <div class="navbar-collapse collapse">
-            <form:form class="navbar-form navbar-right" action="spring_security_check" method="post">
-                <label style="font-weight: 900; font-size: 145%; color: #a94442"><fmt:message
-                        key="app.authorization"/></label>
-                <div class="form-group">
-                    <div class="col-md-3 col-md-offset-2">
-                        <input type="text" class="form-control" name="username"
-                               placeholder="<fmt:message key="user.name"/>">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <input type="password" class="form-control" name="password"
-                               placeholder="<fmt:message key="user.password"/>">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <button class="btn btn-success" type="submit"><fmt:message key="app.login"/></button>
-                    </div>
-                </div>
-                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/register" style="margin-left: -15px"><fmt:message key="app.register"/></a>
-            </form:form>
-
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <form:form class="navbar-form navbar-right" action="spring_security_check" method="post">
+                        <label style="font-weight: 900; font-size: 145%; color: #a94442"><spring:message
+                                code="app.authorization"/></label>
+                        <div class="form-group">
+                            <div class="col-md-3 col-md-offset-2">
+                                <input type="text" class="form-control" name="username"
+                                       placeholder="<spring:message code="user.name"/>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <input type="password" class="form-control" name="password"
+                                       placeholder="<spring:message code="user.password"/>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <button class="btn btn-success" type="submit"><spring:message
+                                        code="app.login"/></button>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/register"
+                           style="margin-left: -15px"><spring:message code="app.register"/></a>
+                    </form:form>
+                </li>
+                <jsp:include page="lang.jsp"/>
+            </ul>
         </div>
     </div>
 </div>
@@ -60,5 +61,10 @@
         </c:if>
     </div>
 </div>
+
+<div class="img">
+    <img src="resources/images/image.jpg"/>
+</div>
+
 </body>
 </html>

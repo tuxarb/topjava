@@ -9,17 +9,21 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import static ru.javawebinar.topjava.util.Utils.*;
 import ru.javawebinar.topjava.util.exception.ErrorInfo;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
+import static ru.javawebinar.topjava.util.Utils.caloriesForMealIsAStringException;
+import static ru.javawebinar.topjava.util.Utils.getStringWithFirstCharAtUpperCase;
+
 @ControllerAdvice(annotations = RestController.class)
 public class ExceptionInfoHandler {
     private static final Logger LOG = LoggerFactory.getLogger(ExceptionInfoHandler.class);
+
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY) // 422
     @ExceptionHandler(NotFoundException.class)
     @ResponseBody
@@ -34,6 +38,14 @@ public class ExceptionInfoHandler {
     @Order(Ordered.HIGHEST_PRECEDENCE + 1)
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
         return logAndGetErrorInfo(req, e, true);
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)  // 400
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    @Order(Ordered.HIGHEST_PRECEDENCE + 2)
+    public ErrorInfo mismatchArgumentException(HttpServletRequest req,  MethodArgumentNotValidException e) {
+        return logAndGetValidationErrorInfo(req, e.getBindingResult());
     }
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST) //400
@@ -55,7 +67,8 @@ public class ExceptionInfoHandler {
 
     private ErrorInfo logAndGetValidationErrorInfo(HttpServletRequest req, BindingResult result) {
         String[] details = result.getFieldErrors().stream()
-                .map(fe -> getStringWithFirstCharAtUpperCase(fe.getField()) + " " + caloriesForMealIsAStringException(fe.getDefaultMessage()))
+                .map(fe -> getStringWithFirstCharAtUpperCase(fe.getField()) + " " +
+                        caloriesForMealIsAStringException(fe.getDefaultMessage()))
                 .toArray(String[]::new);
 
         LOG.warn("Validation exception at request " + req.getRequestURL() + ": " + Arrays.toString(details));

@@ -47,7 +47,7 @@
 
 <div class="modal fade" id="editRow">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="background-color: burlywood; color: black">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: red">&otimes;</button>
                 <h2 id="modal-title" class="modal-title"><fmt:message key="update"/></h2>
@@ -95,8 +95,6 @@
 </div>
 </body>
 
-<script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
-<script type="text/javascript" src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 <script type="text/javascript" src="resources/js/jQuery.js"></script>

@@ -67,9 +67,9 @@ function fillTable() {
 function failNoty(event, jqXHR, options, jsExc) {
     closeNoty();
     var exceptionMessage = $.parseJSON(jqXHR.responseText);
-    checkOnDuplicateEmail(exceptionMessage);
+    checkOnDuplicateEmailAndErrorsWithDate(exceptionMessage);
     failedNote = noty({
-        text: messages['failed'] + ':<br>' + exceptionMessage.cause + '<br>' + exceptionMessage.details.join('<br>'),
+        text: messages['failed'] + ':<br>' + exceptionMessage.details.join('<br>'),
         type: 'error',
         layout: 'bottomRight',
         timeout: 3500
@@ -108,27 +108,36 @@ function deleteBtn(data, type, row) {
 }
 
 function dateTimePicker() {
+    $.datetimepicker.setLocale(localeCode);
+
     $('.datepicker').datetimepicker({
         timepicker: false,
-        format: 'Y-m-d',
-        lang: 'ru',
-        showOn: 'button'
+        format: 'Y-m-d'
     });
 
     $('.timepicker').datetimepicker({
         datepicker: false,
-        format: 'H:i',
-        lang: 'ru'
+        format: 'H:i'
     });
 
     $('.datetimepicker').datetimepicker({
-        format: 'Y-m-d H:i',
-        lang: 'ru'
+        format: 'Y-m-d H:i'
     });
 }
 
-function checkOnDuplicateEmail(exceptionMessage) {
-    if (exceptionMessage.cause.toString().includes("DataIntegrityViolationException")) {
+function checkOnDuplicateEmailAndErrorsWithDate(exceptionMessage) {
+    var cause = exceptionMessage.cause;
+    var url = exceptionMessage.url;
+    var details = exceptionMessage.details.toString();
+
+    if (cause.includes("DataIntegrityViolationException") && url.includes("meals")) {
+        exceptionMessage.details = [messages['meal.duplicatedDate']];
+    }
+    else if (cause.includes("DataIntegrityViolationException")) {
         exceptionMessage.details = [messages['user.duplicatedMail']];
+    }
+
+    if (details.includes("DateTimeParseException")) {
+        exceptionMessage.details = [messages['dateIncorrect']];
     }
 }

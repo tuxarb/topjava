@@ -14,9 +14,18 @@
     <link rel="stylesheet" href="webjars/datatables/1.10.12/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="webjars/datetimepicker/2.4.7/jquery.datetimepicker.css">
 
+    <style>
+        body {
+            background: #333;
+        }
+    </style>
+
+    <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+
     <script>
         var messages = [];
-        <c:forEach var="key" items='<%=new String[]{"success", "failed", "deleted", "saved", "user.enabled", "user.disabled", "update", "delete", "meal.filtered", "user.duplicatedMail"}%>'>
+        <c:forEach var="key" items='<%=new String[]{"success", "failed", "deleted", "saved", "user.enabled", "user.disabled", "update", "delete", "meal.filtered", "user.duplicatedMail", "search", "dateIncorrect", "meal.duplicatedDate"}%>'>
         messages['${key}'] = "<fmt:message key="${key}"/>";
         </c:forEach>
     </script>

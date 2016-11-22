@@ -23,6 +23,7 @@ $(function () {
             "dataSrc": "" //перевод данных из одного формата в другой(аналог render)
         },
         "paging": false,
+        "info": false,
         "columns": [
             {
                 "data": "name"
@@ -68,6 +69,9 @@ $(function () {
                 0,
                 "asc"
             ]
-        ]
+        ],
+        "language": {
+            "search": messages['search'] + ":"
+        }
     });
 });

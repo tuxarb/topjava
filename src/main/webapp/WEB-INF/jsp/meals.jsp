@@ -23,7 +23,7 @@
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <input class="form-control datepicker" type="text" id="startDate"
-                                           name="startDate">
+                                           name="startDate" readonly>
                                 </div>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                                 <label for="endDate"><h4><fmt:message key="date.to"/></h4></label>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control datepicker" type="text" id="endDate" name="endDate">
+                                <input class="form-control datepicker" type="text" id="endDate" name="endDate" readonly>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,8 @@
                                 <label for="startTime"><h4><fmt:message key="time.from"/></h4></label>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control timepicker" type="text" id="startTime" name="startTime">
+                                <input class="form-control timepicker" type="text" id="startTime" name="startTime"
+                                       readonly>
                             </div>
                         </div>
                         <div class="form-group">
@@ -50,14 +51,15 @@
                                 <label for="endTime"><h4><fmt:message key="time.to"/></h4></label>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control timepicker" type="text" id="endTime" name="endTime">
+                                <input class="form-control timepicker" type="text" id="endTime" name="endTime" readonly>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-offset-2">
                             <button class="btn btn-primary pull-left" type="button" onclick="updateTableByFilter()">
-                                <fmt:message key="meal.filter"/></button>
+                                <fmt:message key="meal.filter"/>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -143,8 +145,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
-<script type="text/javascript" src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 <script src="webjars/datetimepicker/2.4.7/build/jquery.datetimepicker.full.min.js"></script>
