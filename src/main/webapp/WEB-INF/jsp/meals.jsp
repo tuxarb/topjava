@@ -71,9 +71,9 @@
 
         <table class="table table-bordered" id="mealsTable">
             <thead style="font-weight: bold">
-            <td><fmt:message key="meal.date"/></td>
             <td><fmt:message key="meal.description"/></td>
             <td><fmt:message key="meal.calories"/></td>
+            <td><fmt:message key="meal.date"/></td>
             <td></td>
             <td></td>
             </thead>

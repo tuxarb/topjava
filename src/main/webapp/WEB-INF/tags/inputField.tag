@@ -13,7 +13,9 @@
 
         <div class="col-xs-8">
             <c:choose>
-                <c:when test="${inputType == 'password'}"><form:password showPassword="*" path="${name}"/></c:when>
+                <c:when test="${inputType == 'password'}"><form:password showPassword="true" path="${name}"/>
+                    <button type="button" onclick=showPassword()><img id="showPass" src="resources/images/show_pass.png"/></button>
+                </c:when>
                 <c:when test="${inputType == 'number'}"><form:input path="${name}" type="number"/></c:when>
                 <c:otherwise><form:input path="${name}"/></c:otherwise>
             </c:choose>
@@ -21,3 +23,15 @@
         </div>
     </div>
 </spring:bind>
+
+<script>
+    function showPassword() {
+        var password = document.getElementById("password");
+        if (password.getAttribute("type") == "password") {
+            password.setAttribute("type", "text");
+        } else {
+            password.setAttribute("type", "password");
+        }
+        debugger;
+    }
+</script>

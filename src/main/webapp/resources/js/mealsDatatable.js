@@ -29,18 +29,18 @@ $(function () {
         "info": false,
         "columns": [
             {
+                "data": "description"
+            },
+            {
+                "data": "calories"
+            },
+            {
                 "data": "dateTime",
                 "render": function (data, type, row) {
                     if (type === 'display') {
                         return data.toString().replace('T', ' ').substring(0, 16);
                     }
                 }
-            },
-            {
-                "data": "description"
-            },
-            {
-                "data": "calories"
             },
             {
                 "defaultContent": "",

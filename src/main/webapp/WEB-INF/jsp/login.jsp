@@ -63,7 +63,7 @@
 </div>
 
 <div class="img">
-    <img src="resources/images/image.jpg"/>
+    <img src="resources/images/login_image.jpg"/>
 </div>
 
 </body>

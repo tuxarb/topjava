@@ -14,7 +14,7 @@ public class UsersUtil {
     }
 
     public static UserTo asTo(User user) {
-        return new UserTo(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getCaloriesPerDay());
+        return new UserTo(user.getId(), user.getName(), user.getEmail(), PasswordUtil.decodedPassword, user.getCaloriesPerDay());
     }
 
     public static User getUserFromUserTo(User user, UserTo userTo)

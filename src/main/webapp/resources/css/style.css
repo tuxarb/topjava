@@ -24,3 +24,10 @@
     margin-left: -750px;
     -webkit-transform: scale(0.91, 0.3);
 }
+
+#showPass{
+    position: absolute;
+    margin-top: -68px;
+    margin-left: -65px;
+    -webkit-transform: scale(0.2, 0.25);
+}
