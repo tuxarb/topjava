@@ -40,6 +40,7 @@ $(function () {
                     if (type === 'display') {
                         return data.toString().replace('T', ' ').substring(0, 16);
                     }
+                    return data;
                 }
             },
             {
@@ -50,7 +51,14 @@ $(function () {
                 "defaultContent": "",
                 "render": deleteBtn
             }],
+        "order": [
+            [
+                2,
+                "desc"
+            ]
+        ],
         "createdRow": function (row, data) {
+            $(row).css('font-weight', 'bold');
             data.exceed ? $(row).css('background-color', '#ff4f5a').css('color', 'black') : $(row).css('color', 'green')
         },
         "language": {

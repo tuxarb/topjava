@@ -67,7 +67,7 @@ function fillTable() {
 function failNoty(event, jqXHR, options, jsExc) {
     closeNoty();
     var exceptionMessage = $.parseJSON(jqXHR.responseText);
-    checkOnDuplicateEmailAndErrorsWithDate(exceptionMessage);
+    checkOnErrors(exceptionMessage);
     failedNote = noty({
         text: messages['failed'] + ':<br>' + exceptionMessage.details.join('<br>'),
         type: 'error',
@@ -91,7 +91,7 @@ function successNoty(text) {
         text: messages['success'] + ' ' + text + '!',
         type: 'success',
         layout: 'bottomRight',
-        timeout: 2000
+        timeout: 2500
     });
 }
 
@@ -125,7 +125,7 @@ function dateTimePicker() {
     });
 }
 
-function checkOnDuplicateEmailAndErrorsWithDate(exceptionMessage) {
+function checkOnErrors(exceptionMessage) {
     var cause = exceptionMessage.cause;
     var url = exceptionMessage.url;
     var details = exceptionMessage.details.toString();

@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = get(id);
         user.setEnabled(enabled);
 
-        update(user);
+        repository.save(UsersUtil.prepareToSave(user));
     }
 
     @Override

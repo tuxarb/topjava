@@ -31,3 +31,11 @@
     margin-left: -65px;
     -webkit-transform: scale(0.2, 0.25);
 }
+
+#showPassAdmin{
+    position: absolute;
+    margin-top: -25px;
+    margin-left: 365px;
+    -webkit-transform: scale(0.8, 0.8);
+}
+

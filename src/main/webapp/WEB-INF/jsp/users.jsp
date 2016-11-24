@@ -12,7 +12,7 @@
         <br><br>
         <a class="btn btn-info" onclick="add('<fmt:message key="user.add"/>')"><fmt:message key="user.add"/></a>
         <br><br>
-        <table class="table table-striped" id="usersTable">
+        <table class="table table-striped display" id="usersTable">
             <thead>
             <tr style="font-weight: bold">
                 <td><fmt:message key="user.name"/></td>
@@ -79,6 +79,7 @@
                         <div class="col-xs-9">
                             <input type="password" class="form-control" id="password" name="password"
                                    placeholder="<fmt:message key="user.password"/>">
+                            <a id="showPassAdmin" onclick=showPassword()><fmt:message key="show"/></a>
                         </div>
                     </div>
 

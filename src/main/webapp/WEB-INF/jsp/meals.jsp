@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label for="startDate"><h4><fmt:message key="date.from"/></h4></label>
+                                <label for="startDate"><h4><b><fmt:message key="date.from"/></b></h4></label>
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label for="endDate"><h4><fmt:message key="date.to"/></h4></label>
+                                <label for="endDate"><h4><b><fmt:message key="date.to"/></b></h4></label>
                             </div>
                             <div class="col-md-4">
                                 <input class="form-control datepicker" type="text" id="endDate" name="endDate" readonly>
@@ -39,7 +39,7 @@
                     <div class="row">
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label for="startTime"><h4><fmt:message key="time.from"/></h4></label>
+                                <label for="startTime"><h4><b><fmt:message key="time.from"/></b></h4></label>
                             </div>
                             <div class="col-md-4">
                                 <input class="form-control timepicker" type="text" id="startTime" name="startTime"
@@ -48,7 +48,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label for="endTime"><h4><fmt:message key="time.to"/></h4></label>
+                                <label for="endTime"><h4><b><fmt:message key="time.to"/></b></h4></label>
                             </div>
                             <div class="col-md-4">
                                 <input class="form-control timepicker" type="text" id="endTime" name="endTime" readonly>
@@ -69,7 +69,7 @@
         <br><br>
         <a class="btn btn-info" onclick=add('<fmt:message key="meal.add"/>')><fmt:message key="meal.add"/></a><br><br>
 
-        <table class="table table-bordered" id="mealsTable">
+        <table class="table table-striped" id="mealsTable">
             <thead style="font-weight: bold">
             <td><fmt:message key="meal.description"/></td>
             <td><fmt:message key="meal.calories"/></td>

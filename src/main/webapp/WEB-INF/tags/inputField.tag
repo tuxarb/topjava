@@ -23,15 +23,3 @@
         </div>
     </div>
 </spring:bind>
-
-<script>
-    function showPassword() {
-        var password = document.getElementById("password");
-        if (password.getAttribute("type") == "password") {
-            password.setAttribute("type", "text");
-        } else {
-            password.setAttribute("type", "password");
-        }
-        debugger;
-    }
-</script>

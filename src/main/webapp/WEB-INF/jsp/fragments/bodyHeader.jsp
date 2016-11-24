@@ -8,7 +8,7 @@
 <c:set var="base" value="${pageContext.request.contextPath}"/>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <a href="meals" class="navbar-brand" style="color: #a94442;text-decoration: underline; font-size: large">
+        <a href="meals" class="navbar-brand" style="color: #a94442;text-decoration: underline; font-size: x-large; margin-left: -90px">
             <fmt:message key="app.title"/>
         </a>
         <div class="collapse navbar-collapse">

@@ -4,13 +4,19 @@ var datatable;
 csrf_token_check();
 controlAjaxErrors();
 
-function check(checkbox, id) {
+function checkByAjax(checkbox, id) {
     var enabled = checkbox.is(":checked");
     $.post({
         url: ajaxUrl + id,
         data: {"enabled": enabled},
         success: function () {
-            checkbox.parent().parent().css('text-decoration', enabled ? 'none' : 'line-through');
+            var row = checkbox.parent().parent();
+            if (!enabled) {
+                row.css('text-decoration', 'line-through').css('opacity', 0.5);
+            }
+            else {
+                row.css('text-decoration', 'none').css('opacity', 1);
+            }
             successNoty(enabled ? messages['user.enabled'] : messages['user.disabled']);
         }
     })
@@ -18,8 +24,8 @@ function check(checkbox, id) {
 
 $(function () {
     datatable = $('#usersTable').DataTable({
-        "ajax" : {
-          "url": ajaxUrl,
+        "ajax": {
+            "url": ajaxUrl,
             "dataSrc": "" //перевод данных из одного формата в другой(аналог render)
         },
         "paging": false,
@@ -30,10 +36,11 @@ $(function () {
             },
             {
                 "data": "email",
-                "render": function(data, type){
-                    if (type == 'display'){
-                        return '<a href="mailto:'+data+'">'+data+'</a></td>';
+                "render": function (data, type) {
+                    if (type == 'display') {
+                        return '<a href="mailto:' + data + '">' + data + '</a></td>';
                     }
+                    return data;
                 }
             },
             {
@@ -43,16 +50,18 @@ $(function () {
                 "data": "enabled",
                 "render": function (data, type, row) {
                     if (type == 'display') {
-                        return '<input type="checkbox" ' + (data ? 'checked' : '') + ' onclick="check($(this), '+ row.id + ')"/>';
+                        return '<input type="checkbox" ' + (data ? 'checked' : '') + ' onclick="checkByAjax($(this), ' + row.id + ')"/>';
                     }
+                    return data;
                 }
             },
             {
                 "data": "registered",
                 "render": function (data, type) {
-                    if (type == 'display'){
+                    if (type == 'display') {
                         return data.substring(0, 10);
                     }
+                    return data;
                 }
             },
             {
@@ -70,6 +79,12 @@ $(function () {
                 "asc"
             ]
         ],
+        "createdRow": function (row, data) {
+            $(row).css('font-weight', 'bold');
+            if (!data.enabled) {
+                $(row).css('text-decoration', 'line-through').css('opacity', 0.5);
+            }
+        },
         "language": {
             "search": messages['search'] + ":"
         }

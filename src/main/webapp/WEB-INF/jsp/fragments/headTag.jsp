@@ -25,9 +25,20 @@
 
     <script>
         var messages = [];
-        <c:forEach var="key" items='<%=new String[]{"success", "failed", "deleted", "saved", "user.enabled", "user.disabled", "update", "delete", "meal.filtered", "user.duplicatedMail", "search", "dateIncorrect", "meal.duplicatedDate"}%>'>
+        <c:forEach var="key" items='<%=new String[]{"success", "failed", "deleted", "saved", "user.enabled", "user.disabled", "update", "delete", "meal.filtered", "user.duplicatedMail", "search", "dateIncorrect", "meal.duplicatedDate", "show"}%>'>
         messages['${key}'] = "<fmt:message key="${key}"/>";
         </c:forEach>
+    </script>
+
+    <script>
+        function showPassword() {
+            var password = document.getElementById("password");
+            if (password.getAttribute("type") == "password") {
+                password.setAttribute("type", "text");
+            } else {
+                password.setAttribute("type", "password");
+            }
+        }
     </script>
 </head>
 

@@ -16,8 +16,6 @@ import javax.validation.Valid;
 
 @Controller
 public class RootController extends AbstractUserController {
-    /*@Autowired
-    private MealRestController mealController;*/
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {
@@ -129,9 +127,7 @@ public class RootController extends AbstractUserController {
     }*/
 
     @GetMapping("/ru_text")
-    public
-    @ResponseBody
-    String testUTF() {
+    public @ResponseBody String testUTF() {
         return "Русские буквы";
     }
 }

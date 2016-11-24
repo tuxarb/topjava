@@ -23,8 +23,9 @@ public class AdminAjaxController extends AbstractUserController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User get(@PathVariable("id") int id) {
-        return super.get(id);
+    public UserTo getTo(@PathVariable("id") int id) {
+        return UsersUtil.asTo(super.get(id));
+
     }
 
     @PostMapping
