@@ -41,4 +41,5 @@ public class UsersUtil {
     private static String getDecodedPassword(String email) {
         return DecodedPasswordsRepository.getDecodedPassword(email);
     }
+
 }

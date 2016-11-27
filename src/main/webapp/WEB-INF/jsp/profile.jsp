@@ -1,9 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="topjava" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
@@ -47,8 +47,17 @@
                 </div>
             </div>
         </form:form>
+
     </div>
 </div>
+
+<c:set value="${param.message}" var="message"/>
+<c:if test="${not empty message}">
+    <div class="message">
+        <fmt:message key="${message}"/>
+    </div>
+</c:if>
+
 
 </body>
 </html>

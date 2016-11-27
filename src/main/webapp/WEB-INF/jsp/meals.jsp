@@ -61,6 +61,11 @@
                                 <fmt:message key="meal.filter"/>
                             </button>
                         </div>
+                        <div class="col-xs-1">
+                            <button class="btn btn-danger" type="button" onclick="$('#filterForm')[0].reset()">
+                                <fmt:message key="reset"/>
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -111,7 +116,7 @@
                         <label for="dateTime" class="control-label col-xs-3"><fmt:message key="meal.date"/></label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control datetimepicker" id="dateTime" name="dateTime">
+                            <input type="text" class="form-control datetimepicker" id="dateTime" name="dateTime" readonly>
                         </div>
                     </div>
 
@@ -119,8 +124,9 @@
                         <label for="description" class="control-label col-xs-3"><fmt:message
                                 key="meal.description"/></label>
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="description" name="description" placeholder=
-                            <fmt:message key="meal.description"/>>
+                            <input type="text" class="form-control" id="description" name="description"
+                                   onchange="replaceSpacesOnSpaceAndTrim(this)" placeholder=<fmt:message
+                                    key="meal.description"/>>
                         </div>
                     </div>
 
@@ -128,7 +134,7 @@
                         <label for="calories" class="control-label col-xs-3"><fmt:message key="meal.calories"/></label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="calories" name="calories"
+                            <input type="number" class="form-control" id="calories" name="calories"
                                    placeholder=1000>
                         </div>
                     </div>
@@ -154,6 +160,18 @@
 
 <script>
     dateTimePicker();
+    function replaceSpacesOnSpaceAndTrim(input) {
+        input.value = input.value.replace(/\s\s+/g, ' ');
+        input.value = input.value.trim();
+    }
+
+    $(function() {
+        $("#dateTime").keyup(function (event) {
+            if (event.which == 8 || event.which == 46) {
+                $(this).val('');
+            }
+        });
+    });
 </script>
 
 </html>

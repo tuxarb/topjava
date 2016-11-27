@@ -14,7 +14,9 @@
         <div class="col-xs-8">
             <c:choose>
                 <c:when test="${inputType == 'password'}"><form:password showPassword="true" path="${name}"/>
-                    <button type="button" onclick=showPassword()><img id="showPass" src="resources/images/show_pass.png"/></button>
+                    <button type="button" onclick="showPassword()">
+                        <img id="showPass" src="resources/images/show_pass.png"/>
+                    </button>
                 </c:when>
                 <c:when test="${inputType == 'number'}"><form:input path="${name}" type="number"/></c:when>
                 <c:otherwise><form:input path="${name}"/></c:otherwise>
@@ -23,3 +25,4 @@
         </div>
     </div>
 </spring:bind>
+

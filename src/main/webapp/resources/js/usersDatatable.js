@@ -50,7 +50,7 @@ $(function () {
                 "data": "enabled",
                 "render": function (data, type, row) {
                     if (type == 'display') {
-                        return '<input type="checkbox" ' + (data ? 'checked' : '') + ' onclick="checkByAjax($(this), ' + row.id + ')"/>';
+                        return '<input type="checkbox" ' + (isAdmin(row) ?  'disabled' : '')  + ' ' + (data ? 'checked' : '') + ' onclick="checkByAjax($(this), ' + row.id + ')"/>';
                     }
                     return data;
                 }
@@ -86,6 +86,7 @@ $(function () {
             }
         },
         "language": {
+            "emptyTable": messages['datatables.empty'],
             "search": messages['search'] + ":"
         }
     });

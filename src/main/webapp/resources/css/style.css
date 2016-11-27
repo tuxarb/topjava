@@ -25,6 +25,13 @@
     -webkit-transform: scale(0.91, 0.3);
 }
 
+.container{
+    min-width: 960px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0;
+}
+
 #showPass{
     position: absolute;
     margin-top: -68px;
@@ -38,4 +45,5 @@
     margin-left: 365px;
     -webkit-transform: scale(0.8, 0.8);
 }
+
 

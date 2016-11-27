@@ -91,7 +91,7 @@ function successNoty(text) {
         text: messages['success'] + ' ' + text + '!',
         type: 'success',
         layout: 'bottomRight',
-        timeout: 2500
+        timeout: 5000
     });
 }
 
@@ -103,6 +103,9 @@ function editBtn(data, type, row) {
 
 function deleteBtn(data, type, row) {
     if (type == 'display') {
+        if (isAdmin(row)) {
+            return '<a class="btn btn-danger delete disabled">' + messages['delete'] + '</a>';
+        }
         return '<a class="btn btn-danger delete" onclick="deleteRow(' + row.id + ')">' + messages['delete'] + '</a>';
     }
 }
@@ -137,7 +140,23 @@ function checkOnErrors(exceptionMessage) {
         exceptionMessage.details = [messages['user.duplicatedMail']];
     }
 
-    if (details.includes("DateTimeParseException")) {
-        exceptionMessage.details = [messages['dateIncorrect']];
+    if (details.includes("NumberFormatException")) {
+        exceptionMessage.details = [messages['error.mealTo.calories.convert']];
     }
+}
+
+function isAdmin(row) {
+    var roles = row.roles;
+    if (roles == null)
+        return false;
+
+    var isAdmin;
+
+    roles.forEach(function (item) {
+        if (item === 'ROLE_ADMIN') {
+            isAdmin = true;
+        }
+    });
+
+    return isAdmin;
 }

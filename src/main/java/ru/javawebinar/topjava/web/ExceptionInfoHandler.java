@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,8 +18,6 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
-import static ru.javawebinar.topjava.util.Utils.caloriesForMealIsAStringException;
-import static ru.javawebinar.topjava.util.Utils.getStringWithFirstCharAtUpperCase;
 
 @ControllerAdvice(annotations = RestController.class)
 public class ExceptionInfoHandler {
@@ -67,8 +66,7 @@ public class ExceptionInfoHandler {
 
     private ErrorInfo logAndGetValidationErrorInfo(HttpServletRequest req, BindingResult result) {
         String[] details = result.getFieldErrors().stream()
-                .map(fe -> getStringWithFirstCharAtUpperCase(fe.getField()) + " " +
-                        caloriesForMealIsAStringException(fe.getDefaultMessage()))
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .toArray(String[]::new);
 
         LOG.warn("Validation exception at request " + req.getRequestURL() + ": " + Arrays.toString(details));

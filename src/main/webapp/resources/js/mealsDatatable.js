@@ -62,6 +62,7 @@ $(function () {
             data.exceed ? $(row).css('background-color', '#ff4f5a').css('color', 'black') : $(row).css('color', 'green')
         },
         "language": {
+            "emptyTable": messages['datatables.empty'],
             "search": messages['search'] + ':'
         }
     });

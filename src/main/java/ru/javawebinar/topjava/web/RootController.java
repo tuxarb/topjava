@@ -57,7 +57,7 @@ public class RootController extends AbstractUserController {
                 AuthorizedUser.get().update(userTo);
                 status.setComplete();
 
-                return "redirect:meals";
+                return "redirect:profile?message=profile.success";
             } catch (DataIntegrityViolationException e) {
                 bindingResult.rejectValue("email", "user.duplicatedMail");
             }

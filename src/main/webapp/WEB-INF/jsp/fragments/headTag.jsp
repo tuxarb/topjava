@@ -25,12 +25,12 @@
 
     <script>
         var messages = [];
-        <c:forEach var="key" items='<%=new String[]{"success", "failed", "deleted", "saved", "user.enabled", "user.disabled", "update", "delete", "meal.filtered", "user.duplicatedMail", "search", "dateIncorrect", "meal.duplicatedDate", "show"}%>'>
+        <c:forEach var="key" items='<%=new String[]{
+            "success", "failed", "deleted", "saved", "user.enabled", "user.disabled", "update", "delete", "meal.filtered", "user.duplicatedMail", "search", "meal.duplicatedDate", "show", "datatables.empty", "error.mealTo.calories.convert"}
+            %>'>
         messages['${key}'] = "<fmt:message key="${key}"/>";
         </c:forEach>
-    </script>
 
-    <script>
         function showPassword() {
             var password = document.getElementById("password");
             if (password.getAttribute("type") == "password") {
@@ -39,6 +39,15 @@
                 password.setAttribute("type", "password");
             }
         }
+
+        $(function () {
+            $('#name, #password, #email').on('input', function (e) {
+                var target = e.target,
+                        position = target.selectionStart;
+                $(this).val($(this).val().replace(/\s/g, ''));
+                target.selectionEnd = position;
+            });
+        });
     </script>
 </head>
 

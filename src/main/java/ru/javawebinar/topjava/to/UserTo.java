@@ -2,30 +2,33 @@ package ru.javawebinar.topjava.to;
 
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import ru.javawebinar.topjava.util.UsersUtil;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-public class UserTo implements Serializable{
+public class UserTo implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
 
-    @NotEmpty
+    @Length(min = 3, max = 30, message = "{error.userTo.name.length}")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я][a-zа-я0-9-_]{2,}$", message = "{error.userTo.name}")
     private String name;
 
-    @NotEmpty
-    @Email
+    @Length(max = 50, message = "{error.userTo.email.length}")
+    @Email(regexp = "([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,})[.]([A-z]{2,8})", message = "{error.userTo.email}")
     private String email;
 
-    @Size(min = 5, max = 20, message = " must be between 5 and 20 chars")
+    @Size(min = 5, max = 20, message = " {error.userTo.password.size}")
     private String password;
 
-    @Range(min = 100, max = 9999)
-    @NotNull(message = " must not be empty")
+
+    @NotNull(message = "{error.userTo.calories.notnull}")
+    @Range(min = 100, max = 9999, message = "{error.userTo.calories.range}")
     private Integer caloriesPerDay = UsersUtil.DEFAULT_CALORIES_PER_DAY;
 
     public UserTo() {
@@ -94,3 +97,4 @@ public class UserTo implements Serializable{
                 '}';
     }
 }
+

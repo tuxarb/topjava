@@ -2,17 +2,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
-
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <div class="navbar-header navbar-brand" style="font-size: 160%; color: deepskyblue; margin-left: -90px"><spring:message
-                code="app.title"/></div>
+        <div class="navbar-header navbar-brand" style="font-size: 160%; color: deepskyblue; margin-left: -90px">
+            <spring:message
+                    code="app.title"/></div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right" style="margin-right: -60px">
                 <li>
@@ -22,7 +23,7 @@
                         <div class="form-group">
                             <div class="col-xs-3 col-xs-offset-2">
                                 <input type="text" class="form-control" name="username"
-                                       placeholder="<spring:message code="user.name"/>">
+                                       placeholder="<spring:message code="user.email"/>">
                             </div>
                         </div>
                         <div class="form-group">
@@ -48,10 +49,20 @@
 </div>
 
 <div class="jumbotron">
-    <div class="container">
+    <div class="container-fluid">
         <c:if test="${error}">
+            <fmt:message key='login.badCredentials' var="badCredentials"/>
+            <fmt:message key='login.disabled' var="userDisabled"/>
             <div class="error">
-                    ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+                <c:choose>
+                    <c:when test="${fn:containsIgnoreCase(SPRING_SECURITY_LAST_EXCEPTION.message, 'User is disabled')}">
+                        ${fn:replace(SPRING_SECURITY_LAST_EXCEPTION.message, 'User is disabled', userDisabled)}
+                    </c:when>
+                    <c:otherwise>
+                        ${fn:replace(SPRING_SECURITY_LAST_EXCEPTION.message, 'Bad credentials', badCredentials)}
+                    </c:otherwise>
+                </c:choose>
+                <c:remove var = "SPRING_SECURITY_LAST_EXCEPTION" scope = "session" />
             </div>
         </c:if>
         <c:if test="${not empty message}">

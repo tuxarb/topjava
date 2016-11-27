@@ -15,7 +15,7 @@
     <bean id="objectMapper" class="ru.javawebinar.topjava.web.json.JacksonObjectMapper"
           factory-method="getObjectMapper"/>
 
-    <mvc:annotation-driven conversion-service="conversionService">
+    <mvc:annotation-driven conversion-service="conversionService" validator="validator">
         <mvc:message-converters>
             <!--convert json-LocalDateTime-->
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -63,7 +63,14 @@
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
           p:cacheSeconds="60"
           p:defaultEncoding="UTF-8">
-        <property name="basenames" value="classpath:messages/app"/>
+        <property name="basenames">
+            <list>
+                <value>classpath:messages/app</value>
+            </list>
+        </property>
     </bean>
 
+    <bean name="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
 </beans>
