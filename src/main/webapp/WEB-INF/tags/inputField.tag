@@ -5,8 +5,6 @@
 <%@ attribute name="name" required="true" description="Name of corresponding property in bean object" %>
 <%@ attribute name="label" required="true" description="Field label" %>
 <%@ attribute name="inputType" required="false" description="Input type" %>
-<%@ attribute name="id" required="false" description="Id input password" %>
-
 
 <spring:bind path="${name}">
     <div class="form-group ${status.error ? 'error' : '' }" style='font-size: large'>
@@ -14,8 +12,8 @@
 
         <div class="col-xs-8">
             <c:choose>
-                <c:when test="${inputType == 'password'}"><form:password id="${id}" path="${name}"/>
-                    <button type="button" onclick="showPassword('${id}')">
+                <c:when test="${inputType == 'password'}"><form:password path="${name}"/>
+                    <button type="button" onclick="showPassword('${name}')">
                         <img id="showPass" src="resources/images/show_pass.png"/>
                     </button>
                 </c:when>

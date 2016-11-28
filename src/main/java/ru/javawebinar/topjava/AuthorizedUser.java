@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.util.PasswordUtil;
 import ru.javawebinar.topjava.util.UsersUtil;
 
 import static java.util.Objects.requireNonNull;
@@ -51,6 +52,7 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
     }
 
     public void update(UserTo userTo) {
+        userTo.setPassword(PasswordUtil.encode(userTo.getPassword()));
         this.userTo = userTo;
     }
 }

@@ -51,8 +51,12 @@ function save() {
 function updateRow(id) {
     $.get(ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
-            if (key == 'dateTime')
+            if (key == 'dateTime') {
                 value = value.toString().replace('T', ' ').substr(0, 16);
+            }
+            if (key == 'password') {
+                value = '*****';
+            }
             form.find("input[name='" + key + "']").val(value);
         });
     });

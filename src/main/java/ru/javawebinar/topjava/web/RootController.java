@@ -8,10 +8,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.javawebinar.topjava.AuthorizedUser;
+import ru.javawebinar.topjava.to.PasswordUserTo;
 import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.util.PasswordUtil;
 import ru.javawebinar.topjava.util.UsersUtil;
 import ru.javawebinar.topjava.web.user.AbstractUserController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -62,6 +65,25 @@ public class RootController extends AbstractUserController {
             } catch (DataIntegrityViolationException e) {
                 bindingResult.rejectValue("email", "user.duplicatedMail");
             }
+        }
+
+        return "profile";
+    }
+
+    @PostMapping(value = "/profile", params = "password/update")
+    public String updatePassword(@Valid PasswordUserTo passwordUserTo, BindingResult bindingResult, SessionStatus status, HttpServletRequest request) {
+        if (!bindingResult.hasErrors()) {
+            UserTo userTo = AuthorizedUser.get().getUserTo();
+            if (!PasswordUtil.isMatch(passwordUserTo.getOldPassword(), userTo.getPassword())) {
+                bindingResult.rejectValue("oldPassword", "profile.password.wrong");
+                return "profile";
+            }
+            userTo.setPassword(passwordUserTo.getNewPassword());
+            super.update(userTo);
+            AuthorizedUser.get().update(userTo);
+            status.setComplete();
+
+            return "redirect:profile?message=profile.password.success";
         }
 
         return "profile";
@@ -128,7 +150,9 @@ public class RootController extends AbstractUserController {
     }*/
 
     @GetMapping("/ru_text")
-    public @ResponseBody String testUTF() {
+    public
+    @ResponseBody
+    String testUTF() {
         return "Русские буквы";
     }
 }

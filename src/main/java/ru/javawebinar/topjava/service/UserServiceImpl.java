@@ -65,7 +65,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public void update(UserTo userTo) {
-        User updatedUser = UsersUtil.getUserFromUserTo(get(userTo.getId()), userTo);
+        User user = get(userTo.getId());
+        if ("*****".equals(userTo.getPassword())) {
+            userTo.setPassword(user.getPassword());
+        }
+        User updatedUser = UsersUtil.getUserFromUserTo(user, userTo);
         repository.save(UsersUtil.prepareToSave(updatedUser));
     }
 
