@@ -10,7 +10,6 @@ function updateTableByFilter() {
         data: $('#filterForm').serialize(),
         success: function (data) {
             updateTableByData(data);
-            $('#filterForm')[0].reset();
             successNoty(messages['meal.filtered'])
         }
     });

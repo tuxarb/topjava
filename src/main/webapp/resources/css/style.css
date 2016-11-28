@@ -1,3 +1,10 @@
+.hr {
+    width: 100%;
+    color: black;
+    height: 1px;
+    background-color:black;
+}
+
 .error, .message {
     text-align: center;
     padding: 10px;
@@ -12,8 +19,8 @@
 .message {
     font-weight: bold;
     color: #000000;
-    background-color: #c6fbc2;
-    border: 1px solid #9feba6;
+    background-color: #c9fbca;
+    border: 1px solid #9febaa;
 }
 
 .img {
@@ -25,25 +32,24 @@
     -webkit-transform: scale(0.91, 0.3);
 }
 
-.container{
+.container {
     min-width: 960px;
     max-width: 1600px;
     margin: 0 auto;
     padding: 0;
 }
 
-#showPass{
+#showPass {
     position: absolute;
     margin-top: -68px;
     margin-left: -65px;
     -webkit-transform: scale(0.2, 0.25);
 }
 
-#showPassAdmin{
+#showPassAdmin {
+    color: black;
     position: absolute;
     margin-top: -25px;
     margin-left: 365px;
     -webkit-transform: scale(0.8, 0.8);
 }
-
-

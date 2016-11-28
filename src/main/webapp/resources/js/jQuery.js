@@ -12,11 +12,12 @@ function csrf_token_check() {
     });
 }
 
+var form = $('#detailsForm');
+
 function add(text) {
     $('#id').val(null);
-    $('#detailsForm')[0].reset();
-    $('#modal-title').html(text);
-    $('#editRow').modal();
+    form[0].reset();
+    openModalWindow(text, '');
 }
 
 function deleteRow(id) {
@@ -33,8 +34,6 @@ function deleteRow(id) {
 function updateTableByData(data) {
     datatable.clear().rows.add(data).draw();
 }
-
-var form = $('#detailsForm');
 
 function save() {
     $.ajax({
@@ -57,7 +56,13 @@ function updateRow(id) {
             form.find("input[name='" + key + "']").val(value);
         });
     });
+    openModalWindow(messages['update'], 'none');
+}
+
+function openModalWindow(title, isPassDisplayed) {
+    $('#modal-title').html(title);
     $('#editRow').modal();
+    $('#pass').css('display', isPassDisplayed);
 }
 
 function fillTable() {
@@ -97,6 +102,9 @@ function successNoty(text) {
 
 function editBtn(data, type, row) {
     if (type == 'display') {
+        if (isAdmin(row)) {
+            return '';
+        }
         return '<a class="btn btn-primary edit" onclick="updateRow(' + row.id + ')">' + messages['update'] + '</a>';
     }
 }
@@ -104,7 +112,7 @@ function editBtn(data, type, row) {
 function deleteBtn(data, type, row) {
     if (type == 'display') {
         if (isAdmin(row)) {
-            return '<a class="btn btn-danger delete disabled">' + messages['delete'] + '</a>';
+            return '';
         }
         return '<a class="btn btn-danger delete" onclick="deleteRow(' + row.id + ')">' + messages['delete'] + '</a>';
     }

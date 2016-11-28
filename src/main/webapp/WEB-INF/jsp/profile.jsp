@@ -22,6 +22,7 @@
                 <c:otherwise>
                     <fmt:message key="app.profile"/>
                     <fmt:message key="save" var="save"/>
+                    <c:set var="profile" value="true"/>
                 </c:otherwise>
             </c:choose>
         </h2>
@@ -35,8 +36,11 @@
             <fmt:message key="user.email" var="userEmail"/>
             <topjava:inputField label='${userEmail}' name="email"/>
 
-            <fmt:message key="user.password" var="userPassword"/>
-            <topjava:inputField label='${userPassword}' name="password" inputType="password"/>
+
+            <c:if test="${register}">
+                <fmt:message key="user.password" var="userPassword"/>
+                <topjava:inputField label='${userPassword}' name="password" inputType="password" id="password"/>
+            </c:if>
 
             <fmt:message key="user.caloriesPerDay" var="caloriesPerDay"/>
             <topjava:inputField label='${caloriesPerDay}' name="caloriesPerDay" inputType="number"/>
@@ -45,19 +49,40 @@
                 <div class="col-xs-offset-2 col-xs-10">
                     <button type="submit" class="btn btn-primary">${save}</button>
                 </div>
+
             </div>
         </form:form>
 
+        <c:set value="${param.message}" var="message"/>
+        <c:if test="${not empty message}">
+            <div class="message">
+                <fmt:message key="${message}"/>
+            </div>
+        </c:if>
+
+        <c:if test="${profile}">
+        <hr class="hr"/>
+        <br>
+        <h2 style="margin-left: 185px">
+            <fmt:message key="app.security"/>
+        </h2>
+        <br>
+        <form:form modelAttribute="userTo" class="form-horizontal" method="post"
+                   action="${'profile/password/update'}" charset="utf-8" accept-charset="UTF-8">
+        <fmt:message key="user.oldPassword" var="userPassword"/>
+        <topjava:inputField label='${userPassword}' name="password" inputType="password" id="oldPassword"/>
+
+        <fmt:message key="user.newPassword" var="userPassword"/>
+        <topjava:inputField label='${userPassword}' name="password" inputType="password" id="newPassword"/>
+
+        <div class="form-group">
+            <div class="col-xs-offset-2 col-xs-10">
+                <button type="submit" class="btn btn-primary">${save}</button>
+            </div>
+            </form:form>
+            </c:if>
+        </div>
     </div>
 </div>
-
-<c:set value="${param.message}" var="message"/>
-<c:if test="${not empty message}">
-    <div class="message">
-        <fmt:message key="${message}"/>
-    </div>
-</c:if>
-
-
 </body>
 </html>

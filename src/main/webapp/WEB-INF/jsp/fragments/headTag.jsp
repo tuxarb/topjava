@@ -31,8 +31,8 @@
         messages['${key}'] = "<fmt:message key="${key}"/>";
         </c:forEach>
 
-        function showPassword() {
-            var password = document.getElementById("password");
+        function showPassword(id) {
+            var password = document.getElementById(id);
             if (password.getAttribute("type") == "password") {
                 password.setAttribute("type", "text");
             } else {

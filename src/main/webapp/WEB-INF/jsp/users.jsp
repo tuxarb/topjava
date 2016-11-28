@@ -49,7 +49,7 @@
     <div class="modal-dialog">
         <div class="modal-content" style="background-color: burlywood; color: black">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                <button type="button" class="close" data-dismiss="modal"
                         style="color: red">&otimes;</button>
                 <h2 id="modal-title" class="modal-title"><fmt:message key="update"/></h2>
             </div>
@@ -74,15 +74,17 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="password" class="control-label col-xs-3"><fmt:message key="user.password"/></label>
+                    <div id="pass" class="form-group">
+                            <label for="password" class="control-label col-xs-3"><fmt:message
+                                    key="user.password"/></label>
 
-                        <div class="col-xs-9">
-                            <input type="password" class="form-control" id="password" name="password"
-                                   placeholder="<fmt:message key="user.password"/>">
-                            <a id="showPassAdmin" onclick=showPassword()><fmt:message key="show"/></a>
-                        </div>
+                            <div class="col-xs-9">
+                                <input type="password" class="form-control" id="password" name="password"
+                                       placeholder="<fmt:message key="user.password"/>">
+                                <a id="showPassAdmin" onclick=showPassword('password')><fmt:message key="show"/></a>
+                            </div>
                     </div>
+
 
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-3">

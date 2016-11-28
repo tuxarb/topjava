@@ -15,6 +15,7 @@ import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UsersUtil;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+
 import java.util.List;
 
 @Service("userService")
@@ -70,8 +71,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @CacheEvict(value = "users", allEntries = true)
-    public void evictCache()
-    {}
+    public void evictCache() {
+    }
 
     @Override
     public User getWithMeals(int id) {

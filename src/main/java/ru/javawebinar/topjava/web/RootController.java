@@ -53,6 +53,7 @@ public class RootController extends AbstractUserController {
         if (!bindingResult.hasErrors()) {
             try {
                 userTo.setId(AuthorizedUser.id());
+                userTo.setPassword(AuthorizedUser.get().getUserTo().getPassword());
                 super.update(userTo);
                 AuthorizedUser.get().update(userTo);
                 status.setComplete();
