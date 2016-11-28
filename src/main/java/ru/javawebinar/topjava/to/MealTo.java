@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.to;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.javawebinar.topjava.model.Meal;
 
@@ -21,6 +22,7 @@ public class MealTo implements Serializable {
 
     @Length(min = 3, max = 50, message = "{error.mealTo.description.length}")
     @Pattern(regexp = "^[a-zA-Zа-яА-Я][a-zа-я0-9-_ +]{2,}$", message = "{error.mealTo.description}")
+    @SafeHtml
     private String description;
 
     @NotNull(message = "{error.mealTo.calories.notnull}")

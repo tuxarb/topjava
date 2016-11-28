@@ -56,7 +56,6 @@
             <div class="modal-body">
                 <form:form class="form-horizontal" method="post" id="detailsForm">
                     <input type="text" hidden="hidden" id="id" name="id">
-
                     <div class="form-group">
                         <label for="name" class="control-label col-xs-3"><fmt:message key="user.name"/></label>
 

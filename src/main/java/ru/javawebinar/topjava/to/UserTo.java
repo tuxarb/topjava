@@ -4,6 +4,7 @@ package ru.javawebinar.topjava.to;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.SafeHtml;
 import ru.javawebinar.topjava.util.UsersUtil;
 
 import javax.validation.constraints.NotNull;
@@ -17,13 +18,16 @@ public class UserTo implements Serializable {
 
     @Length(min = 3, max = 30, message = "{error.userTo.name.length}")
     @Pattern(regexp = "^[a-zA-Zа-яА-Я][a-zа-я0-9-_]{2,}$", message = "{error.userTo.name}")
+    @SafeHtml
     private String name;
 
     @Length(max = 50, message = "{error.userTo.email.length}")
     @Email(regexp = "([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,})[.]([A-z]{2,8})", message = "{error.userTo.email}")
+    @SafeHtml
     private String email;
 
     @Size(min = 5, max = 20, message = " {error.userTo.password.size}")
+    @SafeHtml
     private String password;
 
 

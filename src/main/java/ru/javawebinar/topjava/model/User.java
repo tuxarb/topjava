@@ -5,6 +5,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.SafeHtml;
 import ru.javawebinar.topjava.util.UsersUtil;
 
 import javax.persistence.*;
@@ -20,11 +21,13 @@ public class User extends NamedEntity {
     @NotEmpty
     @Email
     @Column(name = "email", nullable = false, unique = true)
+    @SafeHtml
     protected String email;
 
     @Column(name = "password", nullable = false)
     @NotEmpty
     @Length(min = 5)
+    @SafeHtml
     protected String password;
 
     @Column(name = "enabled")
