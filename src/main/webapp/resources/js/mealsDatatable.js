@@ -58,7 +58,7 @@ $(function () {
         ],
         "createdRow": function (row, data) {
             $(row).css('font-weight', 'bold');
-            data.exceed ? $(row).css('background-color', '#ff4f5a').css('color', 'black') : $(row).css('color', 'green')
+            data.exceed ? $(row).css('color', 'red') : $(row).css('color', 'green')
         },
         "language": {
             "emptyTable": messages['datatables.empty'],

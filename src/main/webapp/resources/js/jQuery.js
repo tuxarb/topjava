@@ -82,7 +82,7 @@ function failNoty(event, jqXHR, options, jsExc) {
         text: messages['failed'] + ':<br>' + exceptionMessage.details.join('<br>'),
         type: 'error',
         layout: 'bottomRight',
-        timeout: 8000
+        timeout: 10000
     });
 }
 
@@ -101,7 +101,7 @@ function successNoty(text) {
         text: messages['success'] + ' ' + text + '!',
         type: 'success',
         layout: 'bottomRight',
-        timeout: 5000
+        timeout: 4000
     });
 }
 
