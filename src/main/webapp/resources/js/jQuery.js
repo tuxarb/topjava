@@ -50,7 +50,6 @@ function save() {
 
 function updateRow(id) {
     $.get(ajaxUrl + id, function (data) {
-        debugger;
         $.each(data, function (key, value) {
             if (key == 'dateTime') {
                 value = value.toString().replace('T', ' ').substr(0, 16);
