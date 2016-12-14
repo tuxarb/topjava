@@ -41,7 +41,7 @@
         }
 
         $(function () {
-            $('#name, #password, #email').on('input', function (e) {
+            $('#name, #password, #email, #oldPassword, #newPassword').on('input', function (e) {
                 var target = e.target,
                         position = target.selectionStart;
                 $(this).val($(this).val().replace(/\s/g, ''));
