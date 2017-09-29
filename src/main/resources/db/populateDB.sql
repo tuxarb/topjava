@@ -1,34 +1,29 @@
--- http://stackoverflow.com/questions/13223820/postgresql-delete-all-content
--- TRUNCATE public CASCADE;
-
--- http://stackoverflow.com/a/4991969/548473
--- TRUNCATE SCHEMA public AND COMMIT;
-
 DELETE FROM user_roles;
-DELETE FROM meals;
 DELETE FROM users;
+ALTER SEQUENCE global_seq RESTART WITH 1;
 
-ALTER SEQUENCE global_seq RESTART WITH 100000;
-
--- admin
 INSERT INTO users (name, email, password, calories_per_day)
-VALUES ('User', 'user@yandex.ru', '$2a$10$Sh0ZD2NFrzRRJJEKEWn8l.92ROEuzlVyzB9SV1AM8fdluPR0aC1ni', 2005);
+VALUES ('User', 'user@yandex.ru', '$2a$10$Ka5AzcEluHZ5MFo6G/5z7egf//8Gpvh7Ro2rQSSS1CfPMDAdgmWoS', 2500);
 
--- password
 INSERT INTO users (name, email, password, calories_per_day)
-VALUES ('Admin', 'admin@gmail.com', '$2a$10$WejOLxVuXRpOgr4IlzQJ.eT4UcukNqHlAiOVZj1P/nmc8WbpMkiju', 1900);
+VALUES ('Admin', 'admin@gmail.com', '$2a$10$znQRgtVYYDUkm3WmrYq5zuCauRAvs1BCuglwK579S4GBOKQo5Ah3S', 3000);
+
+INSERT INTO users (name, email, password, calories_per_day)
+VALUES ('Developer', 'tuxarb777@yandex.ru', '$2a$10$n4rugson545yiqL4s8F5ce.qTbjJweMRTyvJhpTTy9qvI8Swqn8Iy', 9999);
 
 INSERT INTO user_roles (role, user_id) VALUES
-  ('ROLE_USER', 100000),
-  ('ROLE_ADMIN', 100001),
-  ('ROLE_USER', 100001);
+  ('ROLE_USER', 1),
+  ('ROLE_ADMIN', 2),
+  ('ROLE_USER', 2),
+  ('ROLE_USER', 3),
+  ('ROLE_ADMIN', 3);
 
 INSERT INTO meals (date_time, description, calories, user_id) VALUES
-  ('2015-05-30 10:00:00', 'Завтрак', 500, 100000),
-  ('2015-05-30 13:00:00', 'Обед', 1000, 100000),
-  ('2015-05-30 20:00:00', 'Ужин', 500, 100000),
-  ('2015-05-31 10:00:00', 'Завтрак', 500, 100000),
-  ('2015-05-31 13:00:00', 'Обед', 1000, 100000),
-  ('2015-05-31 20:00:00', 'Ужин', 510, 100000),
-  ('2015-06-01 14:00:00', 'Админ ланч', 510, 100001),
-  ('2015-06-01 21:00:00', 'Админ ужин', 1500, 100001);
+  ('2015-05-30 10:00:00', 'Завтрак', 500, 1),
+  ('2015-05-30 13:00:00', 'Обед', 1000, 1),
+  ('2015-05-30 20:00:00', 'Ужин', 500, 1),
+  ('2015-05-31 10:00:00', 'Завтрак', 500, 1),
+  ('2015-05-31 13:00:00', 'Обед', 1000, 1),
+  ('2015-05-31 20:00:00', 'Ужин', 510, 1),
+  ('2015-06-01 14:00:00', 'Админ ланч', 510, 2),
+  ('2015-06-01 21:00:00', 'Админ ужин', 1500, 2);
