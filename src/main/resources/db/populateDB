@@ -8,10 +8,15 @@ VALUES ('User', 'user@yandex.ru', '$2a$10$Ka5AzcEluHZ5MFo6G/5z7egf//8Gpvh7Ro2rQS
 INSERT INTO users (name, email, password, calories_per_day)
 VALUES ('Admin', 'admin@gmail.com', '$2a$10$znQRgtVYYDUkm3WmrYq5zuCauRAvs1BCuglwK579S4GBOKQo5Ah3S', 3000);
 
+INSERT INTO users (name, email, password, calories_per_day)
+VALUES ('Developer', 'tuxarb777@yandex.ru', '$2a$10$n4rugson545yiqL4s8F5ce.qTbjJweMRTyvJhpTTy9qvI8Swqn8Iy', 9999);
+
 INSERT INTO user_roles (role, user_id) VALUES
   ('ROLE_USER', 1),
   ('ROLE_ADMIN', 2),
-  ('ROLE_USER', 2);
+  ('ROLE_USER', 2),
+  ('ROLE_USER', 3),
+  ('ROLE_ADMIN', 3);
 
 INSERT INTO meals (date_time, description, calories, user_id) VALUES
   ('2015-05-30 10:00:00', 'Завтрак', 500, 1),

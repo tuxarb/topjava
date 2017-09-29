@@ -28,6 +28,7 @@ public class User extends NamedEntity {
     @NotEmpty
     @Length(min = 5)
     @SafeHtml
+    @JsonIgnore
     protected String password;
 
     @Column(name = "enabled")

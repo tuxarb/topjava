@@ -55,18 +55,23 @@ public class RootController extends AbstractUserController {
     public String updateProfile(@Valid UserTo userTo, BindingResult bindingResult, SessionStatus status) {
         if (!bindingResult.hasErrors()) {
             try {
+                UserTo authUser = AuthorizedUser.get().getUserTo();
+                if (!userTo.getEmail().equals(authUser.getEmail()) &&
+                        UsersUtil.isTestAdmin(authUser)) {
+                    throw new Exception();
+                }
                 userTo.setId(AuthorizedUser.id());
-                userTo.setPassword(AuthorizedUser.get().getUserTo().getPassword());
+                userTo.setPassword(authUser.getPassword());
                 super.update(userTo);
                 AuthorizedUser.get().update(userTo);
                 status.setComplete();
-
                 return "redirect:profile?message=profile.success";
             } catch (DataIntegrityViolationException e) {
                 bindingResult.rejectValue("email", "user.duplicatedMail");
+            } catch (Exception e) {
+                bindingResult.rejectValue("email", "profile.testAdmin.email.immutable");
             }
         }
-
         return "profile";
     }
 
@@ -74,6 +79,9 @@ public class RootController extends AbstractUserController {
     public String updatePassword(@Valid PasswordUserTo passwordUserTo, BindingResult bindingResult, SessionStatus status, HttpServletRequest request) {
         if (!bindingResult.hasErrors()) {
             UserTo userTo = AuthorizedUser.get().getUserTo();
+            if (UsersUtil.isTestAdmin(userTo)) {
+                return "redirect:profile?message=profile.testAdmin.password.immutable";
+            }
             if (!PasswordUtil.isMatch(passwordUserTo.getOldPassword(), userTo.getPassword())) {
                 bindingResult.rejectValue("oldPassword", "profile.password.wrong");
                 return "profile";
@@ -82,10 +90,8 @@ public class RootController extends AbstractUserController {
             super.update(userTo);
             AuthorizedUser.get().update(userTo);
             status.setComplete();
-
             return "redirect:profile?message=profile.password.success";
         }
-
         return "profile";
     }
 

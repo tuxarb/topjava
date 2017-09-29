@@ -29,4 +29,8 @@ public class UsersUtil {
         user.setEmail(user.getEmail().toLowerCase());
         return user;
     }
+
+    public static boolean isTestAdmin(UserTo userTo) {
+        return "admin@gmail.com".equals(userTo.getEmail());
+    }
 }

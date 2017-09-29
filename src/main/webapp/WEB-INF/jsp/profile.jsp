@@ -84,11 +84,19 @@
             </c:if>
         </div>
 
-        <c:if test="${fn:containsIgnoreCase(message, 'profile.password.success')}">
-            <div class="message">
-                <fmt:message key="${message}"/>
-            </div>
-        </c:if>
+        <c:choose>
+            <c:when test="${fn:containsIgnoreCase(message, 'profile.password.success')}">
+                <div class="message">
+                    <fmt:message key="${message}"/>
+                </div>
+            </c:when>
+            <c:when test="${fn:containsIgnoreCase(message, 'profile.testAdmin.password.immutable')}">
+                <div class="error">
+                    <fmt:message key="${message}"/>
+                </div>
+            </c:when>
+        </c:choose>
+
     </div>
 </div>
 </body>
