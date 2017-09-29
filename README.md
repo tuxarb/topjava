@@ -49,8 +49,8 @@ If you are an **ADMIN**, in addition to the above, you can:
 1. If you haven't an account, press **Create account**
 1. If you already have an account, enter your credentials and press **Login**
 1. If you don't want to create your own account, you can test by using the next accounts:
-    - **user@yandex.ru &nbsp; 12345**  (USER)
-    - **admin@gmail.com  12345**  (ADMIN)
+    - **user@yandex.ru &nbsp;&nbsp; password**  (USER)
+    - **admin@gmail.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; admin**  (ADMIN)
 
 -------------
 
