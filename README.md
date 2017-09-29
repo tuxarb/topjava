@@ -50,7 +50,7 @@ If you are an **ADMIN**, in addition to the above, you can:
 1. If you already have an account, enter your credentials and press **Login**
 1. If you don't want to create your own account, you can test by using the next accounts:
     - **user@yandex.ru &nbsp;&nbsp; password**  (USER)
-    - **admin@gmail.com &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; admin**  (ADMIN)
+    - **admin@gmail.com &nbsp;&nbsp;&nbsp;&nbsp; admin**  (ADMIN)
 
 -------------
 
