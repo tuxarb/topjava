@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
+import ru.javawebinar.topjava.repository.datajpa.JpaUtil;
+import ru.javawebinar.topjava.util.Profiles;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,17 +16,22 @@ import java.util.Collections;
 
 import static ru.javawebinar.topjava.UserTestData.*;
 
-public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
+public class UserServiceTest extends AbstractServiceTest {
     @Autowired
-    protected UserService service;
+    private UserService service;
+
+    @Autowired(required = false)
+    private JpaUtil jpaUtil;
 
     @Before
     public void setUp() throws Exception {
         service.evictCache();
+        if (Profiles.ACTIVE_REPOSITORY.equals(Profiles.JDBC))
+            return;
+        jpaUtil.clear2ndLevelHibernateCache();
     }
-        
-    @Test
+
     public void testSave() throws Exception {
         User newUser = new User(null, "New", "new@gmail.com", "newPass", 1555, false, Collections.singleton(Role.ROLE_USER));
         User created = service.save(newUser);
@@ -33,60 +39,56 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, newUser, USER), service.getAll());
     }
 
-    @Test(expected = DataAccessException.class)
-    public void testDuplicateMailSave() throws Exception {
-        service.save(new User(null, "Duplicate", "user@yandex.ru", "newPass", 2000, Role.ROLE_USER));
-    }
-
-    @Test
     public void testDelete() throws Exception {
         service.delete(USER_ID);
         MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), service.getAll());
     }
 
-    @Test(expected = NotFoundException.class)
-    public void testNotFoundDelete() throws Exception {
-        service.delete(1);
+    public void testDeleteNotFound() throws Exception {
+        super.testGetNotFound();
+        service.delete(100);
     }
 
-    @Test
     public void testGet() throws Exception {
         User user = service.get(ADMIN_ID);
         MATCHER.assertEquals(ADMIN, user);
     }
 
-    @Test(expected = NotFoundException.class)
     public void testGetNotFound() throws Exception {
-        service.get(1);
+        super.testGetNotFound();
+        service.get(100);
     }
 
-    @Test
-    public void testGetByEmail() throws Exception {
-        User user = service.getByEmail("admin@gmail.com");
-        MATCHER.assertEquals(ADMIN, user);
-    }
-
-    @Test
     public void testGetAll() throws Exception {
         Collection<User> all = service.getAll();
         MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, USER), all);
     }
 
-    @Test
     public void testUpdate() throws Exception {
-        User updated = new User(USER);
+        User updated = new User(ADMIN);
         updated.setName("UpdatedName");
         updated.setCaloriesPerDay(330);
-        updated.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
         service.update(updated);
-        MATCHER.assertEquals(updated, service.get(USER_ID));
+        MATCHER.assertEquals(updated, service.get(ADMIN_ID));
+    }
+
+    @Test
+    public void testDuplicateMailSave() throws Exception {
+        exception.expect(DataAccessException.class);
+        service.save(new User(null, "Duplicate", "admin@gmail.com", "newPass", Role.ROLE_ADMIN));
+    }
+
+    @Test
+    public void testGetByEmail() throws Exception {
+        User user = service.getByEmail("user@yandex.ru");
+        MATCHER.assertEquals(USER, user);
     }
 
     @Test
     public void testSetEnabledEquals() {
-        service.enable(USER_ID, false);
+        service.check(USER_ID, false);
         Assert.assertFalse(service.get(USER_ID).isEnabled());
-        service.enable(USER_ID, true);
+        service.check(USER_ID, true);
         Assert.assertTrue(service.get(USER_ID).isEnabled());
     }
 }

@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.web;
 
+
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,39 +13,30 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import ru.javawebinar.topjava.repository.JpaUtil;
+import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.service.UserService;
+import ru.javawebinar.topjava.util.Profiles;
 
 import javax.annotation.PostConstruct;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static ru.javawebinar.topjava.Profiles.ACTIVE_DB;
-import static ru.javawebinar.topjava.Profiles.DB_IMPLEMENTATION;
 
-/**
- * User: gkislin
- * Date: 10.08.2014
- */
 @ContextConfiguration({
-        "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-mvc.xml",
-        "classpath:spring/spring-db.xml"
+        "classpath:spring/spring-mvc",
+        "classpath:spring/spring-app",
+        "classpath:spring/spring-db"
 })
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles({Profiles.ACTIVE_REPOSITORY, Profiles.ACTIVE_DB})
 @Transactional
-@ActiveProfiles({ACTIVE_DB, DB_IMPLEMENTATION})
-abstract public class AbstractControllerTest {
-
-    private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
+public abstract class AbstractControllerTest {
+    private static CharacterEncodingFilter filter = new CharacterEncodingFilter();
 
     static {
-        CHARACTER_ENCODING_FILTER.setEncoding("UTF-8");
-        CHARACTER_ENCODING_FILTER.setForceEncoding(true);
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
     }
-
-    @Autowired
-    private JpaUtil jpaUtil;
 
     protected MockMvc mockMvc;
 
@@ -52,13 +44,16 @@ abstract public class AbstractControllerTest {
     protected UserService userService;
 
     @Autowired
-    private WebApplicationContext webApplicationContext;
+    protected MealService mealService;
+
+    @Autowired
+    private WebApplicationContext webContext;
 
     @PostConstruct
-    private void postConstruct() {
+    public void postConstruct() {
         mockMvc = MockMvcBuilders
-                .webAppContextSetup(webApplicationContext)
-                .addFilter(CHARACTER_ENCODING_FILTER)
+                .webAppContextSetup(webContext)
+                //.addFilter(filter)
                 .apply(springSecurity())
                 .build();
     }
@@ -66,6 +61,7 @@ abstract public class AbstractControllerTest {
     @Before
     public void setUp() {
         userService.evictCache();
-        jpaUtil.clear2ndLevelHibernateCache();
     }
+
+
 }

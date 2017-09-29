@@ -1,27 +1,30 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+
+<c:set var="base" value="${pageContext.request.contextPath}"/>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <a href="meals" class="navbar-brand"><spring:message code="app.title"/></a>
-
+        <a href="meals" class="navbar-brand" style="color: #a94442;text-decoration: underline; font-size: x-large; margin-left: -90px">
+            <fmt:message key="app.title"/>
+        </a>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <form:form class="navbar-form" action="logout" method="post">
+                    <form:form class="navbar-form navbar-right" action="${base}/logout">
                         <sec:authorize access="isAuthenticated()">
+                            <a class="btn btn-info" href="${base}/profile"><fmt:message key="app.profile"/></a>
                             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                <a class="btn btn-info" role="button" href="users"><spring:message code="users.title"/></a>
+                                <a class="btn btn-info" role="button" href="users"><fmt:message key="user.title"/></a>
                             </sec:authorize>
-                            <a class="btn btn-info" role="button" href="profile">${userTo.name} <spring:message code="app.profile"/></a>
-                            <input type="submit" class="btn btn-primary" value="<spring:message code="app.logout"/>">
+                            <input type="submit" class="btn btn-danger" value="<fmt:message key="app.logout"/>"/>
                         </sec:authorize>
                     </form:form>
                 </li>
-                <jsp:include page="lang.jsp"/>
+                <jsp:include page="/WEB-INF/jsp/lang.jsp"/>
             </ul>
         </div>
     </div>

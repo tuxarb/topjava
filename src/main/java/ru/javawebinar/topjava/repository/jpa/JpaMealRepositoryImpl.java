@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.repository.jpa;
 
+
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
@@ -9,62 +11,65 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
-
-/**
- * User: gkisline
- * Date: 26.08.2014
- */
 
 @Repository
 @Transactional(readOnly = true)
 public class JpaMealRepositoryImpl implements MealRepository {
-
     @PersistenceContext
-    private EntityManager em;
+    private EntityManager entityManager;
 
     @Override
+    public Meal get(int id, int userId) {
+        List<Meal> meals = entityManager.createQuery(
+                "SELECT meal FROM Meal meal WHERE meal.id=:id AND meal.user.id=:userId", Meal.class)
+                .setParameter("id", id)
+                .setParameter("userId", userId)
+                .getResultList();
+        return DataAccessUtils.singleResult(meals);
+    }
+
     @Transactional
+    @Override
     public Meal save(Meal meal, int userId) {
-        if (!meal.isNew() && get(meal.getId(), userId) == null) {
-            return null;
-        }
-        meal.setUser(em.getReference(User.class, userId));
+        User user = entityManager.getReference(User.class, userId);
+        meal.setUser(user);
+
         if (meal.isNew()) {
-            em.persist(meal);
+            entityManager.persist(meal);
             return meal;
         } else {
-            return em.merge(meal);
+            if (get(meal.getId(), userId) == null)
+                return null;
+            return entityManager.merge(meal);
         }
     }
 
-    @Override
     @Transactional
+    @Override
     public boolean delete(int id, int userId) {
-        return em.createNamedQuery(Meal.DELETE)
+        return entityManager.createQuery("DELETE FROM Meal meal WHERE meal.id=:id AND meal.user.id=:userId")
                 .setParameter("id", id)
                 .setParameter("userId", userId)
                 .executeUpdate() != 0;
     }
 
     @Override
-    public Meal get(int id, int userId) {
-        Meal meal = em.find(Meal.class, id);
-        return meal != null && meal.getUser().getId() == userId ? meal : null;
-    }
-
-    @Override
-    public List<Meal> getAll(int userId) {
-        return em.createNamedQuery(Meal.ALL_SORTED, Meal.class)
+    public Collection<Meal> getAll(int userId) {
+        return entityManager.createQuery(
+                "SELECT meal FROM Meal meal WHERE meal.user.id=:userId ORDER BY meal.dateTime DESC", Meal.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }
 
     @Override
-    public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return em.createNamedQuery(Meal.GET_BETWEEN, Meal.class)
+    public Collection<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
+        return entityManager.createQuery("SELECT meal FROM Meal meal WHERE meal.user.id=:userId AND " +
+                "meal.dateTime BETWEEN :startDate AND :endDate ORDER BY meal.dateTime DESC", Meal.class)
                 .setParameter("userId", userId)
                 .setParameter("startDate", startDate)
-                .setParameter("endDate", endDate).getResultList();
+                .setParameter("endDate", endDate)
+                .getResultList();
     }
 }

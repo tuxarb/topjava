@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.web.user;
 
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.AuthorizedUser;
@@ -8,14 +9,10 @@ import ru.javawebinar.topjava.to.UserTo;
 
 import javax.validation.Valid;
 
-/**
- * GKislin
- * 06.03.2015.
- */
 @RestController
-@RequestMapping(ProfileRestController.REST_URL)
+@RequestMapping(ProfileRestController.URL)
 public class ProfileRestController extends AbstractUserController {
-    static final String REST_URL = "/rest/profile";
+    static final String URL = "/rest/profile";
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public User get() {
@@ -31,10 +28,5 @@ public class ProfileRestController extends AbstractUserController {
     public void update(@Valid @RequestBody UserTo userTo) {
         userTo.setId(AuthorizedUser.id());
         super.update(userTo);
-    }
-
-    @GetMapping(value = "/text")
-    public String testUTF() {
-        return "Русский текст";
     }
 }

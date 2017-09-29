@@ -1,61 +1,60 @@
 package ru.javawebinar.topjava.web.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.to.UserTo;
 
 import java.util.List;
 
-/**
- * User: gkislin
- */
+import static org.slf4j.LoggerFactory.getLogger;
+
 public abstract class AbstractUserController {
-    protected final Logger log = LoggerFactory.getLogger(getClass());
+    protected static final org.slf4j.Logger LOG = getLogger(AbstractUserController.class);
 
     @Autowired
     private UserService service;
 
     public List<User> getAll() {
-        log.info("getAll");
+        LOG.info("getAll");
         return service.getAll();
     }
 
     public User get(int id) {
-        log.info("get " + id);
+        LOG.info("get " + id);
         return service.get(id);
     }
 
     public User create(User user) {
         user.setId(null);
-        log.info("create " + user);
+        LOG.info("create " + user);
         return service.save(user);
     }
 
     public void delete(int id) {
-        log.info("delete " + id);
+        LOG.info("delete " + id);
         service.delete(id);
     }
 
     public void update(User user, int id) {
         user.setId(id);
-        log.info("update " + user);
+        LOG.info("update " + user);
         service.update(user);
     }
 
-    public void update(UserTo userTo) {
-        log.info("update " + userTo);
-        service.update(userTo);
+    public void update(UserTo updatedUser) {
+        LOG.info("update " + updatedUser);
+        service.update(updatedUser);
     }
 
     public User getByMail(String email) {
-        log.info("getByEmail " + email);
+        LOG.info("getByEmail " + email);
         return service.getByEmail(email);
     }
 
-    public void enable(int id, boolean enabled) {
-        service.enable(id, enabled);
+    public void check(int id, boolean enabled) {
+        LOG.info("check with id = {} and enabled = {}", id, enabled);
+        service.check(id, enabled);
     }
 }

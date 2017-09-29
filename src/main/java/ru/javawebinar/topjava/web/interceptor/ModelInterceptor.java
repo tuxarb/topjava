@@ -1,15 +1,14 @@
 package ru.javawebinar.topjava.web.interceptor;
 
+
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import ru.javawebinar.topjava.AuthorizedUser;
+import ru.javawebinar.topjava.to.PasswordUserTo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * This interceptor adds the user to the model of every requests managed
- */
 public class ModelInterceptor extends HandlerInterceptorAdapter {
 
     @Override
@@ -18,6 +17,7 @@ public class ModelInterceptor extends HandlerInterceptorAdapter {
             AuthorizedUser authorizedUser = AuthorizedUser.safeGet();
             if (authorizedUser != null) {
                 modelAndView.getModelMap().addAttribute("userTo", authorizedUser.getUserTo());
+                modelAndView.getModelMap().addAttribute("passwordUserTo", new PasswordUserTo());
             }
         }
     }

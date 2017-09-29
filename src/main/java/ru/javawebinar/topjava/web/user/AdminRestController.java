@@ -10,14 +10,10 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-/**
- * GKislin
- * 06.03.2015.
- */
 @RestController
-@RequestMapping(AdminRestController.REST_URL)
+@RequestMapping(value = AdminRestController.URL)
 public class AdminRestController extends AbstractUserController {
-    static final String REST_URL = "/rest/admin/users";
+    static final String URL = "/rest/admin/users";
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
@@ -29,17 +25,12 @@ public class AdminRestController extends AbstractUserController {
         return super.get(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         User created = super.create(user);
-
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path(URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
-
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setLocation(uriOfNewResource);
-
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
@@ -49,7 +40,7 @@ public class AdminRestController extends AbstractUserController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Valid @RequestBody User user, @PathVariable("id") int id) {
+    public void update(@RequestBody User user, @PathVariable("id") int id) {
         super.update(user, id);
     }
 

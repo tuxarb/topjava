@@ -8,32 +8,30 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.javawebinar.topjava.AuthorizedUser;
+import ru.javawebinar.topjava.to.PasswordUserTo;
 import ru.javawebinar.topjava.to.UserTo;
-import ru.javawebinar.topjava.util.UserUtil;
+import ru.javawebinar.topjava.util.PasswordUtil;
+import ru.javawebinar.topjava.util.UsersUtil;
 import ru.javawebinar.topjava.web.user.AbstractUserController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-/**
- * User: gkislin
- * Date: 22.08.2014
- */
 @Controller
 public class RootController extends AbstractUserController {
 
-    @GetMapping("/")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {
         return "redirect:meals";
     }
 
-    //    @Secured("ROLE_ADMIN")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/users")
-    public String users() {
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public String getUsers() {
         return "users";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping("/login")
     public String login(ModelMap model,
                         @RequestParam(value = "error", required = false) boolean error,
                         @RequestParam(value = "message", required = false) String message) {
@@ -42,8 +40,9 @@ public class RootController extends AbstractUserController {
         return "login";
     }
 
-    @GetMapping("/meals")
-    public String meals() {
+
+    @RequestMapping(value = "/meals", method = RequestMethod.GET)
+    public String getMeals() {
         return "meals";
     }
 
@@ -53,40 +52,113 @@ public class RootController extends AbstractUserController {
     }
 
     @PostMapping("/profile")
-    public String updateProfile(@Valid UserTo userTo, BindingResult result, SessionStatus status) {
-        if (!result.hasErrors()) {
+    public String updateProfile(@Valid UserTo userTo, BindingResult bindingResult, SessionStatus status) {
+        if (!bindingResult.hasErrors()) {
             try {
+                UserTo authUser = AuthorizedUser.get().getUserTo();
+                if (!userTo.getEmail().equals(authUser.getEmail()) &&
+                        UsersUtil.isTestAdmin(authUser)) {
+                    throw new Exception();
+                }
                 userTo.setId(AuthorizedUser.id());
+                userTo.setPassword(authUser.getPassword());
                 super.update(userTo);
                 AuthorizedUser.get().update(userTo);
                 status.setComplete();
-                return "redirect:meals";
-            } catch (DataIntegrityViolationException ex) {
-                result.rejectValue("email", "exception.duplicate_email");
+                return "redirect:profile?message=profile.success";
+            } catch (DataIntegrityViolationException e) {
+                bindingResult.rejectValue("email", "user.duplicatedMail");
+            } catch (Exception e) {
+                bindingResult.rejectValue("email", "profile.testAdmin.email.immutable");
             }
+        }
+        return "profile";
+    }
+
+    @PostMapping(value = "/profile", params = "password/update")
+    public String updatePassword(@Valid PasswordUserTo passwordUserTo, BindingResult bindingResult, SessionStatus status, HttpServletRequest request) {
+        if (!bindingResult.hasErrors()) {
+            UserTo userTo = AuthorizedUser.get().getUserTo();
+            if (UsersUtil.isTestAdmin(userTo)) {
+                return "redirect:profile?message=profile.testAdmin.password.immutable";
+            }
+            if (!PasswordUtil.isMatch(passwordUserTo.getOldPassword(), userTo.getPassword())) {
+                bindingResult.rejectValue("oldPassword", "profile.password.wrong");
+                return "profile";
+            }
+            userTo.setPassword(passwordUserTo.getNewPassword());
+            super.update(userTo);
+            AuthorizedUser.get().update(userTo);
+            status.setComplete();
+            return "redirect:profile?message=profile.password.success";
         }
         return "profile";
     }
 
     @GetMapping("/register")
-    public String register(ModelMap model) {
-        model.addAttribute("userTo", new UserTo());
-        model.addAttribute("register", true);
+    public String register(ModelMap map) {
+        map.put("userTo", new UserTo());
+        map.put("register", true);
         return "profile";
     }
 
     @PostMapping("/register")
-    public String saveRegister(@Valid UserTo userTo, BindingResult result, SessionStatus status, ModelMap model) {
+    public String doRegister(@Valid UserTo userTo, BindingResult result, SessionStatus sessionStatus, ModelMap map) {
         if (!result.hasErrors()) {
             try {
-                super.create(UserUtil.createNewFromTo(userTo));
-                status.setComplete();
+                super.create(UsersUtil.createNewUserFromForm(userTo));
+                sessionStatus.setComplete();
                 return "redirect:login?message=app.registered";
-            } catch (DataIntegrityViolationException ex) {
-                result.rejectValue("email", "exception.duplicate_email");
+            } catch (DataIntegrityViolationException e) {
+                result.rejectValue("email", "user.duplicatedMail");
             }
         }
-        model.addAttribute("register", true);
+        map.put("register", true);
         return "profile";
+    }
+
+    /*@RequestMapping(value = "/meals", params = {"action=filter"}, method = RequestMethod.POST)
+    public String filterMeals(Model model, HttpServletRequest req) {
+        LocalDate startDate = TimeUtil.parseLocalDate(req.getParameter("startDate"));
+        LocalDate endDate = TimeUtil.parseLocalDate(req.getParameter("endDate"));
+        LocalTime startTime = TimeUtil.parseLocalTime(req.getParameter("startTime"));
+        LocalTime endTime = TimeUtil.parseLocalTime(req.getParameter("endTime"));
+        model.addAttribute("mealList", mealController.getBetween(startTime, endTime, startDate, endDate));
+        return "meals";
+    }
+
+
+    @RequestMapping(value = "/meals", method = RequestMethod.POST)
+    public String createOrUpdateMeal(HttpServletRequest req) throws IOException {
+        String id = req.getParameter("id");
+        LocalDateTime ldt = LocalDateTime.parse(req.getParameter("dateTime"));
+        String description = req.getParameter("description");
+        int calories = Integer.valueOf(req.getParameter("calories"));
+
+        final Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id), ldt, description, calories);
+        if (id.isEmpty()) {
+            mealController.create(meal);
+        } else
+            mealController.update(meal, Integer.valueOf(id));
+        return "redirect:meals";
+    }
+
+    @RequestMapping(value = "/meals", params = "action=delete", method = RequestMethod.GET)
+    public String deleteMeal(HttpServletRequest req) {
+        int id = getId(req);
+        mealController.delete(id);
+        return "redirect:meals";
+    }
+
+    private int getId(HttpServletRequest req) {
+        String paramId = Objects.requireNonNull(req.getParameter("id"));
+        return Integer.parseInt(paramId);
+    }*/
+
+    @GetMapping("/ru_text")
+    public
+    @ResponseBody
+    String testUTF() {
+        return "Русские буквы";
     }
 }

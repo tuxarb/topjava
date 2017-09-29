@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
-import org.springframework.data.jpa.repository.EntityGraph;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,16 +11,10 @@ import ru.javawebinar.topjava.model.User;
 
 import java.util.List;
 
-/**
- * gkislin
- * 02.10.2016
- */
 @Transactional(readOnly = true)
-public interface CrudUserRepository extends JpaRepository<User, Integer> {
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM User u WHERE u.id=:id")
-    int delete(@Param("id") int id);
+public interface CrudUserRepository extends JpaRepository<User, Integer>{
+    @Override
+    List<User> findAll(Sort sort);
 
     @Override
     @Transactional
@@ -28,14 +23,13 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Override
     User findOne(Integer id);
 
-    @Override
-    @Query("SELECT u FROM User u ORDER BY u.name, u.email")
-    List<User> findAll();
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM User user WHERE user.id=:id")
+    int delete(@Param("id") int id);
 
-    @Query("SELECT u FROM User u WHERE u.email=?1")
     User getByEmail(String email);
 
-    @EntityGraph(value = User.GRAPH_WITH_MEALS)
-    @Query("SELECT u FROM User u WHERE u.id=?1")
+    @Query("SELECT user FROM User user WHERE user.id = ?1")
     User getWithMeals(int id);
 }

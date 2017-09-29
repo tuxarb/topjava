@@ -1,62 +1,51 @@
 package ru.javawebinar.topjava.web.user;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.dao.DataIntegrityViolationException;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.View;
 import ru.javawebinar.topjava.to.UserTo;
-import ru.javawebinar.topjava.util.UserUtil;
+import ru.javawebinar.topjava.util.UsersUtil;
 
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * User: grigory.kislin
- */
+import static ru.javawebinar.topjava.web.user.AdminAjaxController.URL;
+
 @RestController
-@RequestMapping("/ajax/admin/users")
+@RequestMapping(URL)
 public class AdminAjaxController extends AbstractUserController {
+    static final String URL = "/ajax/admin/users";
 
-    @Autowired
-    private MessageSource messageSource;
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @JsonView(View.UI.class)
-    public List<User> getAll() {
-        return super.getAll();
-    }
-
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @JsonView(View.UI.class)
-    public User get(@PathVariable("id") int id) {
-        return super.get(id);
-    }
-
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserTo getTo(@PathVariable("id") int id) {
+        return UsersUtil.asTo(super.get(id));
+
+    }
+
     @PostMapping
-    public void createOrUpdate(@Valid UserTo userTo) {
-        try {
-            if (userTo.isNew()) {
-                super.create(UserUtil.createNewFromTo(userTo));
-            } else {
-                super.update(userTo);
-            }
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException(messageSource.getMessage("exception.duplicate_email", null, LocaleContextHolder.getLocale()));
+    public void createOrUpdate(@Valid UserTo newUser) {
+        if (newUser.isNew()) {
+            super.create(UsersUtil.createNewUserFromForm(newUser));
+        } else {
+            super.update(newUser);
         }
     }
 
-    @PostMapping(value = "/{id}")
-    public void enabled(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled) {
-        super.enable(id, enabled);
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<User> getAll() {
+        return super.getAll();
     }
+
+
+    @PostMapping(value = "/{id}")
+    public void check(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled) {
+        super.check(id, enabled);
+    }
+
 }

@@ -1,47 +1,51 @@
 package ru.javawebinar.topjava.to;
 
+
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.SafeHtml;
-import ru.javawebinar.topjava.util.UserUtil;
+import ru.javawebinar.topjava.util.UsersUtil;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class UserTo implements Serializable {
     private static final long serialVersionUID = 1L;
-
     private Integer id;
 
-    @NotEmpty
+    @Length(min = 3, max = 30, message = "{error.userTo.name.length}")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я][a-zа-я0-9-_]{2,}$", message = "{error.userTo.name}")
     @SafeHtml
     private String name;
 
-    @Email
-    @NotEmpty
+    @Length(max = 50, message = "{error.userTo.email.length}")
+    @Email(regexp = "([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,})[.]([A-z]{2,8})", message = "{error.userTo.email}")
     @SafeHtml
     private String email;
 
-    @Size(min = 5, max = 64, message = " must between 5 and 64 characters")
+    @Size(min = 5, max = 20, message = " {error.userTo.password.size}")
     @SafeHtml
     private String password;
 
-    @Range(min = 100, max = 5000)
-    @NotNull(message = " must not be empty")
-    private Integer caloriesPerDay = UserUtil.DEFAULT_CALORIES_PER_DAY;
+
+    @NotNull(message = "{error.userTo.calories.notnull}")
+    @Range(min = 100, max = 9999, message = "{error.userTo.calories.range}")
+    private Integer caloriesPerDay = UsersUtil.DEFAULT_CALORIES_PER_DAY;
 
     public UserTo() {
     }
 
-    public UserTo(Integer id, String name, String email, String password, int caloriesPerDay) {
+    public UserTo(Integer id, String name, String email, String password, Integer caloriesPerDay) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.caloriesPerDay = caloriesPerDay;
     }
+
 
     public Integer getId() {
         return id;
@@ -97,3 +101,4 @@ public class UserTo implements Serializable {
                 '}';
     }
 }
+

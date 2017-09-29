@@ -6,65 +6,53 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
-public abstract class AbstractMealServiceTest extends AbstractServiceTest {
-
+public class MealServiceTest extends AbstractServiceTest{
     @Autowired
-    protected MealService service;
+    private MealService service;
 
-    @Test
-    public void testDelete() throws Exception {
-        service.delete(MEAL1_ID, USER_ID);
-        MATCHER.assertCollectionEquals(Arrays.asList(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2), service.getAll(USER_ID));
+    public void testDelete() {
+        service.delete(MEAL1.getId(), USER_ID);
+        MATCHER.assertCollectionEquals(
+                MEALS.stream().filter(meal -> !meal.getId().equals(MEAL1.getId())).collect(Collectors.toList()),
+                service.getAll(1));
     }
 
-    @Test
     public void testDeleteNotFound() throws Exception {
-        thrown.expect(NotFoundException.class);
-        service.delete(MEAL1_ID, 1);
+        super.testDeleteNotFound();
+        service.delete(MEAL1.getId(), 3);
     }
 
-    @Test
     public void testSave() throws Exception {
-        Meal created = getCreated();
+        Meal created = new Meal(null, LocalDateTime.now(), "abcd", 1000);
         service.save(created, USER_ID);
         MATCHER.assertCollectionEquals(Arrays.asList(created, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1), service.getAll(USER_ID));
     }
 
-    @Test
     public void testGet() throws Exception {
-        Meal actual = service.get(ADMIN_MEAL_ID, ADMIN_ID);
+        Meal actual = service.get(ADMIN_MEAL1.getId(), ADMIN_ID);
         MATCHER.assertEquals(ADMIN_MEAL1, actual);
     }
 
-    @Test
     public void testGetNotFound() throws Exception {
-        thrown.expect(NotFoundException.class);
-        service.get(MEAL1_ID, ADMIN_ID);
+        super.testGetNotFound();
+        service.get(MEAL1.getId(), ADMIN_ID);
     }
 
-    @Test
     public void testUpdate() throws Exception {
-        Meal updated = getUpdated();
+        Meal updated = new Meal(MEAL1.getId(), LocalDateTime.now(), "sfsf", 150);
         service.update(updated, USER_ID);
-        MATCHER.assertEquals(updated, service.get(MEAL1_ID, USER_ID));
+        MATCHER.assertEquals(updated, service.get(MEAL1.getId(), USER_ID));
     }
 
-    @Test
-    public void testNotFoundUpdate() throws Exception {
-        Meal item = service.get(MEAL1_ID, USER_ID);
-        thrown.expect(NotFoundException.class);
-        thrown.expectMessage("Not found entity with id=" + MEAL1_ID);
-        service.update(item, ADMIN_ID);
-    }
-
-    @Test
     public void testGetAll() throws Exception {
         MATCHER.assertCollectionEquals(MEALS, service.getAll(USER_ID));
     }
@@ -72,6 +60,13 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
     @Test
     public void testGetBetween() throws Exception {
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL3, MEAL2, MEAL1),
-                service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID));
+                service.getBetween(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID));
+    }
+
+    @Test
+    public void testNotFoundUpdate() throws Exception {
+        exception.expect(NotFoundException.class);
+        Meal item = service.get(MEAL1.getId(), USER_ID);
+        service.update(item, ADMIN_ID);
     }
 }

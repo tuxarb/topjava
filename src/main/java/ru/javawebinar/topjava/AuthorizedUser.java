@@ -4,14 +4,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
-import ru.javawebinar.topjava.util.UserUtil;
+import ru.javawebinar.topjava.util.PasswordUtil;
+import ru.javawebinar.topjava.util.UsersUtil;
 
 import static java.util.Objects.requireNonNull;
 
-/**
- * GKislin
- * 06.03.2015.
- */
 public class AuthorizedUser extends org.springframework.security.core.userdetails.User {
     private static final long serialVersionUID = 1L;
 
@@ -19,7 +16,7 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
 
     public AuthorizedUser(User user) {
         super(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, user.getRoles());
-        this.userTo = UserUtil.asTo(user);
+        this.userTo = UsersUtil.asTo(user);
     }
 
     public static AuthorizedUser safeGet() {
@@ -45,10 +42,6 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
         return get().userTo.getCaloriesPerDay();
     }
 
-    public void update(UserTo newTo) {
-        userTo = newTo;
-    }
-
     public UserTo getUserTo() {
         return userTo;
     }
@@ -56,5 +49,10 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
     @Override
     public String toString() {
         return userTo.toString();
+    }
+
+    public void update(UserTo userTo) {
+        userTo.setPassword(PasswordUtil.encode(userTo.getPassword()));
+        this.userTo = userTo;
     }
 }

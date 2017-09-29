@@ -12,34 +12,27 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.to.UserTo;
+import ru.javawebinar.topjava.util.UsersUtil;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.List;
 
-import static ru.javawebinar.topjava.util.UserUtil.prepareToSave;
-import static ru.javawebinar.topjava.util.UserUtil.updateFromTo;
-
-/**
- * GKislin
- * 06.03.2015.
- */
 @Service("userService")
 public class UserServiceImpl implements UserService, UserDetailsService {
-
     @Autowired
     private UserRepository repository;
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
+    @CacheEvict(value = "users", allEntries = true)
     public User save(User user) {
         Assert.notNull(user, "user must not be null");
-        return repository.save(prepareToSave(user));
+        return repository.save(UsersUtil.prepareToSave(user));
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
-    public void delete(int id) {
+    @CacheEvict(value = "users", allEntries = true)
+    public void delete(int id) throws NotFoundException {
         ExceptionUtil.checkNotFoundWithId(repository.delete(id), id);
     }
 
@@ -54,53 +47,58 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return ExceptionUtil.checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 
-    @Cacheable("users")
+
     @Override
+    @Cacheable("users")
     public List<User> getAll() {
         return repository.getAll();
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
+    @CacheEvict(value = "users", allEntries = true)
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
-        repository.save(prepareToSave(user));
+        repository.save(UsersUtil.prepareToSave(user));
     }
 
+    @Override
     @CacheEvict(value = "users", allEntries = true)
     @Transactional
-    @Override
     public void update(UserTo userTo) {
-        User user = updateFromTo(get(userTo.getId()), userTo);
-        repository.save(prepareToSave(user));
+        User user = get(userTo.getId());
+        if ("*****".equals(userTo.getPassword())) {
+            userTo.setPassword(user.getPassword());
+        }
+        User updatedUser = UsersUtil.getUserFromUserTo(user, userTo);
+        repository.save(UsersUtil.prepareToSave(updatedUser));
     }
 
-
-    @CacheEvict(value = "users", allEntries = true)
     @Override
+    @CacheEvict(value = "users", allEntries = true)
     public void evictCache() {
     }
 
-    @CacheEvict(value = "users", allEntries = true)
+    @Override
+    public User getWithMeals(int id) {
+        return ExceptionUtil.checkNotFoundWithId(repository.getWithMeals(id), id);
+    }
+
     @Override
     @Transactional
-    public void enable(int id, boolean enabled) {
+    @CacheEvict(value = "users", allEntries = true)
+    public void check(int id, boolean enabled) {
         User user = get(id);
         user.setEnabled(enabled);
-        repository.save(user);
+
+        repository.save(UsersUtil.prepareToSave(user));
     }
 
     @Override
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
         User u = repository.getByEmail(email.toLowerCase());
         if (u == null) {
-            throw new UsernameNotFoundException("User " + email + " is not found");
+            throw new UsernameNotFoundException("User with " + email + " is not found");
         }
         return new AuthorizedUser(u);
-    }
-
-    @Override
-    public User getWithMeals(int id) {
-        return ExceptionUtil.checkNotFoundWithId(repository.getWithMeals(id), id);
     }
 }

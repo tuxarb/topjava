@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-	Application context definition for PetClinic on JPA.
--->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:cache="http://www.springframework.org/schema/cache"
@@ -15,10 +13,10 @@
     <cache:annotation-driven/>
 
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
-        p:cacheManager-ref="ehcache"/>
+          p:cacheManager-ref="ehcache"/>
 
     <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
-        p:configLocation="classpath:cache/ehcache.xml"
-        p:shared="true"/>
+          p:configLocation="classpath:cache/ehcache.xml"
+          p:shared="true"/>
 
 </beans>
