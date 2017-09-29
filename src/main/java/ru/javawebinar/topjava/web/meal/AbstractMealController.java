@@ -39,7 +39,7 @@ public abstract class AbstractMealController {
     public List<MealWithExceed> getAll() {
         int userId = AuthorizedUser.id();
         LOG.info("getAll for User {}", userId);
-        return MealsUtil.getWithExceeded(service.getAll(userId), AuthorizedUser.getCaloriesPerDay());
+        return MealsUtil.getListWithExceed(service.getAll(userId), AuthorizedUser.getCaloriesPerDay());
     }
 
     public void update(Meal meal, int id) {
@@ -60,7 +60,7 @@ public abstract class AbstractMealController {
         int userId = AuthorizedUser.id();
         LOG.info("getBetween dates {} - {} for time {} - {} for User {}", startDate, endDate, startTime, endTime, userId);
         return MealsUtil.getFilteredWithExceeded(
-                service.getBetweenDates(
+                service.getBetween(
                         startDate != null ? startDate : TimeUtil.MIN_DATE, endDate != null ? endDate : TimeUtil.MAX_DATE, userId
                 ), startTime != null ? startTime : LocalTime.MIN, endTime != null ? endTime : LocalTime.MAX, AuthorizedUser.getCaloriesPerDay()
         );
