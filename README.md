@@ -1,4 +1,4 @@
-## **_CALORIES MANAGER_**
+## **_<p align="center">CALORIES MANAGER</p>_**
 <p align="center"><img src="https://i0.wp.com/tunedinparents.com/wp-content/uploads/2017/04/Tuned-In-Parents-Top-5-Ways-to-Boost-Your-Metabolism-for-Healthy-Weight-Loss-BMR.jpg" alt="Drawing" width="500" height="150" /></p>
 
 ### **_WHAT IS IT?_**

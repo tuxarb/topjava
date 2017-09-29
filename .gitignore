@@ -6,3 +6,8 @@ log
 *.patch
 /Patches/
 /stuff/
+/.travis.yml
+/config/ddl
+/config/curl.md
+/config/setenv.sh
+/config/Topjava-soapui-project.xml
