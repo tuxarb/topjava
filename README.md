@@ -2,8 +2,8 @@
 <p align="center"><img src="https://i0.wp.com/tunedinparents.com/wp-content/uploads/2017/04/Tuned-In-Parents-Top-5-Ways-to-Boost-Your-Metabolism-for-Healthy-Weight-Loss-BMR.jpg" alt="Drawing" width="500" height="150" /></p>
 
 ### **_WHAT IS IT?_**
-#####  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is a **_site_** which provides a possibility to **_write down_** some information about your meals and to **_manage_** a number of calories which you eat per a day. If a number of calories, consumed by you for some day, are more than a <u>maximum</u> number of calories per a day, specified in your profile, all your meals get a <font color="red">**_red color_**</font> for this day. It clearly allows to control a number of calories which you eat per a day and can be useful for you if you train somewhere (gym, swimming, etc.). <br/>
-#####  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The application keeps all information about your meals and allows to filter it by <u>**_date_**</u> and <u>**_time_**</u> and also to find it by a <u>**_field_**</u>, specified by you. For managing your meals all **_CRUD_** operations (Create, Read, Update, Delete) are available for you.
+<font size="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is a **_site_** which provides a possibility to **_write down_** some information about your meals and to **_manage_** a number of calories which you eat per a day. If a number of calories, consumed by you for some day, are more than a <u>maximum</u> number of calories per a day, specified in your profile, all your meals get a <font color="red">**_red color_**</font> for this day. It clearly allows to control a number of calories which you eat per a day and can be useful for you if you train somewhere (gym, swimming, etc.). <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The application keeps all information about your meals and allows to filter it by <u>**_date_**</u> and <u>**_time_**</u> and also to find it by a <u>**_field_**</u>, specified by you. For managing your meals all **_CRUD_** operations (Create, Read, Update, Delete) are available for you.</font>
 
 -------------
 
@@ -40,7 +40,7 @@ If you are an **ADMIN**, in addition to the above, you can:
 -------------
 
 ### **VALIDATION**
-##### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All information which you can enter on the site <u>_is validated_</u> and therefore read carefully the tooltips when you have some error.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All information which you can enter on the site <u>_is validated_</u> and therefore read carefully the tooltips when you have some error.
 
 -------------
 
